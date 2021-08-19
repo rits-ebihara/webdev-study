@@ -440,6 +440,30 @@ users.splice(2, 1);
 console.log(user); // [{"age":10,"name":"taro"},{"age":40,"name":"saburo"}, {"age":30,"name":"hanako"}]
 ```
 
+#### for ~ of
+
+配列を巡回させるときに、for ~ in を使用していませんか？これは、思わぬ動作の不具合を招きます。
+
+for ~ in は、配列をループさせるのではなく、**オブジェクトが持っているプロパティ** を巡回させるものです。
+
+配列におけるインデックスも、プロパティ扱いなので配列で使えなくはないですが、間違ってオブジェクトを渡してしまってもエラーにならず、意図しない動きになります。
+
+また、JavaScript は型に対してゆるい仕様です。配列のオブジェクトに任意の名前のプロパティも付けることが可能ですが、それも巡回の
+
+確実に配列を巡回させるには、for ~ of を使うべきです。
+
+```js
+const array = ['a', 'b', 'c'];
+array.name = '';
+for (v in array) { console.log(v) } // 0, 1, 2, name
+
+for (v of array) { console.log(v) } // a, b, c
+```
+
+ただし、webpack でコンパイルする場合、for ~ of は新しい記法なのでこれと同じ動きをするようなコードに変換されますが、サイズがかなり大きくなるようです。
+
+よって、forEach を使うことをが推奨されます。
+
 #### 末尾のカンマ
 
 オブジェクトリテラルや配列リテラル、関数の引数で、最後の項⽬の後にカンマが付けられます。
@@ -456,6 +480,52 @@ age: 29, // OK
 let arr = [ 1, 2, 3, ]; // これもOK
 let fn = (a, b, c,) { /* ... */ } // 仕様上はOKだが、対応ブラウザが限られる
 ```
+
+#### ショートハンド
+
+JavaScriptでは、省略形などによって、より短いコードで書くことができます。これらのテクニックも知っておくと効率良いコーディングができるでしょう。
+
+3項演算子
+
+```js
+const state = 'processing';
+// if を使う場合
+let stateString1 = '';
+if (state === 'complete') {
+  stateString1 = '完了';
+} else {
+  stateString1 = '未完了';
+}
+// 3項演算子を使う場合
+const stateString2 = (state === 'complete') ? '完了' : '未完了';
+```
+
+短絡演算子(||, &&)
+
+```js
+const name = '';
+// || の例
+// if を使う場合
+let nameString1 = '';
+if (name === null || name === undefined || name === '') {
+  nameString1 = '(空)';
+}
+// || を使う場合
+const nameString2 = name || '(空)';
+
+// && の例
+const age = null;
+// if を使う場合
+if (age !== null && name === null && name === undefined && name === '') {
+  console.log('成功');
+} else {
+  console.log('失敗');
+}
+// && を使う場合
+console.log(age && name && '成功' || '失敗');
+```
+
+
 
 ### TypeScript
 
@@ -751,3 +821,7 @@ type AgeOnly = Omit<UserType, 'name'>; // { age: number } だけの型となる
 type PartialUser = Partial<UserType>; // { name?: string, age?: string } となります
 
 ```
+
+## まとめ
+
+JavaScriptでは、IEでも動作する、ES5 と呼ばれていたバージョンから、大きく仕様が追加されより短いコードで。
