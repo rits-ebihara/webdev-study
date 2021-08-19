@@ -49,7 +49,7 @@ Webアプリ開発では、様々なツールやフレームワーク、ライ�
 1. [アプリケーションのアーキテクチャ](./01.architecture/index.md)
 2. [パッケージマネージャ: npm / yarn](./02.package-manager/index.md)
 3. [よく使われるライブラリ](./03.libraries/index.md)
-4. 言語: ECMAScript, TypeScript
+4. [言語: ECMAScript, TypeScript](./04.language/index.md)
 5. タスクランナー/モジュールバンドラ: Grant, Gulp, Webpack
 6. Webフレームワーク: AngularJS/React/Vue.js
 7. リンター／コードフォーマッタ: eslint/prettier
