@@ -1,0 +1,39 @@
+site_name: Webアプリ開発の基本
+theme:
+  name: "material"
+#site_url: https://tscdev001ricoh.z11.web.core.windows.net/template-project/
+markdown_extensions:
+  - codehilite
+  - admonition
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.mark
+  - pymdownx.tasklist
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: "!!python/name:pymdownx.superfences.fence_div_format"
+  # - pymdownx.emoji:
+  #     emoji_index: !!python/name:materialx.emoji.twemoji
+  #     emoji_generator: !!python/name:materialx.emoji.to_svg
+extra_css:
+  - https://unpkg.com/mermaid@8.0.0/dist/mermaid.css
+  - custom.css
+
+extra_javascript:
+  - https://unpkg.com/mermaid@8.0.0/dist/mermaid.min.js
+
+nav:
+  - "Top Page": index.md
+  - 01.architecture/index.md
+  - 02.package-manager/index.md
+  - 03.libraries/index.md
+  - 04.language/index.md
+
+site_author: "EBIHARA Kenji (kenji.ebihara@jrits.ricoh.co.jp)"
+
+plugins:
+  - search:
+      lang: "jp"
