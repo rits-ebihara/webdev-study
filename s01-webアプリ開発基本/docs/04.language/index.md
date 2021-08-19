@@ -525,8 +525,6 @@ if (age !== null && name === null && name === undefined && name === '') {
 console.log(age && name && '成功' || '失敗');
 ```
 
-
-
 ### TypeScript
 
 TypeScript は、最新の ECMAScript の対応を積極的に行っているので、上で挙げた ECMAScript の仕様はそのまま使えます。
