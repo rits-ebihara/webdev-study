@@ -31,6 +31,7 @@ nav:
   - 02.package-manager/index.md
   - 03.libraries/index.md
   - 04.language/index.md
+  - 05.webpack/index.md
 
 site_author: "EBIHARA Kenji (kenji.ebihara@jrits.ricoh.co.jp)"
 

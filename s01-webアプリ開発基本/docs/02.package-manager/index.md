@@ -76,11 +76,106 @@ yarn は、非公式のパッケージマネージャで、npm が不便なと�
 ```
 yarn add react
 yarn add -D eslint
+# すべてのパッケージをインストールする
+yarn (install) # install は不要
 ```
 
 ただ、npm のバージョンアップに伴い、その弱点がなくなってきているので、yarn の利点は薄くなっていますが、多くのプロジェクトで使われており、OSSの公式のドキュメントでも yarn で説明しているところも多いです。
 
 個人的には、ほんの少しの利便性の差で yarn の方を好みます。ただ、npm で動いているプロジェクトを無理に yarn に変更するほどのものではないですね。
+
+## パッケージの利用
+
+npm や yarn でインストールしたライブラリを使うにはどうしたら良いのか、ということですが、webアプリではパッケージマネージャを利用します。
+
+node.js では、そのまま試すことができるので、ここで実践してみましょう。
+
+日付を扱うライブラリである、dayjs をインストールします。
+
+```
+npm install dayjs
+```
+
+インストールできたら、`index.js` を作成し、下記コードを書いてください。
+
+```js
+const dayjs = require("dayjs");
+
+const date = dayjs().startOf("hour");
+
+console.log(date);
+```
+
+実行してみましょう。
+
+```
+node ./index.js
+```
+
+JSON のようなものが表示されましたが、date オブジェクトの内容になります。
+
+dayjs() は、現在の時刻の Dayjs オブジェクトを返します。
+
+startOf は、日や時間のはじめの値を取得するもので、この場合は、現在時刻の0時0分0秒 を返します。ちなみに、endOf もあります。
+
+別な記法として、import も使えます。node.js で実行する場合、package.json に `"type": "module"` を足します。
+
+```json
+{
+  "name": "practice01",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "dayjs": "^1.10.6"
+  },
+  "type": "module"
+}
+```
+
+```js
+import dayjs from "dayjs";
+
+const date = dayjs().startOf("hour");
+
+console.log(date);
+```
+
+こちらのほうが、ECMAScript の定義されている使い方で、TypeScript でも この書き方をすることが多いですので、import 形式になれておくと良いでしょう。
+
+webブラウザでは、require も import もそのままでは対応していないので、webpack などのモジュールバンドラを使用します。
+
+webpack に関しては、別のセクションで説明します。
+
+## ツール類のパッケージ
+
+コマンドラインから実行できるパッケージもあります。
+
+例えば、webpack や Typescript などもコマンドラインから実行できるライブラリです。
+
+ここでは、sloc というソースコードの行数をカウントするライブラリを導入してみます。
+
+多くの場合このようなツールは、開発環境で使うものなので、`-D` をつけておきます。
+
+```
+npm install -D sloc
+```
+
+node_modules フォルダを見ると、`.bin` というフォルダがあります。ここに、sloc の実行ファイルがあります。
+
+これを実行するために、わざわざここに移動する必要はありません。npx というコマンドで実行できます。
+
+```
+npx sloc index.js
+```
+
+結果が表示されました。このように、コマンドラインのツールも入れてすぐに実行することが出来ます。
+
+yarn の場合は、yarn のあとにコマンド名を入れるだけで実行できます。
+
+```
+yarn sloc index.js
+```
 
 ## npm スクリプト
 
