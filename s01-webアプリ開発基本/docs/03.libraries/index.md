@@ -55,7 +55,7 @@ React にも、Context と Reducer の機能が追加されており、Redux を
 
 [Redux - A predictable state container for JavaScript apps. | Redux](https://redux.js.org/)
 
-#### React Router
+## React Router
 
 React 用の SPA を実現するためのフレームワークです。
 
@@ -71,7 +71,7 @@ Vue.js には、この機能が備わっているので、別途導入する必�
 
 [React Router: Declarative Routing for React.js](https://reactrouter.com/)
 
-#### Material UI
+## Material UI
 
 React の UI フレームワークで、ボタンなどのフォームやグリッドレイアウトなどの部品州となっています。
 
@@ -81,7 +81,7 @@ React の UI フレームワークで、ボタンなどのフォームやグリ�
 
 [Material-UI: A popular React UI framework](https://material-ui.com/)
 
-#### styled-components / emotion
+## styled-components / emotion
 
 CSS in JS のフレームワークです。
 
@@ -114,7 +114,7 @@ styled-component が多く使われてきましたが、後発の emotion がか
 
 [Emotion - Introduction](https://emotion.sh/docs/introduction)
 
-#### superagent / axios
+## superagent / axios
 
 HTTPクライアントのライブラリです。
 
@@ -133,7 +133,7 @@ fetch で大分コーディングが楽になりましたが、それでも面�
 
 [SuperAgent — elegant API for AJAX in Node and browsers](https://visionmedia.github.io/superagent/)
 
-#### Moment.js / Day.js
+## Moment.js / Day.js
 
 Moment.js / Day.js は、日付のデータを扱うライブラリです。JavaScript 標準の Date を拡張するものです。
 
@@ -145,7 +145,7 @@ Day.js は後発で、Moment.js に比べサイズも非常に小さくなって
 
 [Day.js · 2kB JavaScript date utility library](https://day.js.org/)
 
-#### ESLint / Prettier
+## ESLint / Prettier
 
 これは、開発環境で利用するユーティリティです。
 
@@ -165,7 +165,7 @@ ESLint にもそれらのチェックは有るのですが、自動修正の機�
 
 [Prettier · Opinionated Code Formatter](https://prettier.io/)
 
-#### jest
+## jest
 
 Jest は JavaScript のテストフレームワークで、デファクト・スタンダードとなっているものです。
 
@@ -179,7 +179,7 @@ Jest は JavaScript のテストフレームワークで、デファクト・ス
 
 [Jest · 🃏 Delightful JavaScript Testing](https://jestjs.io/ja/)
 
-#### webpack
+## webpack
 
 WebPack は、モジュールバンドラと言われるツールです。
 
@@ -196,3 +196,13 @@ webpack はその結合処理を行います。
 また、コードのサイズを低減するために、改行やインデントを削除するなどする処理（ミニファイ）を行うこともできますし、ES20xx に対応していない古いブラウザでも動作するように、トランスパイルすることもできます。
 
 さらに、プラグインを利用することで、TypeScript や sass を変換したり、HTML に出力した JavaScript ファイルのリンクを追加したりするなど、ビルドヘルパーの機能を持たせることもできます。
+
+## まとめ
+
+ここに紹介したもの以外にも、様々なパッケージがあります。
+
+自作する前に、パッケージが無いかな？と考え、探してみましょう。
+
+もちろん、それを採用するかどうかは判断が必要です。特に、利用者数の少ない、更新が何年もされていない、などのものは避けるべきです。
+
+それらを踏まえて使えるものは積極的に使っていきましょう。

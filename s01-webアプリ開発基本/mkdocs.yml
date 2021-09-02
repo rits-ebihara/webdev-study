@@ -32,6 +32,9 @@ nav:
   - 03.libraries/index.md
   - 04.language/index.md
   - 05.webpack/index.md
+  - Webフレームワーク:
+      - はじめに: 06.web-framework/index.md
+      - React: 06.web-framework/react.md
 
 site_author: "EBIHARA Kenji (kenji.ebihara@jrits.ricoh.co.jp)"
 
