@@ -57,6 +57,9 @@ React は、Webページを複数のパーツに分けて管理します。共�
 
 ### 準備
 
+    ここでは、必要なライブラリや設定を手動で行いますが、スターターキットもあるので、手軽にはめるにはそちらをおすすめします。  
+    https://github.com/facebook/create-react-app
+
 空のフォルダから始める場合は、前のセクションを参照して、`npm init`(`yarn init` でも可) と `webpack init` を作成してください。webpack では、TypeScript と React を使うようにします。
 
 webpack のウィザードの選択肢
@@ -174,7 +177,7 @@ const numberElement = <span>{props.count}</span>;
 
 プロパティとしては、ボタン上の文字（キャプション）とボタンを押したときの処理が書いてある関数とします。
 
-`src/IncrementButton.tsx`  ファイルを作成します。
+`src/IncrementalButton.tsx`  ファイルを作成します。
 
 ```tsx
 import React from 'react';
@@ -184,7 +187,7 @@ type PropType = {
   onClick: () => void;
 }
 
-export const IncrementButton: React.FC<PropType> = props => {
+export const IncrementalButton: React.FC<PropType> = props => {
   return <button onClick={props.onClick}>{props.caption}</button>
 };
 ```
@@ -197,16 +200,16 @@ HTMLの属性にも { } で動的に値を渡すことが出来ます。
 
 これまで作ったコンポーネントを組み合わせたコンポーネントを作ってみましょう。
 
-`src/Increment.tsx` ファイルを作成します。
+`src/Counter.tsx` ファイルを作成します。
 
 また、カウントする数値はこのコンポーネント内でその値（状態）を管理します。よって、外部から値を受け取る必要はありません。
 
 ```tsx
 import React, { useCallback, useState } from "react";
 import { DisplayNumber } from "./DisplayNumber";
-import { IncrementButton } from "./IncrementButton";
+import { IncrementalButton } from "./IncrementalButton";
 
-export const Increment: React.FC = () => {
+export const Counter: React.FC = () => {
   const [counter, setCounter] = useState(0);
   const increment = useCallback(() => {
     setCounter(counter + 1);
@@ -216,9 +219,9 @@ export const Increment: React.FC = () => {
   }, [counter, setCounter]);
   return (
     <div>
-      <IncrementButton caption="-" onClick={decrement} />
+      <IncrementalButton caption="-" onClick={decrement} />
       <DisplayNumber num={counter} />
-      <IncrementButton caption="+" onClick={increment} />
+      <IncrementalButton caption="+" onClick={increment} />
     </div>
   );
 };
@@ -246,7 +249,7 @@ import で作ったコンポーネントを参照します。
 
 まず、`index.html` に、React のコンポーネントが描画される場所を作りましょう。
 
-```ts
+```html
 <!DOCTYPE html>
 <html>
     <head>
@@ -266,9 +269,9 @@ id が "app" の div 要素に React をレンダリングするようにしま�
 ```ts
 import React from "react";
 import { render } from "react-dom";
-import { Increment } from "./Increment";
+import { Counter } from "./Counter";
 
-render(<Increment />, document.getElementById("app"));
+render(<Counter />, document.getElementById("app"));
 ```
 
 ここでも、コンポーネントを import して、render に渡すだけです。

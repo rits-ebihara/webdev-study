@@ -3,13 +3,15 @@ theme:
   name: "material"
 #site_url: https://tscdev001ricoh.z11.web.core.windows.net/template-project/
 markdown_extensions:
-  - codehilite
+  # - codehilite
   - admonition
   - pymdownx.caret
   - pymdownx.critic
   - pymdownx.mark
   - pymdownx.tasklist
   - pymdownx.details
+  - pymdownx.highlight:
+      linenums: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
@@ -20,11 +22,13 @@ markdown_extensions:
   #     emoji_generator: !!python/name:materialx.emoji.to_svg
 extra_css:
   - https://unpkg.com/mermaid@8.0.0/dist/mermaid.css
+  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css
   - custom.css
 
 extra_javascript:
   - https://unpkg.com/mermaid@8.0.0/dist/mermaid.min.js
-
+  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js
+  - javascripts/config.js
 nav:
   - "Top Page": index.md
   - 01.architecture/index.md
@@ -35,6 +39,7 @@ nav:
   - Webフレームワーク:
       - はじめに: 06.web-framework/index.md
       - React: 06.web-framework/react.md
+      - Vue.js: 06.web-framework/vuejs.md
 
 site_author: "EBIHARA Kenji (kenji.ebihara@jrits.ricoh.co.jp)"
 

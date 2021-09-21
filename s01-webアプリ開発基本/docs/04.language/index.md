@@ -419,8 +419,8 @@ console.log(displayList); // ["名前:taro / 年齢:10", "名前:jiro / 年齢:2
 
 // 配列の値を蓄積して、単一の戻り値を返す
 
-const nameChain = users.reduce((accumulator, user) => `${accumulator} / [${user.name}]` );
-console.log(nameChain); // "/ [jiro] / [hanako]"
+const nameChain = users.reduce((accumulator, user) => `${accumulator} / [${user.name}]`, ''/*初期値*/);
+console.log(nameChain); // "/ [taro] / [jiro] / [hanako]"
 
 // インデックスを使って配列の一部を抜き出す（元の配列に変化はない）
 
@@ -534,7 +534,7 @@ let fn = (a, b, c,) { /* ... */ } // 仕様上はOKだが、対応ブラウザ�
 
 JavaScriptでは、省略形などによって、より短いコードで書くことができます。これらのテクニックも知っておくと効率良いコーディングができるでしょう。
 
-3項演算子
+##### 3項演算子
 
 ```js
 const state = 'processing';
@@ -549,7 +549,7 @@ if (state === 'complete') {
 const stateString2 = (state === 'complete') ? '完了' : '未完了';
 ```
 
-短絡演算子(||, &&)
+##### 短絡演算子(||, &&)
 
 ```js
 const name = '';
@@ -574,6 +574,59 @@ if (age !== null && name === null && name === undefined && name === '') {
 console.log(age && name && '成功' || '失敗');
 ```
 
+##### オブジェクト・リテラルでプロパティ名と変数名が同じ場合
+
+```js
+const name = 'ebihara';
+const age = 47;
+const user = {
+  name, // name: name と同じ
+  age, // age: age と同じ
+};
+```
+
+##### 関数の戻り値
+
+```js
+const fn1 = () => ({ name: 'ebihara' });
+const fn2 = (date) => date.toISOString();
+// 以下と同じ
+const fn1 = () => {
+  return { name: 'ebihara' };
+};
+const fn2 = (date) => {
+  return date.toISOString();
+}
+```
+
+##### カリー化と部分適用
+
+```js
+const fn = (name, aisatsu) => `${name} さん、 ${aisatsu}。`;
+const fn1 = (aisatsu) => (name) => fn(name, aisatsu); // カリー化
+const fn2 = fn1('こんにちは'); // 部分適用
+fn2('海老原'); // "海老原さん、こんにちは。"
+```
+
+上をわかりやすく分解してみる
+
+```js
+const fn = (name, aisatsu) => {
+  return `${name} さん、 ${aisatsu}。`;
+};
+const fn1 = (aisatsu) => {
+  const f = (name) => fn(name, aisatsu); // -(1) 
+  return f; // 関数を返す関数
+};
+const fn2 = fn1('こんにちは'); // fn2 には、(1) の関数が入る
+fn2('海老原'); // "海老原さん、こんにちは。"
+```
+
+!!!参考
+    [カリー化 - Wikipedia](https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%AA%E3%83%BC%E5%8C%96)  
+    [サルでもわかるカリー化とそのメリット - These Walls](https://kazchimo.com/2021/03/29/monkey_curry/)
+
+  
 ### TypeScript
 
 TypeScript は、最新の ECMAScript の対応を積極的に行っているので、上で挙げた ECMAScript の仕様はそのまま使えます。
@@ -866,7 +919,6 @@ type UserType = {
 type AgeOnly = Omit<UserType, 'name'>; // { age: number } だけの型となる
 
 type PartialUser = Partial<UserType>; // { name?: string, age?: string } となります
-
 ```
 
 ## まとめ
