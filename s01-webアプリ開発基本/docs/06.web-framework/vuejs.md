@@ -226,14 +226,14 @@ export default {
 
 このコンポーネントを、テンプレートに追加します。プロパティはこの後に書きましょう。
 
-ボタンは、数字表示を挟んで2つ必要です。
+ボタンは、数字表示を挟んで2つ必要です。それぞれ、`caption` を指定しておきましょう。
 
 ```vue
 <template>
   <div>
-    <IncrementalButton />
+    <IncrementalButton caption="-" />
     <DisplayNumber />
-    <IncrementalButton />
+    <IncrementalButton caption="+" />
   </div>
 </template>
 ```
@@ -246,12 +246,16 @@ export default {
 
 その中で、まずカウントした数値を保持する変数を定義します。
 
-vue から `ref` を参照します。refは関数で、引数に初期値を渡します。
+vue から `ref` を参照します。refは関数で、引数に初期値を渡します。戻り値は、ref オブジェクトで値は、`.value` に入っています。このようにする理由は、ref オブジェクト（ここでは `counter`）が不変である必要があるからです。ref オブジェクト自体が入れ替わってしまうと、テンプレートへの反映がされなくなってしまいます。
 
-定義した値は、return でオブジェクトとして返します。
+定義した値は、return でオブジェクトとして返します。ここで指定したプロパティが template で使用できます。
 
 ```ts
 export default {
+  components: {
+    DisplayNumber,
+    IncrementalButton,
+  },
   setup: () => {
     const counter = ref(0);
     return {
@@ -260,3 +264,147 @@ export default {
   },
 } as Vue.Component;
 ```
+
+テンプレートでプロパティ `num` に `counter` を渡します。このとき、`:num` とコロンを付ける必要があります。これは、`counter` が文字列ではなく JavaScript の式として処理されることを意味します。ここでは、変数 `counter` の値がここに展開されます。
+
+リテラルの文字以外の値を渡すときには、このようにする必要があります。テンプレートでは、refオブジェクトの `.value` を指定する必要ありません。
+
+```vue
+<template>
+  <div>
+    <IncrementalButton />
+    <DisplayNumber :num="counter" />
+    <IncrementalButton />
+  </div>
+</template>
+```
+
+インクリメント、デクリメントの関数も割り当てましょう。これらは、特別なことなく関数を変数に入れて、return するオブジェクトに入れるだけです。
+
+```vue
+<template>
+  <div>
+    <IncrementalButton caption="-" :onClickFn="decrements" />
+    <DisplayNumber :num="counter" />
+    <IncrementalButton caption="+" :onClickFn="increments" />
+  </div>
+</template>
+
+<script lang="ts">
+import Vue, { ref } from "vue";
+import DisplayNumber from "./DisplayNumber.vue";
+import IncrementalButton from "./IncrementalButton.vue";
+
+export default {
+  components: {
+    DisplayNumber,
+    IncrementalButton,
+  },
+  setup: () => {
+    const counter = ref(0);
+    const increments = () => {
+      counter.value++;
+    };
+    const decrements = () => {
+      counter.value--;
+    };
+    return {
+      counter,
+      increments,
+      decrements,
+    };
+  },
+} as Vue.Component;
+</script>
+```
+
+トップページから、作成したコンポーネントを参照して表示します。
+
+HelloWorld を消して、`Counter.vue` に差し替えます。
+
+```vue
+<template>
+  <div>
+    <img alt="Vue logo" src="./assets/logo.png" />
+    <div>
+      <Counter />
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+import Counter from "./components/Counter.vue";
+
+export default defineComponent({
+  name: "App",
+  components: {
+    Counter,
+  },
+});
+</script>
+```
+
+保存して実行してみましょう。下記コマンドで簡易Webサーバーを起動して、コンパイルされます。
+
+```
+yarn serve 
+```
+
+ブラウザで、`http://localhost:8080/` にアクセスしてみます。下記のように動作しましたか？
+
+![vue-sample](./vue-sample.gif)
+
+### スタイルを適用する
+
+ボタンが小さく、カウンタの表示と余白がほしいです。スタイルを当てましょう。
+
+`incrementalButton.vue` でスタイルを定義します。
+
+スタイルは、`<style></style>` タグで定義します。
+
+スタイルはページ全体に影響しますが、`scoped` を指定することで、スタイルを書いたコンポーネント内に制限することが出来ます。通常は、これをつけたほうが良いでしょう。
+
+`lang='sass'` を指定することで SASS 形式で書けます。SASS は、CSSを拡張した書き方で非常に便利な機能をもっているので、こちらで書けるようにしたいです。
+
+事前にコンパイルするためのパッケージ `sass` と `sass-loader` のインストールが必要です。
+
+```
+yarn add -D sass sass-loader@10
+```
+
+!!!注意
+    2021年9月時点で、sass-loader の最新 11.x.x を入れるとコンパイルでエラーになります。  
+    sass-loader の 10.x.x を入れるようにします
+
+```vue
+<style lang="sass" scoped>
+button: {
+  background-color: #3399ff;
+  border: 1px solid blue;
+  margin: 0 1em;
+  padding: 0.5em 1em;
+}
+</style>
+```
+
+下記のようになったでしょうか。
+
+![styled-button](./styled-button.png)
+
+## まとめ
+
+Vue.js では コードと HTML を分けて書くことができ、それを1つのファイルでパッキングできます。
+また、今回はコンポーネントでの実装を行ないましたが、そうではなく jQuery を使った開発用のように HTML に直接導入することも出来ます。
+
+このように、これまでの非コンポーネントの HTML の開発に慣れている場合は、React よりも Vue.js の方が直感的にわかりやすいのではないかと思います。
+
+ただ、実装していておわかりだと思いますが、テンプレートでプロパティの型チェックや必須のなどチェックがコンパイル時に効きません。これらは、実行時にブラウザのコンソールに出力されます。
+
+また、テンプレートで TypeScript での型定義が効かなかったり、コンポーネントのプロパティの型と定義のズレなども検知できません。
+
+コードの堅牢性に関しては React と TypeScript の組み合わせに軍配が上がります。これは、規模が大きくなるほど有効になります。
+
+規模が小さい場合は、素早く書ける Vue.js が有効でしょう。
+
+このように、それぞれの特徴を踏まえて採用することが必要です。
