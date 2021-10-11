@@ -43,7 +43,11 @@ npm では、ルートに package.json という設定のためのファイル�
 
 package.json ファイルができたと思います。これを開くと、先程質問された内容を JSON で書かれています。
 
-続けて React をインストールしてみます。コンソールで、`npm install react` を実行します。
+続けて React をインストールしてみます。コンソールで、下記コマンドを実行します。
+
+```
+npm install react
+```
 
 package.json に、dependencies が追加され、そこに react とバージョンの表示があります。
 
@@ -51,7 +55,11 @@ package.json に、dependencies が追加され、そこに react とバージ�
 
 先程のコマンドで、React とそれに関連するライブラリがダウンロードされ、node_modules に展開されました。
 
-では、node_modules をフォルダごと削除して、`npm install` を実行してみてください。
+では、node_modules をフォルダごと削除して、下記を実行してみてください。
+
+```
+npm install
+```
 
 再び node_modules が作成され、そのなかに先程と同じ react と他のフォルダが見えます。
 
