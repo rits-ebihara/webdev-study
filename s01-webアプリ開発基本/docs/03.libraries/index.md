@@ -1,4 +1,4 @@
-# よく使用されるライブラリ
+# JavaScript でよく使用されるライブラリ
 
 筆者: 海老原 賢次（kenji.ebihara@jrits.ricoh.co.jp）  
 作成日: 2021-08-18  

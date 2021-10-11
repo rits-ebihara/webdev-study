@@ -76,7 +76,7 @@ yarn webpack init
 ? Do you want to simplify the creation of HTML files for your bundle? Yes # HTMLファイルを生成する
 ? Do you want to add PWA support? No # PWA(プログレッシブ Web アプリケーション) をサポートするか
 ? Which of the following CSS solutions do you want to use? none # CSS(sass なども含む)to JS を行うか
-? Do you like to install prettier to format generated configuration? Yes # prettier の導入を行うか
+? Do you like to install prettier to format generated configuration? No # prettier の導入を行うか
 ? Pick a package manager: yarn # npm or yarn どちらを使うか
 [webpack-cli] ℹ INFO  Initialising project...
  conflict package.json
