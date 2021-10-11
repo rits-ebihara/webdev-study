@@ -175,7 +175,7 @@ Webフレームワークとしては、AdonisJs, Express.js がよく使われ�
 
 .NET は、マイクロソフトが開発している、クロスプラットフォームの実行環境です。C# や VB.NET などの複数の言語が提供されており、開発者も多いです。
 
-Webのフレームワークとしては、ASP.NET や ASP.NET MVC、API.NET Web API などがあります。Windows Server のWebサーバー IIS 上で動作させるのが一般的です。Linux 上でも ASP.NET Core を利用して動作できるようですが、事例はあまりないかと思います。
+Webのフレームワークとしては、ASP.NET や ASP.NET MVC、ASP.NET Web API などがあります。Windows Server のWebサーバー IIS 上で動作させるのが一般的です。Linux 上でも ASP.NET Core を利用して動作できるようですが、事例はあまりないかと思います。
 
 [.NET | Free. Cross-platform. Open Source.](https://dotnet.microsoft.com/)
 
