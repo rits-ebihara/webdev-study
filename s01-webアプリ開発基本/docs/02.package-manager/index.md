@@ -4,6 +4,7 @@
 作成日: 2021-08-18  
 更新履歴:
 
+- 2021-10-18: yarn pnp, npm tink の説明を追加した
 - 2021-08-18: 新規作成
 
 ---
@@ -91,6 +92,22 @@ yarn (install) # install は不要
 ただ、npm のバージョンアップに伴い、その弱点がなくなってきているので、yarn の利点は薄くなっていますが、多くのプロジェクトで使われており、OSSの公式のドキュメントでも yarn で説明しているところも多いです。
 
 個人的には、ほんの少しの利便性の差で yarn の方を好みます。ただ、npm で動いているプロジェクトを無理に yarn に変更するほどのものではないですね。
+
+## npm / yarn next...
+
+現在の npm の仕組みでは、パッケージのインストールに時間がかかったりや node_modules のサイズが肥大化するなどの課題があります。
+
+これらを解決するために、yarn の新しいメジャーバージョンでは PnP （プラグ・アンド・プレイ） という独自機能を導入します。これは、完全に yarn 独自の機能で、npm と互換性がありません。
+
+とても有用な仕組みなのですが、ライブラリやツールの多くがまだ対応しきれず、個人的には yarn 1 からの移行も難しいと感じました。
+
+npm も tink という同じ問題を解決する仕組みを計画しています。
+
+しかし、現状でもその問題が致命的になることもないので、今後 yarn pnp / tink が受け入れられ、多くのライブラリが対応するまで待ってもいいかな、と思っています。
+
+- [npm, yarn による zero install 戦略 - from scratch](https://yosuke-furukawa.hatenablog.com/entry/2019/06/10/113111)
+- [npm/tink: a dependency unwinder for javascript](https://github.com/npm/tink)
+- [Plug'n'Play | Yarn - Package Manager](https://yarnpkg.com/features/pnp)
 
 ## パッケージの利用
 
