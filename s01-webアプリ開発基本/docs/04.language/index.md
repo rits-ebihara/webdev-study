@@ -527,6 +527,7 @@ array.forEach((item) => {
 シーケンシャルに処理する場合、for ~ of を使うことの他に、for await ~ of が使用できます。
 
 ```js
+// 下は間違い 追って修正する
 const array = ['a', 'b', 'c'];
 for await (item of array) {
   await asyncFn(item); // この完了を待って配列の次の値の処理に進む
@@ -540,23 +541,6 @@ const array = ['a', 'b', 'c'];
 await Promise.all(array.map(item => { // すべてのPromiseが完了するまで待機する
   return asyncFn(item);  // map で、Promise オブジェクトの配列を返す
 }));
-```
-
-パラレルの上限を持って、その数づつ処理を行う方法としては、下記のようになります。
-
-```js
-const fn = async () => {
-  const limit = 10;
-  const array = ['a', 'b', 'c', /* たくさんの数*/];
-  let promises = [];
-  for await (const item of array) {
-    promises.push(asyncFn(item)); // Promise オブジェクトを配列に格納する
-    if (promises.length <=> limit ) {
-      await Promise.all();
-    }
-  }
-};
-fn();
 ```
 
 #### 末尾のカンマ
