@@ -480,7 +480,7 @@ for (v of array) { console.log(v) } // a, b, c
 
 よって、forEach を使うことをが推奨されます。
 
-#### 配列の順次処理での非同期処理 / for await ~ of
+#### 配列の順次処理での非同期処理
 
 配列を順次処理する中で、非同期の処理を呼ぶ場合注意が必要です。
 
@@ -524,15 +524,13 @@ array.forEach((item) => {
 
 場合によって方法を選択する必要があります。
 
-シーケンシャルに処理する場合、for ~ of を使うことの他に、for await ~ of が使用できます。
-
 ```js
-// 下は間違い 追って修正する
 const array = ['a', 'b', 'c'];
-for await (item of array) {
+for (item of array) {
   await asyncFn(item); // この完了を待って配列の次の値の処理に進む
 });
 ```
+> シーケンシャルに処理する場合、for ~ of を使うことの他に、for await ~ of が使用できます。
 
 パラレルに処理する場合は、Promise.all が使えます。
 
