@@ -10,6 +10,7 @@ markdown_extensions:
   - pymdownx.mark
   - pymdownx.tasklist
   - pymdownx.details
+  - pymdownx.keys
   - pymdownx.highlight:
       linenums: true
   - pymdownx.superfences:
@@ -40,6 +41,7 @@ nav:
       - はじめに: 06.web-framework/index.md
       - React: 06.web-framework/react.md
       - Vue.js: 06.web-framework/vuejs.md
+  - 07.linter-formatter/index.md
 
 site_author: "EBIHARA Kenji (kenji.ebihara@jrits.ricoh.co.jp)"
 

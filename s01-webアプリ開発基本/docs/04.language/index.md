@@ -703,6 +703,17 @@ const getYear = (date: Date | number) => {
 }
 ``` 
 
+#### null と undefined は明確に区別され、null も型として扱う
+
+型を指定した変数は、null, undefined も入れることができません。
+
+入れる場合は、Union型として定義します。
+
+```ts
+let name: string = null; // NG
+let name2: string | null =  null; // OK
+```
+
 #### 文字列リテラル型
 
 ある変数は文字列だけど入る文字列の種類は決まっている、という場合が多いです。
@@ -768,7 +779,7 @@ interface ExUser extends User { // User を拡張
 }
 
 type ExUserType = UserType & { // 型をマージ
-  address?: string;
+  address?: string; // ? をつけると、値が定義されない = undefined の場合がありうることを示す
 };
 
 const user: ExUser = {

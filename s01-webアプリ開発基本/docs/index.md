@@ -58,6 +58,6 @@ Webアプリ開発では、様々なツールやフレームワーク、ライ�
 4. [言語: ECMAScript, TypeScript](./04.language/index.md)
 5. [タスクランナー/モジュールバンドラ: Webpack](./05.webpack/index.md)
 6. [Webフレームワーク: React/Vue.js](./06.web-framework/index.md)
-7. JavaScript の非同期処理
-8. リンター／コードフォーマッタ: eslint/prettier
-9. テストツール: Jest
+7. [リンター／コードフォーマッタ: eslint/prettier](./07.linter-formatter/index.md)
+8. テストツール: Jest
+9. JavaScript の非同期処理

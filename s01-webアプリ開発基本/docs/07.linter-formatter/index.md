@@ -74,9 +74,10 @@ yarn eslint --init
 ```
 ? Does your project use TypeScript? ‣ No / Yes
 ```
- TypeScript を使うので、`Yes` です。
 
- ```
+TypeScript を使うので、`Yes` です。
+
+```
  ? Where does your code run? …  (Press <space> to select, <a> to toggle all, <i> to invert selection)
 ✔ Browser
   Node
@@ -205,6 +206,8 @@ React Hooks ではこれを忘れやすいのですが、ESLint で警告して�
 
 ESLint をいちいちコマンド打つのは面倒です。Visual Studio Code などのソースコードエディタやIDEでは、ESLint の拡張を入れることでソースコードにリアルタイムで警告を出すことが出来ます。
 
+[ESLint - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+
 ## Prettier
 
 [Prettier · Opinionated Code Formatter](https://prettier.io/)
@@ -213,8 +216,192 @@ Prettier は、多くのプログラム言語に対応したコードフォー�
 
 もちろん、JavaScript / TypeScript に対応しています。
 
+インストールして試してみます。
+
+```
+yarn add prettier
+```
+
+ルールは、`.prettierrc.yml` ファイルに書きます。
+
+ルールの種類と設定値は、こちらにあります。
+
+[Options · Prettier](https://prettier.io/docs/en/options.html)
+
+ここで、その一覧を提示しておきます。そのまま定義ファイルとして利用できます。(v 2.4.1)
+
+```yaml
+# rules https://prettier.io/docs/en/options.html
+printWidth: 80 # number, 1行の最大文字数
+tabWidth: 2 # インデントの文字数, number
+useTabs: false # boolean, インデントを Tab 文字とする場合は true, スペースの場合は false
+semi: true # boolean, セミコロンを矯正する
+singleQuote: true # 文字列リテラルをシングルクォーテーションで統一する
+endOfLine: lf # 改行コード
+quoteProps: as-needed # オブジェクトリテラルのプロパティ名にクォーテーションを使うか 以下の値が使用可能
+#   "as-needed" - 必要なときのみ
+#   "consistent" - オブジェクト内に必要があるものが1つでもあれば、全部つける
+#   "preserve" - ユーザーの入力を尊重する -> prettier は関与しない
+jsxSingleQuote: false # React などで使用する JSX のタグの属性の値で、シングルクォーテーションを使用する
+#   例えば <input type="text" /> の "text" を 'text' とするか、という意味
+trailingComma: all # オブジェクトリテラルや配列の最後のカンマを強制するか 以下の値が使用可能
+#   "es5" - ES5で有効な場合は末尾のコンマをつける。
+#   "none" - 末尾のコンマはつけない
+#   "all" - 必ずつける ES2017 以降で有効
+bracketSpacing: true # boolean オブジェクトリテラルの {} 内でスペースを開けるか
+#   true - 例: { foo: bar }
+#   false - 例: {foo: bar}
+bracketSameLine: false # 複数行になるHTMLタグ(JSX(React), Vue.js も対象))の閉じ'>'を別の行に置くか
+#   true
+#     <button
+#       id="prettier-id"
+#       onClick={this.handleClick}>
+#       Click Here
+#     </button>
+#   false
+#     <button
+#       id="prettier-id"
+#       onClick={this.handleClick}
+#     >
+#       Click Here
+#     </button>
+arrowParens: always # Arrow関数の引数が省略できる時でも省略しないか
+#   "always" - 常に省略しない. 例: (x) => x
+#   "avoid" - 可能な場合は省略する 例: x => x
+rangeStart: 0 # ファイル内のフォーマットの対象範囲 開始行
+# rangeEnd: infinity # ファイル内のフォーマットの対象範囲 終了行　指定しない場合は末尾まで全部
+# parser: babylon # 特定の言語のみを対象とする場合に、ここに列記する
+#   指定できる値 https://prettier.io/docs/en/options.html#parser
+requirePragma: false # ソースコードの先頭に プラグマコメントを書くことで、Prettier の対象を制限することができる
+insertPragma: false # Prettier でフォーマットした時に ソースコードの先頭に requirePragma で有効なプラグマコメントを追加する
+proseWrap: preserve # markdown などの時に、改行するかどうか
+htmlWhitespaceSensitivity: css # HTML 内の空白文字の取り扱い
+vueIndentScriptAndStyle: false # Vue.js テンプレートの <script>, <style> タグ内にインデントを含むかどうか
+embeddedLanguageFormatting: auto # Markdown のコードブロックなど、別なコードの埋め込みを判断して対象とするか
+```
+
+試してみましょう。まずは構文としてはあっているけど、フォーマットがメチャクチャなソースコードを用意しましょう。
+
+```ts
+import React from 'react';
+
+type PropType = { num: number };
+
+export const DisplayNumber: React.FC<PropType> =
+ (props)
+  =>
+   {
+return <span>{props.num}</span>;
+};
+```
+
+コマンドプロンプトで、prettier を実行します。
+
+```
+> yarn prettier ./src/DisplayNumber.tsx
+
+import React from 'react';
+
+type PropType = { num: number };
+
+export const DisplayNumber: React.FC<PropType> = (props) => {
+  return <span>{props.num}</span>;
+};
+```
+
+結果として、整形されたコードが出力されました。通常はファイルを自動的に更新して保存したいでしょう。
+その場合は、`-w` をつけて実行します。
+
+```
+> yarn prettier -w ./src/DisplayNumber.tsx
+```
+
+ファイルが書き換わりました。フォルダ内のファイルを一度に処理するには、下記のようにします。
+
+```
+> yarn prettier -w ./src/**/*
+```
+
+> ファイルパスには、Glob と呼ばれるパス指定方法が使用できます。   
+> Prettier 以外にも採用しているツールは多いので、覚えておくと良いです。  
+> https://github.com/mrmlnc/fast-glob#pattern-syntax
+
+VSCode の拡張として Prettier があるので、これを入れておくとコマンドを打つことなく、コードを書きながら整形ができて効率的です。
+
+[Prettier - Code formatter - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+インストールしたら、デフォルトのフォーマッタとして登録しましょう。
+
+++ctrl+shift+p++ -> [ドキュメントのフォーマット...] -> [規定のフォーマッタを構成...] -> [Prettier]
+
+![vscode - prettier](vscode-prettier.gif)
+
+エディタ上でのフォーマットは、 ++shift+alt+f++ でできます。
+
+また、設定で保存時に自動的にフォーマットをする、というオプションもあります。
+
+これらにより、コードを書くと気にフォーマットを気にせず、ロジックを書くことに集中できるようになります。
 
 ## ESLint と　Prettier の組み合わせ
 
 ESLint には、フォーマッタの機能もあるのですが、後述する Prettier の方が性能がよいので、組み合わせて使われます。
 
+具体的には、ESLint のフォーマットに関するルールを無効にして、Prettier に依存することになります。
+
+そのための方法が、Prettier の公式のサイトに書かれています。
+
+[Integrating with Linters · Prettier](https://prettier.io/docs/en/integrating-with-linters.html)
+
+> 以前は、公式の連携方法として、ESLint のエラーとして、Prettier のフォーマット違反を出力するようにしていましたが、
+> 現在では、エラーとはせず、eslint の --fix で Prettier のフォーマットも行うことが推奨されています。  
+> 理由としては、下記があります。
+> 
+> - エディターに赤いニョロニョロがたくさん出てくる。Prettier は format のことを気にしなくてもいいようにさせるツールなのに、フォーマットの警告が前面にでてきてしまう。
+> - 直接 Prettier を実行するより遅い
+> - レイヤーをひとつ挟んでおり、不整合が起きる可能性がある
+> 
+> 確かに、VSCode などのエディタでもフォーマットを直ちに行う事ができるので、ツールでエラーを出すこともないと思います。
+
+ESLint のフォーマット関連のルールを無効化するプラグインをインストールします。
+
+```
+yarn add -D  eslint-config-prettier
+```
+
+.eslintrc.yml の extends に下記を追加します。
+
+```yaml
+extends:
+  # 他の extends
+  - prettier
+```
+
+これで、エディタ上でフォーマットに関するエラーが出なくなりました。
+
+npm スクリプトで、eslint と prettier を一緒に書けるようにコマンドを定義します。
+
+```json
+{
+  "scripts": {
+    // 他のスクリプト
+    "fix": "yarn prettier -w ./src/**/* && yarn eslint --fix"
+  }
+}
+```
+
+## まとめ
+
+ESLint と Prettier について説明しました。
+
+これらのルールは多岐にわたるので、プロジェクトに合わせて設定してみて下さい。
+
+また、組織で Recommend の定義を作っておくことで、開発者が統一したルールで作業できるので、さらに効率が上がるのではないでしょうか？
+
+これらは、JavaScript の開発ではデファクト・スタンダードなものですが、モジュールバンドラやテストなども含めて様々なツールを組み合わせることが必要です。
+
+それは、それぞれツールを入れ替えるなどして柔軟な対応ができる反面、めんどくさくもあります。
+
+現在、それらを統一したツールを作成しようと、Rome というプロジェクトが立ち上がっています。
+
+まだこれから、というものなので使用できるのはもう少し先になりそうですが、注目していきたいです。
+
+https://rome.tools/
