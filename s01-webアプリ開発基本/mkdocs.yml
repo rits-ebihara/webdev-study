@@ -42,6 +42,7 @@ nav:
       - React: 06.web-framework/react.md
       - Vue.js: 06.web-framework/vuejs.md
   - 07.linter-formatter/index.md
+  - 08.test/index.md
 
 site_author: "EBIHARA Kenji (kenji.ebihara@jrits.ricoh.co.jp)"
 
