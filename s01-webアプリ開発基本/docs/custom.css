@@ -1,3 +1,4 @@
-.code code {
+.code code,
+pre {
   font-family: "Fira Code", "BIZ UDGothic";
 }

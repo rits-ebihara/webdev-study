@@ -72,7 +72,7 @@ spyOn には、オブジェクトを指定する必要があるため、`import 
 
 ### Default Export された関数
 
-モック対象のファイル
+モック対象のファイルで、export default されている関数は、
 
 ```ts
 const getUserName = (user: IUser) => {
@@ -90,32 +90,199 @@ jest
 
 ### ライブラリの一部だけモック化したい
 
+jest.requireActual で、モジュールの実装を取得できる。
 
+```ts
+jest.mock('@material-ui/core/styles', () => ({
+  ...(jest.requireActual('@material-ui/core/styles') as object),
+  // モック化する関数だけを記載
+}));
+```
 
 ### クラスのモック
 
+クラス全体をモック化したいときは、jest.mock を使う。メソッドはすべて jest.fn となる。
+
+モック化対象クラス
+
+```ts
+export class User {
+  constructor(name: string) {
+    this.name = name;
+  }
+  public name: string;
+  public callUser() {
+    return `${this.name} さん、こんにちは`;
+  }
+```
+
+テスト対象
+
+```ts
+import { User } from './User';
+
+export const fn = (name: string) => {
+  const user = new User(name);
+  return user.callUser();
+};
+```
+
+```ts
+jest.mock('../User');
+```
+
+その中のメソッドで、戻り値を返したい場合など、モックをカスタマイズする場合、クラスのインスタンスとなるオブジェクトを定義し、クラスをそれを返す関数(コンストラクタ関数にもなる)としてモック化する。
+
+```ts
+import { fn } from '../target';
+import { User } from '../User';
+
+const mockUser = {
+  callUser: jest.fn()
+};
+
+jest.mock('../User', () => ({
+  User: jest.fn(() => mockUser),
+}));
+
+test('call user', () => {
+  const res = fn('ebihara');
+  expect(User).toBeCalledWith('ebihara'); // コンストラクタ関数の実行確認
+  expect(res).toBe('return callUser.'); // 戻り値が、callUser が返す値をそのまま返しているか
+});
+```
+
 ### 非同期関数のモック
 
-### 評価が必要な関数を返す関数のモック
+1. Promise を返すか async の関数を定義してをモックとして定義する方法。
+
+    ```ts
+    // 非同期で、'result' を返す関数
+    const afn = jest.fn(async () => 'result');
+    ```
+
+1.  jest.fn の、`mockResolvedValue(Once)` を使う方法
+
+    ```ts
+    // 非同期で、'result' を返す関数
+    const afn = jest.fn().mockResolvedValue('result')
+    ```
+
+### 例外を返す非同期関数のモック
+
+1. Promise を返すか async の関数を定義してをモックとして定義する方法。
+
+    ```ts
+    const error = new Error();
+    const afn = jest.fn(async () => { throw error });
+    ```
+
+1.  jest.fn の、`mockRejectedValue(Once)` を使う方法
+
+    ```ts
+    const error = new Error();
+    const afn = jest.fn().mockRejectedValue(error)
+    ```
+
+いずれも、catch で、error が引き渡される。
 
 ### メソッドチェーンな関数のモック
 
-## React Component のテスト
+オブジェクトの関数の戻り値に、自身のオブジェクトを返すことで、メソッドチェーンで記述できる物も多いです。
 
-### 検査対象ファイル内の関数のモック化
+例えばHTTP クライアントである、`superagent` では、下記のような記述をします。
+
+```ts
+import superagent from 'superagent';
+const result = await superagent
+  .post('/api/pet')
+  .set('X-API-Key', 'foobar')
+  .set('accept', 'json');
+  .send({ name: 'Manny', species: 'cat' }); // sends a JSON post body
+```
+
+これをモック化するには、mockReturnThis を使うことで簡単に記載できる。
+
+```ts
+const agent = {
+  post: jest.fn().mockReturnThis(),
+  set: jest.fn().mockReturnThis(),
+  send: jest.fn().mockResolvedValue({ body: { result: true } }),
+};
+jest.mock('superagent', () => agent);
+```
+
+### exportされていない関数のモック化やテスト
+
+通常は export されていない関数をモックにすることはあまりない。
+
+複雑な処理の場合、モック化することで単純化できる。もちろん、その関数のテストも何らかの形で行う必要はある。
 
 - export する
-  - __private などのオブジェクトにまとめるのが良い
+  - __private などのオブジェクトにまとめる
 
 - rewire を利用する
 
+[TypeScript jest exportしていない関数・変数のテスト - golangの日記](https://golang.hateblo.jp/entry/2021/03/12/214524)
+
+## 評価
+
+jest での評価は、expect を使用する。
+
+```ts
+expect(現実値).XXX(期待値)
+```
+
+XXX には、評価方法のメソッド名が入る。
+
+### プリミティブ値の検証
+
+文字列や数値などのプリミティブ型の値については、評価方法 `toBe` を使う。
+
+```ts
+expect(actual).toBe('期待値');
+```
+
+boolean でも `toBe` で良いけど、メソッドでも用意されている。
+
+```ts
+expect(actual).toBeTruthy(); // actual が true の場合成功
+expect(actual).toBeFalsy(); // actual が false の場合成功
+```
+### オブジェクトの検証
+
+`toBe` は、`Object.is` で比較するもので、オブジェクトの内容が一緒でも別なオブジェクトであれば false になってしまう。
+
+オブジェクトの内容が一致することを確認するには、`toEqual` を利用する。
+
+```ts
+expect(actual).toEqual({ name: 'ebihara' });
+```
+
+### オブジェクトの部分的な検証
+
+オブジェクトが長大な場合などは、全部の項目を確認するのではなく、一部だけ一致していれば良い、という検証を行う場合もある。
+
+その場合は、`expect.objectContaining` を利用する。
+
+```ts
+expect(actual).toEqual(
+  expect.objectContaining({ name: 'ebihara' }),
+);
+```
+
+## React Component のテスト
+
 ### 基本
 
-- @testing-library/react を使う
+@testing-library/react を使う。
 
-### モック
+snapshot も取れて、要素の取得やイベントの発火も簡単で、react hooks にも対応していて、レンダリングのタイミングをあまり気にしなくても良い。
+
+### React 関連のモック
 
 #### 外部コンポーネントのモック
+
 
 
 ### useContext のモック化
