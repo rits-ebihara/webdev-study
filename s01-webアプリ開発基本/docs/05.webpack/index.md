@@ -1,4 +1,4 @@
-# タスクランナー/モジュールバンドラ: Webpack
+# モジュールバンドラ: Webpack
 
 筆者: 海老原 賢次（kenji.ebihara@jrits.ricoh.co.jp）  
 作成日: 2021-08-20

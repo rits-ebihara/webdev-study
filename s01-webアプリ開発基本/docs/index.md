@@ -56,7 +56,7 @@ Webアプリ開発では、様々なツールやフレームワーク、ライ�
 2. [パッケージマネージャ: npm / yarn](./02.package-manager/index.md)
 3. [よく使われるライブラリ](./03.libraries/index.md)
 4. [言語: ECMAScript, TypeScript](./04.language/index.md)
-5. [タスクランナー/モジュールバンドラ: Webpack](./05.webpack/index.md)
+5. [モジュールバンドラ: Webpack](./05.webpack/index.md)
 6. [Webフレームワーク: React/Vue.js](./06.web-framework/index.md)
 7. [リンター／コードフォーマッタ: eslint/prettier](./07.linter-formatter/index.md)
 8. [テスト: Jest](./08.test/index.md)
