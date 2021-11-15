@@ -568,3 +568,20 @@ test('pop - back to last', () => {
 });
 ```
 
+失敗を確認して、仕様を実装します。
+
+```ts title="src/RingBuffer.ts"
+  public pop(): T {
+    const res = this.buffer[this._currentIndex--];
+    if (this._currentIndex < 0) {
+      this._currentIndex = this.buffer.length - 1;
+    }
+    return res;
+  }
+```
+
+テストが成功することを確認します。
+
+`getCurrent` と プロパティの`currentIndex` が残っていますが、これまでのものを参考にテストと実装が書けると思います。
+
+各自、実施してみて下さい。
