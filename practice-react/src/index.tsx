@@ -1,10 +1,5 @@
-import { render } from "react-dom";
-import React from "react";
-import { Counter } from "./Counter";
+import React from 'react';
+import { render } from 'react-dom';
+import { Increment } from './Increment';
 
-render(
-  <div>
-    <Counter />
-  </div>,
-  document.getElementById("app")
-);
+render(<Increment />, document.getElementById('app'));
