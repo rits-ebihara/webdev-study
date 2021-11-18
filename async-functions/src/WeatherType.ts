@@ -1,17 +1,17 @@
 export type CentralWeather = {
   officeCode: string;
   name: string;
-  srf: Weather;
+  srf: Weather<string>;
 };
 
-export type Weather = {
+export type Weather<T = undefined> = {
   publishingOffice: string;
   reportDatetime: string;
-  timeSeries: TimeSeriesEntity[];
+  timeSeries: TimeSeriesEntity<T>[];
 };
-export type TimeSeriesEntity = {
+export type TimeSeriesEntity<T = undefined> = {
   timeDefines: string[];
-  areas: AreasEntity[];
+  areas: T extends undefined ? AreasEntity[] : AreasEntity;
 };
 export type AreasEntity = {
   area: Area;

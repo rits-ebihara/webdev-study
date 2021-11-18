@@ -20,6 +20,20 @@ const styles = {
       margin-bottom: 0.5rem;
       width: 20rem;
     }
+    & table,
+    & td,
+    & th {
+      border-collapse: collapse;
+      border: 1px solid #999;
+    }
+    & td,
+    & th {
+      padding: 0.5rem;
+      width: 10rem;
+    }
+    & th:first-of-type {
+      width: 3rem;
+    }
   `,
   areaLinks: css`
     margin-bottom: 1rem;
@@ -52,40 +66,77 @@ const loadArea = async () => {
  * @param props - 気象データ
  * @returns 天気予報のコンテンツ
  */
-const WeatherContent: React.FC<Weather> = (props) => {
-  const time = props.timeSeries[0];
-  const times = time.timeDefines;
-  // areas の先頭だけ使う
-  const area = time.areas[0];
-  const { area: areaInfo, weathers } = area;
+const WeatherContent: React.FC<{
+  weather: Weather<string | undefined>;
+  noTitle?: boolean;
+}> = (props) => {
+  const { weather, noTitle } = props;
+  const { timeDefines, areas } = weather.timeSeries[0];
+
   const displayWeathers = useMemo(() => {
-    // 日付と天気の一覧
-    return times.map((time, i) => {
-      const date = dayjs(time).format('M月 D日');
-      const weather = weathers[i];
+    const areaList = Array.isArray(areas) ? areas : [areas];
+    // エリアの一覧
+    return areaList.map((area) => {
+      // 日の一覧
+      const days = timeDefines.map((d, i) => {
+        const day = dayjs(d);
+        return <td key={d}>{day.format('M月D日')}</td>;
+      });
+      const weathers = area.weathers.map((w, i) => <td key={i}>{w}</td>);
+      const winds = area.winds.map((w, i) => <td key={i}>{w}</td>);
+      const waves = area.waves?.map((w, i) => <td key={i}>{w}</td>);
       return (
-        <div key={i}>
-          <span css={styles.date}>{date}</span>
-          <span>{weather}</span>
+        <div key={area.area.code}>
+          {noTitle ? null : <h4> {area.area.name} </h4>}
+          <table>
+            <thead>
+              <tr>
+                <th>日付</th>
+                {days}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>天気</th>
+                {weathers}
+              </tr>
+              <tr>
+                <th>風</th>
+                {winds}
+              </tr>
+              <tr>
+                <th>波</th>
+                {waves}
+              </tr>
+            </tbody>
+          </table>
         </div>
       );
     });
-  }, [times, weathers]);
+  }, [areas, noTitle, timeDefines]);
   // 場所と天気の一覧
-  return (
-    <>
-      <p>{areaInfo.name}</p>
-      {displayWeathers}
-    </>
-  );
+  return <div css={styles.contents}>{displayWeathers}</div>;
 };
 
-const WeatherContentList: React.FC<{ weathers: CentralWeather; code: string }> =
-  (props) => {
-    const { code, weathers } = props;
-
-    return <></>;
-  };
+const CentralWeathers: React.FC<{
+  weathers: CentralWeather[];
+  officeCodes: string[] | null;
+}> = (props) => {
+  const { weathers, officeCodes } = props;
+  const contents = useMemo(() => {
+    return weathers
+      .filter(
+        (w) => !officeCodes || officeCodes?.find((c) => c === w.officeCode),
+      )
+      .map((w) => (
+        <div key={w.officeCode}>
+          <h4>{w.name}</h4>
+          <WeatherContent weather={w.srf} noTitle />
+        </div>
+      ));
+  }, [officeCodes, weathers]);
+  return <>{contents}</>;
+};
 
 // ------------------------------------------------------------
 
@@ -176,27 +227,50 @@ export const WeatherNews: React.FC = () => {
   }, [hash]);
 
   /** 気象データ */
-  const [weatherData, setWeatherData] = useState<Weather | null>(null);
+  const [weatherData, setWeatherData] = useState<
+    Weather | CentralWeather[] | null
+  >(null);
 
   /** ページ表示時にエリア情報をロードする */
   useEffect(() => {
     loadArea().then((data) => setAreas(data));
   }, []);
+
   /** ページ表示時に天気予報をロードする */
   useEffect(() => {
-    loadWeatherNews(null).then((data) => {
-      // setWeatherData(data[0]);
-    });
-  }, []);
+    if (!selectedOffice) {
+      loadWeatherNews(null).then((data) => {
+        setWeatherData(data);
+      });
+    } else {
+      loadWeatherNews(selectedOffice).then((data) => {
+        setWeatherData(data[0]);
+      });
+    }
+  }, [selectedOffice]);
 
   /** 天気予報の表示 */
   const contents = useMemo(() => {
     // データをロードしていなければ、ローディングの表示を行う
     if (!weatherData) return <Skelton count={5} />;
     // データがロードできていれば、天気を表示する
-    // timeSeries の先頭だけ使う
-    return <WeatherContent {...weatherData} />;
-  }, [weatherData]);
+    if (Array.isArray(weatherData)) {
+      const officeCodes =
+        areas && !!selectedCenter
+          ? convertCodeName(areas.offices)
+              .filter((o) => o.parent === selectedCenter)
+              .map((a) => a.code)
+          : null;
+      return (
+        <CentralWeathers
+          weathers={weatherData as CentralWeather[]}
+          officeCodes={officeCodes}
+        />
+      );
+    } else {
+      return <WeatherContent weather={weatherData as Weather} />;
+    }
+  }, [areas, selectedCenter, weatherData]);
 
   return (
     <>
@@ -204,11 +278,10 @@ export const WeatherNews: React.FC = () => {
       <div>
         <AreaSelector
           areaData={areas}
-          selectedCenterCode={selectedCenter[0] || ''}
+          selectedCenterCode={selectedCenter || ''}
         />
       </div>
-      <div>{JSON.stringify(selectedCenter)}</div>
-      <div css={styles.contents}>{contents}</div>
+      {contents}
     </>
   );
 };
