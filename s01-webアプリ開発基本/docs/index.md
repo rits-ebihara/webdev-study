@@ -59,5 +59,5 @@ Webアプリ開発では、様々なツールやフレームワーク、ライ�
 5. [モジュールバンドラ: Webpack](./05.webpack/index.md)
 6. [Webフレームワーク: React/Vue.js](./06.web-framework/index.md)
 7. [リンター／コードフォーマッタ: eslint/prettier](./07.linter-formatter/index.md)
-8. [テスト: Jest](./08.test/index.md)
-9. JavaScript の非同期処理
+8. [JavaScript の非同期処理](./08.async-functions/index.md)
+9. [テスト: Jest](./09.test/index.md)
