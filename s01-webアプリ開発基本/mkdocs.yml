@@ -42,7 +42,9 @@ nav:
       - React: 06.web-framework/react.md
       - Vue.js: 06.web-framework/vuejs.md
   - 07.linter-formatter/index.md
-  - 08.async-functions/index.md
+  - 非同期関数:
+      - 概要: 08.async-functions/index.md
+      - React を使った例: 08.async-functions/react.md
   - 09.test/index.md
 
 site_author: "EBIHARA Kenji (kenji.ebihara@jrits.ricoh.co.jp)"

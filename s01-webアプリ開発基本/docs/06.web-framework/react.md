@@ -113,7 +113,6 @@ TypeScript で後述する `JSX` を利用するので、`tsconfig.json` にそ�
 `webpack.config.js` の entry も変更しておきます。
 
 ```js
-
 const config = {
   entry: "./src/index.tsx",
   // ...省略
