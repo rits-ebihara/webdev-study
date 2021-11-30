@@ -72,7 +72,7 @@ ES5 以前の Javascript では、非同期関数のコールバック関数で�
 コールバック関数を使った非同期関数の例として、jQuery というライブラリの `$.get` メソッドを挙げます。これは Webリクエスト発行して、成功したらコールバック関数が実行されるものです。
 
 > ここでは あくまでもコールバック関数の例として上げています。  
-> $.get では、下で説明する Promise のように、`.done`, `.fail` で、メソッドチェーンで書くこともできます。
+> jQuery の .get では、コールバック関数ではなく下で説明する Promise のように、`.done`, `.fail` で、メソッドチェーンで書くこともできます。
 
 ```ts
 $.get('https://example.com/api/users/001', (user) => {
@@ -100,12 +100,18 @@ $.get('https://example.com/api/users/001', (user) => {
     get('https://example.com/api/orgs/' + user.orgId, (org) => {
         get('https://example.com/api/comps/' + user.compId, (comp) => {
             // 会社を取得したあとの処理
+        }, (error3) => {
+            // comps のエラー処理
         });
+    }, (error2) => {
+        // orgs のエラー処理
     });
+}, (error1) => {
+    //  users のエラー処理
 });
 ```
 
-これは ”コールバック地獄”とも呼ばれており、こんなコードは忌避すべきです。
+これは ”コールバック地獄”とも呼ばれており、こんなコードは忌避されるものであることは明白でしょう。
 
 ### Promise
 
@@ -216,7 +222,7 @@ const fc = async () => {
     // comp を使った処理
 
     return comp; // Promise で、`resolve(comp)` したのと同じ
-}
+};
 ```
 
 `async` / `await` は `Promise` とは別のものではなく、書き方が違うだけ、と言えます。
@@ -248,7 +254,7 @@ const fc = () => {
                 resolve(result);  //  fc 関数の処理の終わり
             });
     });
-}
+};
 ```
 
 ## 複数の非同期処理を待ち合わせる: Promise.all
