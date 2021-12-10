@@ -246,370 +246,223 @@ error Command failed with exit code 1.
 > Windows のコマンドプロンプトには色をつける機能はないので、単色で表示されます。
 > WSL か、Powershell の使用をおすすめします。
 
-## テスト駆動開発の実践
+## テスト駆動開発
 
 ここではテスト駆動開発の実践として、リングバッファのクラスを実装することを題材としてみます。
 
+テスト駆動開発とは、コードを設計・実装するのにテストを軸に進めていくという、開発手法であり、決してテスト手法ではない、ということに注意すべきです。
+
+テストファースト、という実装方法もありますが、これはあくまでもテストを先に書く、という実装手法であり、設計には及んでいません。
+
+### 開発サイクル
+
+テスト駆動開発では、下記のようなステップを繰り返して進めます。
+
+1. テストを書く
+     - 必ず失敗する
+2. テストが成功するようにコードを書く
+     - 成功すること重点を置き、コードの見やすさ、管理のしやすさなどは度外視する。
+     - ここに時間を掛けないようにする。
+3. コードをリファクタリングする。
+     - ここで時間を掛けて、コードの見やすさ、運用のしやすさ、重複の排除などを行う。
+
+また、実装中に生じた懸念やテスト不足は、Todo としてどんどん足して、それらを解消するように上のステップを繰り返していきます。
+
+ここで、実際にコードを書きながらテスト駆動開発を体験してみましょう。
+
 ### リングバッファの仕様
 
-テスト駆動開発では、テストを先に書くわけですが、そのためには仕様が明確になっている必要があります。
+バッファとは、データを一時的に保持しておくものです。データの提供側と受け取り側のタイミングが異なる場合などに使用します。簡単な例だと、クリップボードがバッファと言えるでしょう。
 
-> もし仕様が書けないのであれば、仕様が決まっていない、ひいては設計が完了していない、ということになります。
-> そういう意味でも、テストを先に書いて仕様漏れ、検討漏れの防止にもなります。
+リングバッファは、同じ型の複数のデータをキャッシュしますが、バッファとして上限が有り、上限に達すると、はじめのバッファを上書きしていくようにします。
 
-リングバッファの仕様として、下記とします。
+リングバッファから値を取り出すときには、最新のものを取得したり、最新からいくつか古いデータを取り出したりします。
 
-- コンストラクタ
-    - ジェネリック型でバッファの型を指定できる。
-    - 引数に、バッファのサイズを数値で指定できる。(2以上の整数)
-        - 2未満の場合は、例外を発生させる。メッセージは、"引数のバッファサイズは 2以上 を指定して下さい。"
-    - 現在のインデックスを '0' とする。
-- push メソッド
-    - リングバッファに引数の値をバッファの現在のインデックスの次に格納する。
-    - バッファの現在の現在のインデックスを +1 する。
-        - 最大バッファ数を超えす場合は、現在のインデックスを 0 とする。
-- pop メソッド
-    - バッファの現在のインデックスの値を返す。
-    - 現在のインデックスを -1 する。
-        - 0を下回る場合は、(最大バッファ数 -1 )とする。
-    - 初期状態の場合は、undefined を返し、現在のインデックスは変更しない
-- getCurrent メソッド
-    - バッファの現在のインデックスの値を返す。
-- currentIndex プロパティ
-    - 読み込み専用
-    - 現在のインデックスの数値を返す。
-- toArray メソッド
-    - 通常の配列を返す。
-    - 値の順番は、先頭に現在のインデックスの値となるように、リングバッファの順番で出力する。
-        - バッファが `['a', 'b', 'c']` で、現在のインデックスが '1'(2番め) の場合 `['b', 'c' ,'a']` となる
+ですので、現在の最新がどこであるかの場所も保持しておく必要がありそうです。
 
-### コンストラクタのテスト
+### プロジェクトの準備
 
-まず、リングバッファの実装をするファイル `RingBuffer.ts` と、そのテストのファイル `RingBuffer.test.ts` を作成します。
-場所は、それぞれ `src/` , `src/__tests__/` で良いでしょう。
+空のフォルダを作成し、プロジェクトフォルダとします。
 
-テストから書く、とはいってもクラスやそのメンバがなければ、そもそもコンパイルエラーでテストが実行できないので、クラスのメンバだけは実装しましょう。所謂スケルトンコードというものです。
+`package.json` を作成し、必要なライブラリをインストールします。
 
-関数の戻り値や変数の型違反にならないよう、最低限の return は書いています。
+ここでは、言語は `TypeScript`、テストフレームワークは、`jest` を利用します。
+```bash
+$ npm init # Enter 連打でウィザードを終了させる
+$ npm install -D typescript ts-node eslint prettier eslint-config-prettier jest jest ts-jest @types/jest
+```
 
-```ts title="src/RingBuffer.ts"
-export class RingBuffer<T> {
-  private buffer: T[] = [];
-  private _currentIndex: number;
-  constructor(size: number) {
-    // 未実装
-  }
-  public toArray(): T[] {
-    return [];
-  }
-  public push(item: T): void {
-    // 未実装
-  }
-  public pop(): T {
-    return {} as T
-  }
-  getCurrent(): T {
-    return {} as T
-  }
-  get currentIndex(): number {
-    return -1;
-  }
+eslint の設定
+
+```bash
+$ npx eslint --init
+✔ How would you like to use ESLint? · problems
+✔ What type of modules does your project use? · esm
+✔ Which framework does your project use? · none
+✔ Does your project use TypeScript? · No / Yes
+✔ Where does your code run? · node
+✔ What format do you want your config file to be in? · YAML
+✔ Would you like to install them now with npm? · No / Yes
+```
+
+`.eslint.yml` の修正
+
+```yml
+plugins:
+  - "@typescript-eslint"
+  - prettier # 追加
+```
+
+tsconfig.json の作成
+
+```bash
+$ npx tsc --init -moduleResolution node
+```
+
+prettier の設定ファイルのロード  
+※ Linux, macOSの場合。windows の場合は、Powershell を使用する
+```bash
+curl -LO https://raw.githubusercontent.com/rits-ebihara/webdev-study/main/practice-react/.prettierrc.yml
+```
+
+Visual Studio Code を使っていて、ESLint や Prettier の拡張機能が入っていない場合は、入れておくと便利です。
+
+[ESLint - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+
+[Prettier - Code formatter - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+
+ソースコードのフォルダを作成します。
+
+`src` と その中に、テストのファイルを格納する `__tests__` を用意します。
+
+```bash
+mkdir -p src/__tests__
+```
+
+実装を書いていく `src/ringBuffer.ts` と、そのテストを書いていく `src/__tests__/ringBuffer.test.ts` を作成しましょう。
+
+```bash
+touch src/ringBuffer.ts
+touch src/__tests__/ringBuffer.test.ts
+```
+
+jest の設定をします。
+
+```bash
+$ npx jest --init
+✔ Would you like to use Jest when running "test" script in "package.json"? … yes
+✔ Would you like to use Typescript for the configuration file? … no
+✔ Choose the test environment that will be used for testing › node
+✔ Do you want Jest to add coverage reports? … no
+✔ Which provider should be used to instrument code for coverage? › v8
+✔ Automatically clear mock calls, instances and results before every test? … yes
+```
+
+ts-jest の設定のため、`jest.config.js` を変更します。
+
+```js title="jest.config.js"
+  preset: 'ts-jest',
+```
+
+### TODO を考える
+
+リングバッファを作る上で、はじめに考えられる機能や確認事項を列挙してみましょう。
+
+今はあまり深く考えなくていいです。この TODO は実装中に判明した問題や課題を追加していくことになります。
+
+TODO をテストファイルにコメントとして記載していきましょう
+
+```ts title="src/__tests__/ringBuffer.test.ts"
+/*
++ バッファの大きさを指定してバッファを作成する
+- 最新のバッファを取得する
+- 最新から指定した数を戻ったインデックスの値を取得する
+*/
+```
+
+まず、 "バッファの大きさを指定してバッファを作成する" を実装してみます。これから取り掛かるタスクの先頭を `+` にしておいてわかりやすくしましょう。
+
+### バッファの大きさを指定してバッファを作成する
+
+バッファを作成する、ということはプログラム的にはオブジェクトを作成するということで、ここではクラスを作成し、 `new` でインスタンスを作ることとしましょう・・・ではなく、テストでそれを書きましょう。
+
+```ts title="src/__tests__/ringBuffer.test.ts"
+import { RingBuffer } from '../ringBuffer';
+
+test('バッファの大きさを指定して作成する', () => {
+  const buffer = new RingBuffer(10);
+  expect(buffer.length).toBe(10);
+});
+```
+
+あなたの言いたいこと、わかっていますよ。クラスもないのでそもそもテストも実行できていません。VSCode も怒っています。
+
+TypeScript でコンパイルできるようにしましょう。また、最低限必要なメソッドも揃えましょう。
+
+- クラスが必要
+- コンストラクタが必要
+- `length` プロパティが必要
+
+```ts title="src/ringBuffer.ts"
+export class RingBuffer {
+  constructor(size: number) {}
+  public length: number = 0;
 }
 ```
 
-テストコードを書きます。
+length プロパティは、メソッドのほうが後々良い気がします。なぜなら、値そのものを保持するのではなく、おそらく後で保持するであろうバッファの大きさを返すことになりそうですから。
 
-まず、テスト対象のファイルを import します。
+ですが、目の前の課題に集中するため、ここでの懸念今は一旦おいておきます。TODO に追加しておきましょう。
 
-```ts title="src/__tests__/RingBuffer.test.ts"
-import { RingBuffer } from '../RingBuffer';
+```ts title="src/__tests__/ringBuffer.test.ts"
+/*
++ バッファの大きさを指定してバッファを作成する
+- 最新のバッファを取得する
+- 最新から指定した数を戻ったインデックスの値を取得する
+- length は、バッファの大きさを返す
+*/
 ```
 
-はじめにコンストラクタ関数をテストを書きます。コンストラクタ関数では、引数で定義した数値の細部のバッファを持ちます。
-
-仕様から評価を検討します。下記の2点が評価項目となるでしょう。
-
-- buffer の配列の数が引数とあっているか。
-- _currentIndex が、`0` であるか。
-
-それぞれ private のメンバーですが、JavaScriptではインデクサにプロパティ名を入れることでアクセスできます。
-
-```ts title="src/__tests__/RingBuffer.test.ts"
-test('constructor', () => {
-  const ringBuffer = new RingBuffer<string>(10);
-  // 引数に、バッファのサイズを数値で指定できる。(2以上の整数)
-  expect(ringBuffer['buffer'].length).toBe(10);
-  // 現在のインデックスを '-1'(バッファがないため) とする。
-  expect(ringBuffer['_currentIndex']).toBe(-1);
-});
-```
-
-テストを実行します。
-
-コンストラクタ関数には、まだ何も実装していないので、当然エラーになります。
+コンパイルエラーがなくなりました。テストが実行できます。
 
 ```
-> yarn test ./src/__tests__/RingBuffer.test.ts 
-
-  ● constructor
-
     expect(received).toBe(expected) // Object.is equality
 
     Expected: 10
-    Received: 0
+    Received: undefined
 ```
 
-テストが成功するように、実装しましょう。
+当たり前ですが、エラーになります。エラーが起きて良いんです。前進しています。このエラーが無くなるように "最低限" の実装します。
 
-```ts title="src/RingBuffer.ts"
-  private buffer: T[]; // コンストラクタで初期化するので、初期値は不要
-  /**
-   *
-   * @param size - バッファサイズ;
-   */
+```ts title="src/ringBuffer.ts"
+  public length: number = 10;
+```
+
+```
+ PASS  src/__tests__/ringBuffer.test.ts
+  ✓ バッファの大きさを指定して作成する (1 ms)
+```
+
+テストが成功しました！・・・はい、わっています。こんな実装は意味がないような気がします。しかし、１歩ずつ確認することが複雑な課題を単純化・細分化して考えることができます。
+
+次のステップとしては、"重複"を取り除きます。ここでいう "重複" とは、同じコードが複数あることを指すことですが、今回はデータが重複してます。それは、テストコードと実装のコードでデてきている `10` という数字です。
+
+ここでは、コンストラクタ関数に渡した値を 'length' として参照できればいいので、下記のようなコードになります。
+
+```ts
+export class RingBuffer {
   constructor(size: number) {
-    this.buffer = new Array<T>(size);
-    this._currentIndex = 0;
+    this.length = size;
   }
+  public length: number;
+}
 ```
 
-もう一度テストします。
-
 ```
-➜  practice git:(main) ✗ yarn test ./src/__tests__/RingBuffer.test.ts
-yarn run v1.22.15
-$ jest ./src/__tests__/RingBuffer.test.ts
- PASS  src/__tests__/RingBuffer.test.ts
-  ✓ constructor (2 ms)
+ PASS  src/__tests__/ringBuffer.test.ts
+  ✓ バッファの大きさを指定して作成する (1 ms)
 ```
 
-テストが成功しました。しかし、引数に入れられる値は、'2以上である'という制約がありますが、ここではこれでよいです。
+テストが成功しますね！
 
-1つのテストを成功させるため、最低限の実装だけを行います。
-
-次にそのテストを書きましょう。別のテストとして書きます。
-
-例外が発生する場合が成功となります。その場合は、`expect` の引数に関数を指定し、その中で例外が発生する可能性のある処理を書きます。
-
-評価方法として、`.ThrowError` を利用します。引数に発生するはずのエラーメッセージを引数に指定します。
-
-```ts title="src/__tests__/RingBuffer.test.ts"
-test('constructor - failed', () => {
-  // 2未満の場合は、例外を発生させる。
-  // メッセージは、"引数のバッファサイズは 2以上 を指定して下さい。"
-  expect(() => {
-    new RingBuffer<string>(1);
-  }).toThrowError('引数のバッファサイズは 2以上 を指定して下さい。');
-});
-```
-
-入力チェックを実装していないので、例外は発生せずテストは失敗します。
-
-その実装を入れます。
-
-```ts title="src/RingBuffer.ts"
-  constructor(size: number) {
-    if (size < 2) {
-      throw new Error('引数のバッファサイズは 2以上 を指定して下さい。');
-    }
-    this.buffer = new Array<T>(size);
-    this._currentIndex = 0;
-  }
-```
-
-テストが成功しました。
-
-続いて、push のテストをします。push では、引数の値をバッファの先頭に格納します。
-
-また、現在のインデックスを +1 します。それらを評価しましょう。
-
-```ts title="src/__tests__/RingBuffer.test.ts"
-test('push - first', () => {
-  const ringBuffer = new RingBuffer<string>(10);
-  // はじめのインデックスが '-1' であることを確認する
-  expect(ringBuffer['_currentIndex']).toBe(-1);
-  // push実行
-  ringBuffer.push('test1');
-  // リングバッファに引数の値をバッファの現在のインデックスの次に格納する。
-  // 現在のインデックスが '-1'（初期状態）の場合は、'0' に格納する。
-  expect(ringBuffer['buffer'][0]).toBe('test1');
-  // バッファの現在の現在のインデックスを +1 する。
-  expect(ringBuffer['_currentIndex']).toBe(0);
-});
-```
-
-実装していないので、エラーになります。成功するように書きましょう。
-
-```ts title="src/RingBuffer.ts"
-  public push(item: T) {
-    if (this._currentIndex === -1) {
-      this._currentIndex = 0;
-    }
-    this.buffer[this._currentIndex] = item;
-  }
-```
-
-テストを実行すると、成功します。が、お気づきのように2回めの push ではおかしくなるはずです。でも今はこれで良いです。
-
-仕様の 「リングバッファに引数の値をバッファの現在のインデックスの次に格納する。」 がテストできていません。
-
-このテストを追加しましょう。
-
-```ts title="src/__tests__/RingBuffer.test.ts"
-test('push - seconds', () => {
-  const ringBuffer = new RingBuffer<string>(10);
-  // はじめのインデックスが '-1' であることを確認する
-  expect(ringBuffer['_currentIndex']).toBe(-1);
-  // push実行
-  ringBuffer.push('test1');
-  ringBuffer.push('test2');
-  // リングバッファに引数の値をバッファの現在のインデックスの次に格納する。
-  expect(ringBuffer['buffer'][1]).toBe('test2');
-  // バッファの現在の現在のインデックスを +1 する。
-  expect(ringBuffer['_currentIndex']).toBe(1);
-});
-```
-
-テスト実行すると、失敗するでしょう。成功するように実装します。
-
-```ts title="src/RingBuffer.ts"
-  public push(item: T) {
-    if (this._currentIndex === -1) {
-      this._currentIndex = 0;
-    } else {
-      ++this._currentIndex;
-    }
-    this.buffer[this._currentIndex] = item;
-  }
-```
-
-これでテストが成功します。しかし実装をよく見ると、`_currentIndex` が初期値の `-1` の場合でも 1 追加すれば良さそうで、そうなると `if` が必要無さそうです。
-
-リファクタリングしましょう。
-
-```ts title="src/RingBuffer.ts"
-  public push(item: T) {
-    this.buffer[++this._currentIndex] = item;
-  }
-```
-
-テストを実行すると、ちゃんと成功しました。つまり、リファクタリングしても結果が変わらないことが保証されました。
-
-テスト駆動開発では、テストを書く -> テストを満たす最低限の実装 -> リファクタリング　の流れで作成していきます。
-
-push では、もう1つ確認しないといけない仕様があります。「最大バッファ数を超える場合は、現在のインデックスを 0 とする。」です。
-
-これのテストを書いていきましょう。
-
-バッファを埋めないといけないので、ループで push します。
-
-```ts title="src/__tests__/RingBuffer.test.ts"
-test('push - full', () => {
-  const ringBuffer = new RingBuffer<string>(5);
-  // はじめのインデックスが '-1' であることを確認する
-  expect(ringBuffer['_currentIndex']).toBe(-1);
-  // 前提データの作成
-  for (let i = 0; i < 5; i++) {
-    ringBuffer['buffer'][i] = 'test' + i;
-  }
-  ringBuffer['_currentIndex'] = 4;
-  // push実行
-  ringBuffer.push('test - add');
-  // リングバッファに引数の値をバッファの現在のインデックスの次に格納する。
-  expect(ringBuffer['buffer'][0]).toBe('test - add');
-  // バッファの長さが変わらない
-  expect(ringBuffer['buffer'].length).toBe(5);
-  // バッファの現在の現在のインデックスを +1 する。
-  expect(ringBuffer['_currentIndex']).toBe(0);
-});
-```
-
-毎回のことながら、バッファがいっぱいになったときの実装していないのでエラーになります。
-
-成功するように修正します。
-
-```ts title="src/RingBuffer.ts"
-  public push(item: T): void {
-    if (++this._currentIndex > this.buffer.length - 1) {
-      this._currentIndex = 0;
-    }
-    this.buffer[this._currentIndex] = item;
-  }
-```
-
-次は、`pop` メソッドのテストを書きます。
-
-まずは、ノーマルな処理で、最後に push した値が取得できることと、インデックスが戻っていることを確認します。
-
-```ts title="src/__tests__/RingBuffer.test.ts"
-test('pop - normal', () => {
-  const ringBuffer = new RingBuffer<string>(10);
-  // 前提データの作成
-  for (let i = 0; i < 5; i++) {
-    ringBuffer['buffer'][i] = 'test' + i;
-  }
-  ringBuffer['_currentIndex'] = 4;
-  const result = ringBuffer.pop();
-  // バッファの現在のインデックスの値を返す。
-  expect(result).toBe('test4');
-  // 現在のインデックスを -1 する。
-  expect(ringBuffer['_currentIndex']).toBe(3);
-});
-```
-
-失敗することを確認します。実装しましょう。
-
-```ts title="src/RingBuffer.ts"
-  public pop(): T {
-    return this.buffer[this._currentIndex--];
-  }
-```
-
-テストが成功しました。
-
-現在のインデックスが 0 の場合、バッファの最後に移動するので、その動作を確認します。
-
-```ts title="src/__tests__/RingBuffer.test.ts"
-test('pop - back to last', () => {
-  const ringBuffer = new RingBuffer<string>(5);
-  // 前提データの作成
-  for (let i = 0; i < 5; i++) {
-    ringBuffer['buffer'][i] = 'test' + i;
-  }
-  ringBuffer['_currentIndex'] = 0;
-
-  const result = ringBuffer.pop();
-  // バッファの現在のインデックスの値を返す。
-  expect(result).toBe('test0');
-  // 現在のインデックスを -1 する。
-  expect(ringBuffer['_currentIndex']).toBe(4);
-});
-```
-
-失敗を確認して、仕様を実装します。
-
-```ts title="src/RingBuffer.ts"
-  public pop(): T {
-    const res = this.buffer[this._currentIndex--];
-    if (this._currentIndex < 0) {
-      this._currentIndex = this.buffer.length - 1;
-    }
-    return res;
-  }
-```
-
-テストが成功することを確認します。
-
-`getCurrent` と プロパティの`currentIndex` が残っていますが、これまでのものを参考にテストと実装が書けると思います。各自、実施してみて下さい。
-
-## まとめ
-
-テスト駆動開発について、ハンズオンを交えて説明しました。
-
-テスト -> 実装 の流れをなんとなくでも掴むことができたでしょうか？
-
-はじめにテストで失敗する事が大事です。まず仕様を正しく把握できますし、テストの実装違いで常に成功するテストを書いてしまうかもしれません。失敗から成功に変わる確認が必要です。
-
-はじめのテストが失敗してから、成功するコードを書くときには、なるべく早く成功する方法で書きます。たとえそれが戻り値をハードコーディングすることでも良いです。成功することを確認した後、リファクタリングでテストが成功のままであることを確認します。
-
-実装中にテストに必要な追加パターンが判明することがあります。それも随時テストに追加していくことが大事です。
+このように、細かくステップを踏んで進めていくことが大事です。実際ここまで細かくやるのかというと、Noです。ですが、複雑な問題を考えるときに、このように細かくステップを分ける、ということが大事で、小さすぎるかな、というところまでできたところがちょうどよいサイズ、といえます。
