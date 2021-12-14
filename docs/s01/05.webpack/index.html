@@ -1,0 +1,905 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <meta name="author" content="EBIHARA Kenji (kenji.ebihara@jrits.ricoh.co.jp)">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
+    
+    
+      
+        <title>モジュールバンドラ: Webpack - Webアプリ開発の基本</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.a57b2b03.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/mermaid@8.0.0/dist/mermaid.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
+    
+      <link rel="stylesheet" href="../custom.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#webpack" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Webアプリ開発の基本" class="md-header__button md-logo" aria-label="Webアプリ開発の基本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Webアプリ開発の基本
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              モジュールバンドラ: Webpack
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Webアプリ開発の基本" class="md-nav__button md-logo" aria-label="Webアプリ開発の基本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Webアプリ開発の基本
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Top Page
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01.architecture/" class="md-nav__link">
+        Webアプリケーションのアーキテクチャ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02.package-manager/" class="md-nav__link">
+        パッケージ・マネージャ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03.libraries/" class="md-nav__link">
+        JavaScript でよく使用されるライブラリ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04.language/" class="md-nav__link">
+        言語 - ES20xx / TypeScript
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          モジュールバンドラ: Webpack
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        モジュールバンドラ: Webpack
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    概要
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    ローダーとプラグイン
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    インストールと設定
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    動作確認
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    バンドルを試してみる
+  </a>
+  
+    <nav class="md-nav" aria-label="バンドルを試してみる">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    プロジェクト内で分割したファイルを参照する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yarn-add" class="md-nav__link">
+    yarn add でインストールしたパッケージを参照する
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    まとめ
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Webフレームワーク
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Webフレームワーク" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Webフレームワーク
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06.web-framework/" class="md-nav__link">
+        はじめに
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06.web-framework/react/" class="md-nav__link">
+        React
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06.web-framework/vuejs/" class="md-nav__link">
+        Vue.js
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07.linter-formatter/" class="md-nav__link">
+        Linter と Formatter
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          非同期関数
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="非同期関数" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          非同期関数
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08.async-functions/" class="md-nav__link">
+        概要
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08.async-functions/react/" class="md-nav__link">
+        React を使った例
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09.test/" class="md-nav__link">
+        Webアプリケーションのテスト
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    概要
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    ローダーとプラグイン
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    インストールと設定
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    動作確認
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    バンドルを試してみる
+  </a>
+  
+    <nav class="md-nav" aria-label="バンドルを試してみる">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    プロジェクト内で分割したファイルを参照する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yarn-add" class="md-nav__link">
+    yarn add でインストールしたパッケージを参照する
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    まとめ
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="webpack">モジュールバンドラ: Webpack</h1>
+<p>筆者: 海老原 賢次（kenji.ebihara@jrits.ricoh.co.jp）<br />
+作成日: 2021-08-20
+更新履歴:</p>
+<ul>
+<li>2021-08-18: 新規作成</li>
+</ul>
+<h2 id="_1">概要</h2>
+<p>webpack は、モジュールバンドラと呼ばれるツールで、複数の JavaScript ファイルで構成されるプログラムを1つ（複数に応じて複数）にマージするものです。</p>
+<p>ES2015 以前のJavaScript には、他のファイルを参照する（Java でいうところの import）がありませんでした。そこで、それを独自の形式で実現するいくつかのツールが使われていました。CommonJS や AMD などの名前が知られています。</p>
+<p>ES2015 で、import / export 構文により、他のファイルを参照できるようになり、Node.js ではファイルをマージしなくても、そのままで実行できます。</p>
+<p>ブラウザでも ES20xx の対応が進んでおり import / export にも対応しています。JavaScript ファイルに import がある場合、自動的にファイルをダウンロードしてくれます。</p>
+<p>ただ、npm で導入したパッケージの参照が解決できないですし、画像やCSSファイルなどもJavaScript化して 同梱できたり、webpack のビルドシステムとしての機能も手放せません。</p>
+<p>また、ファイルが多数になると、パフォーマンスにも影響します。</p>
+<p>これらの課題は、将来解決されると思いますが、2021年度現在では webpack を使うのがスタンダードとなっています。</p>
+<h2 id="_2">ローダーとプラグイン</h2>
+<p>ローダーとは、ファイルの種類ごとの変換処理をおこなうもので、必要に応じてwebpack とは別に導入します。</p>
+<p>よく使われるローダーとしては、下記のようなものがあります。</p>
+<ul>
+<li>babel-loader: ES2015 以降のコードで書かれた JavaScript を ES5 形式のコードに変換する</li>
+<li>ts-loader: TypeScript から JavaScript への変換を行う</li>
+<li>css-loader: CSSファイルに書かれたものを、JavaScript ファイルに変換する。</li>
+<li>sass-loader: sass形式のファイルを、JavaScript ファイルに変換する。</li>
+</ul>
+<p>プラグインは、変換処理以外の処理、ファイルの移動などの動作をするためのものです。</p>
+<ul>
+<li>html-webpack-plugin: webpack が出力したJSファイルを参照する&lt;script&gt;タグを挿入し、出力します。</li>
+<li>webpack-dev-server: 開発用の簡易のWebサーバーを起動できます。</li>
+</ul>
+<h2 id="_3">インストールと設定</h2>
+<p>ここでは、TypeScript のビルドをモジュールバンドルを試してみましょう。</p>
+<p>まず webpack をインストールします。プロジェクトフォルダに見立てた空フォルダを作成します。<a href="../02.package-manager/">package-manager</a> の章で作成下フォルダでもいいです。</p>
+<p>空フォルダを作成した場合は、<code>npm init</code> を実行します。</p>
+<p>webpack も npm のライブラリとして導入します。CLIコマンドとして実行するので、webpack-cli も一緒に導入します。</p>
+<p>開発環境で使い物なので、 -D をつけましょう。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn add -D webpack webpack-cli
+</code></pre></div>
+</td></tr></table>
+<p>webpack を動作するには、各種設定を記述した <code>webpack.config.js</code> ファイルが必要です。</p>
+<p>設定ファイルなのですが、JavaScript のコードとして書きます。</p>
+<p>リファレンスを見ながら書いていってもいいのですが、ここでは <code>yarn webpack init</code> コマンドを実行して、ウィザード形式で作ってみます。</p>
+<p>と叩くと、<code>@webpack-cli/generators</code> が必要だと言われます。<code>Y</code>を押してもいいのですが、yarn を使っているので、ここでは <code>n</code> としておきます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn add -D @webpack-cli/generators
+</code></pre></div>
+</td></tr></table>
+<p>改めて、<code>yarn webpack init</code> を実行します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn webpack init
+
+? Which of the following JS solutions <span class="k">do</span> you want to use? Typescript <span class="c1"># TypeScript を使う</span>
+? Do you want to use webpack-dev-server? Yes <span class="c1"># 開発用のローカルのWebサーバーを使う</span>
+? Do you want to simplify the creation of HTML files <span class="k">for</span> your bundle? Yes <span class="c1"># HTMLファイルを生成する</span>
+? Do you want to add PWA support? No <span class="c1"># PWA(プログレッシブ Web アプリケーション) をサポートするか</span>
+? Which of the following CSS solutions <span class="k">do</span> you want to use? none <span class="c1"># CSS(sass なども含む)to JS を行うか</span>
+? Do you like to install prettier to format generated configuration? No <span class="c1"># prettier の導入を行うか</span>
+? Pick a package manager: yarn <span class="c1"># npm or yarn どちらを使うか</span>
+<span class="o">[</span>webpack-cli<span class="o">]</span> ℹ INFO  Initialising project...
+ conflict package.json
+? Overwrite package.json? overwrite <span class="c1"># &#39;y&#39;を選ぶと &#39;overwrite&#39;</span>
+</code></pre></div>
+</td></tr></table>
+<p>処理が終わると、<code>webpack.config.js</code> ファイルが出来ていると思います。</p>
+<p>開いて中を確認してみましょう。ポイントだけ説明します。</p>
+<p><code>entry</code> とあるのは、webpack がはじめに読み込むファイルです。このファイルの中に書かれている <code>import</code> のファイルをたどって順次処理をしていきます。</p>
+<p>つまり、ほかから全く参照されないファイルは、この <code>entry</code> に書かれない限り対象とならない、ということになります。</p>
+<p><code>entry</code> は、配列にして複数のファイルを指定することも出来ます。その場合、<code>entry</code> ごとにマージされたファイルが作成されます。</p>
+<p><code>output</code> ファイルは、出力するファイルパスを指定します。<code>path</code> はディレクトリ名になります。これだけでも良いのですが、ファイル名を指定することも出来ます。指定しない場合は、<code>main.js</code> となります。<code>entry</code> が複数ある場合は、<code>entry</code> 名がファイル名に付きます。</p>
+<p><code>devServer</code> は、ローカルで動作するWebサーバーの動作環境の設定です。</p>
+<p><code>plugins</code> には、WebPack に導入するプラグインの初期化と設定を行います。<br />
+ここで指定している HTMLWebpackPlugin は、雛形のHTMLファイルに 出力される JavaScript を参照する Script タグを追加して、<code>output</code> のフォルダに出力するものです。</p>
+<p><code>module</code> の <code>rules</code> には、拡張子毎にどのローダーを利用するかを設定します。</p>
+<p>最後の、<code>isProduction</code> で判断している箇所ですが、これは <code>mode</code> の値を設定しています。<br />
+<code>mode</code> は、バンドルされたJavaScriptをコードが見やすい形に出力するか、minify してなるべく小さくなるように出力するかの違いです。</p>
+<p><code>development</code> とすると見やすい形に、<code>production</code>とすると minify されます。</p>
+<p><code>package.json</code> を見てみると、script が追加されています。webpack の実行は、このスクリプトを使うと良いでしょう。</p>
+<p>また<code>name</code>の値も変わってしまっているので、注意してください。</p>
+<h2 id="_4">動作確認</h2>
+<p>実際にコードを書いてバンドルしてみます。</p>
+<p>まずは、<code>webpack init</code> ですでに index.ts が作成されていますので、これを webpack にかけてみます。<br />
+内容は、<code>console.log</code>が1行あるだけです。</p>
+<p>webpackを実行するには、</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn build:dev
+</code></pre></div>
+</td></tr></table>
+<p>dist フォルダが作成されました。<code>index.html</code> と <code>main.js</code> が生成されています。</p>
+<p><code>main.js</code> を見てみると、なにやら書かれていますが、ブラウザでHTMLを確認してみましょう。</p>
+<p>開発用の Webサーバーを起動します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn serve
+</code></pre></div>
+</td></tr></table>
+<p>Hello World! と出ています。F12 キーを押してコンソールを確認します。。</p>
+<p><code>Hello World!</code> と出ていて、index.ts に書かれたコードが実行されたことがわかります。</p>
+<p>また、<code>serve</code> のコマンドでビルドも行われ、さらにファイルが変更されたら自動的に差分ビルドを実施します。</p>
+<p><code>index.ts</code>を変更してみましょう。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Hello WebPack &amp; Typescript!&quot;</span><span class="p">);</span>
+</code></pre></div>
+</td></tr></table>
+<p>待ちの状態だったコンソールが更新されました。ビルドが実行されたということです。<br />
+さらに、ブラウザも勝手にリロードしました。コンソールに、変更したメッセージが表示されていると思います。</p>
+<p>このように、WebPack を使うと変換する手間が増えるように思われますが、このような仕組みを使うことで、開発効率が上がります。</p>
+<h2 id="_5">バンドルを試してみる</h2>
+<h3 id="_6">プロジェクト内で分割したファイルを参照する</h3>
+<p>先程は、1つのファイルで変換したので、今度は複数のファイルをバンドルしてみましょう。</p>
+<p><code>hello.ts</code> を追加します。</p>
+<p>ここに、下記コードを書きます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">export</span> <span class="kd">const</span> <span class="nx">hello</span> <span class="o">=</span> <span class="p">(</span><span class="nx">name</span>: <span class="kt">string</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="sb">`こんにちは、</span><span class="si">${</span><span class="nx">name</span><span class="si">}</span><span class="sb"> さん`</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
+</td></tr></table>
+<p><code>export</code> とすることでその変数や関数を、import で参照したファイルの方で、使うことが出来ます。</p>
+<p>これをコンソールに出力するのはつまらないので、DOMを操作して画面にメッセージを表示してみましょう。</p>
+<p>まず <code>index.html</code> に 出力先となる <code>id='app'</code> を持つタグを追加します。<br />
+<code>dist</code> の下にある <code>index.html</code> </p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Hello world!<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>Tip: Check your console<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;app&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</code></pre></div>
+</td></tr></table>
+<p><code>index.ts</code> を編集します。名前のところは適当に変えてください。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="p">{</span> <span class="nx">hello</span> <span class="p">}</span> <span class="kr">from</span> <span class="s2">&quot;./hello&quot;</span><span class="p">;</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Hello Webpack &amp; TypeScript!&quot;</span><span class="p">);</span>
+
+<span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">).</span> <span class="o">=</span> <span class="nx">hello</span><span class="p">(</span><span class="s2">&quot;えびはら&quot;</span><span class="p">);</span>
+</code></pre></div>
+</td></tr></table>
+<p><code>yarn serve</code> を実行したままであれば保存するとビルドが実行されるはずです。</p>
+<p>画面には、<code>hello.ts</code>の関数で生成された文字列が表示されています。複数に分けたファイルがマージされていることがわかります。</p>
+<h3 id="yarn-add">yarn add でインストールしたパッケージを参照する</h3>
+<p><code>yarn add</code> でインストールしたパッケージを参照してみます。</p>
+<p>以前のセクションでも少し触れましたが、dayjs を使ってみましょう。</p>
+<p>新しいフォルダで始めた場合は、インストールしてください。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn add dayjs
+</code></pre></div>
+</td></tr></table>
+<p><code>hello.ts</code>　でパッケージを参照してみましょう。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nx">dayjs</span> <span class="kr">from</span> <span class="s2">&quot;dayjs&quot;</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">hello</span> <span class="o">=</span> <span class="p">(</span><span class="nx">name</span>: <span class="kt">string</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">date</span> <span class="o">=</span> <span class="nx">dayjs</span><span class="p">().</span><span class="nx">format</span><span class="p">(</span><span class="s2">&quot;YYYY-MM-DD HH:mm&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="sb">`こんにちは、</span><span class="si">${</span><span class="nx">name</span><span class="si">}</span><span class="sb"> さん </span><span class="si">${</span><span class="nx">date</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
+</td></tr></table>
+<p>保存して実行すると、名前の後に日時が表示されると思います。</p>
+<p>パッケージは、<code>node_modules</code> に入りますが、ここにあるものはパスを指定する必要はありません。基本的に名前にはパッケージ名を入れますが、ライブラリによっては異なる場合があるので、それごとの Readme を確認してください。</p>
+<p><code>index.ts</code> で書いたように、<code>node_modules</code>にないファイルについては、同じフォルダであっても、<code>./</code> のパスから書くようにします。</p>
+<h2 id="_7">まとめ</h2>
+<p>Webpack では、例えば React などのフレームワークの部分と、独自に実装した部分を分けてバンドルするなど出来ます。そうすることで、プログラムを変更したときでも、フレームワークの部分は変わらないので、ユーザーはブラウザのキャッシュが使え、レスポンスの向上が期待できます。</p>
+<p>このように、Webpackには多くの機能があります。ここでは基本的な機能のみを説明しましたが、Web上には多くの記事があるので、各自で調べてみてください。</p>
+<p>コードのメンテナンス性を保つには、プログラムをモジュール=ファイルの単位に適切に区切って、管理することが必要です。</p>
+<p>ツールの使い方だけでなく、そのあたりの設計も重要になります。</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../04.language/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 言語 - ES20xx / TypeScript" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              言語 - ES20xx / TypeScript
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../06.web-framework/" class="md-footer__link md-footer__link--next" aria-label="Next: はじめに" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              はじめに
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.b1047164.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@8.0.0/dist/mermaid.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+      
+        <script src="../javascripts/config.js"></script>
+      
+    
+  </body>
+</html>

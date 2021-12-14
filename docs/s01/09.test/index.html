@@ -1,0 +1,1469 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <meta name="author" content="EBIHARA Kenji (kenji.ebihara@jrits.ricoh.co.jp)">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
+    
+    
+      
+        <title>Webアプリケーションのテスト - Webアプリ開発の基本</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.a57b2b03.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/mermaid@8.0.0/dist/mermaid.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
+    
+      <link rel="stylesheet" href="../custom.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#web" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Webアプリ開発の基本" class="md-header__button md-logo" aria-label="Webアプリ開発の基本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Webアプリ開発の基本
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Webアプリケーションのテスト
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Webアプリ開発の基本" class="md-nav__button md-logo" aria-label="Webアプリ開発の基本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Webアプリ開発の基本
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Top Page
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01.architecture/" class="md-nav__link">
+        Webアプリケーションのアーキテクチャ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02.package-manager/" class="md-nav__link">
+        パッケージ・マネージャ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03.libraries/" class="md-nav__link">
+        JavaScript でよく使用されるライブラリ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04.language/" class="md-nav__link">
+        言語 - ES20xx / TypeScript
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05.webpack/" class="md-nav__link">
+        モジュールバンドラ: Webpack
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Webフレームワーク
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Webフレームワーク" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Webフレームワーク
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06.web-framework/" class="md-nav__link">
+        はじめに
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06.web-framework/react/" class="md-nav__link">
+        React
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06.web-framework/vuejs/" class="md-nav__link">
+        Vue.js
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07.linter-formatter/" class="md-nav__link">
+        Linter と Formatter
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          非同期関数
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="非同期関数" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          非同期関数
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08.async-functions/" class="md-nav__link">
+        概要
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08.async-functions/react/" class="md-nav__link">
+        React を使った例
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Webアプリケーションのテスト
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Webアプリケーションのテスト
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    概要
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    テストは必須
+  </a>
+  
+    <nav class="md-nav" aria-label="テストは必須">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    品質はテストできない
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    テスト書いてないとか・・・
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    テストの種類
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    テストの自動化
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tdd-bdd" class="md-nav__link">
+    テスト駆動開発（TDD） / ビヘイビア開発（BDD）
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#javascript-typescript" class="md-nav__link">
+    JavaScript / TypeScript における テストフレームワーク
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jest" class="md-nav__link">
+    Jest でのテストコードの実践
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    テスト駆動開発
+  </a>
+  
+    <nav class="md-nav" aria-label="テスト駆動開発">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    開発サイクル
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    リングバッファの仕様
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    プロジェクトの準備
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#todo" class="md-nav__link">
+    TODO を考える
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    大きさを指定してバッファを作成する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    バッファから最新の値を取得する
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    概要
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    テストは必須
+  </a>
+  
+    <nav class="md-nav" aria-label="テストは必須">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    品質はテストできない
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    テスト書いてないとか・・・
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    テストの種類
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    テストの自動化
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tdd-bdd" class="md-nav__link">
+    テスト駆動開発（TDD） / ビヘイビア開発（BDD）
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#javascript-typescript" class="md-nav__link">
+    JavaScript / TypeScript における テストフレームワーク
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jest" class="md-nav__link">
+    Jest でのテストコードの実践
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    テスト駆動開発
+  </a>
+  
+    <nav class="md-nav" aria-label="テスト駆動開発">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    開発サイクル
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    リングバッファの仕様
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    プロジェクトの準備
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#todo" class="md-nav__link">
+    TODO を考える
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    大きさを指定してバッファを作成する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    バッファから最新の値を取得する
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="web">Webアプリケーションのテスト</h1>
+<h2 id="_1">概要</h2>
+<p>ここでは、Webアプリケーションのテストについて解説します。</p>
+<p>テスト全般の話と、主に Unit Test として書かれるテストプログラムとそれに使用するテストフレームワークについて、説明します。</p>
+<h2 id="_2">テストは必須</h2>
+<h3 id="_3">品質はテストできない</h3>
+<blockquote>
+<p>「テストから見えてくる グーグルのソフトウェア開発」より抜粋<br />
+「品質はテストではない。品質は、開発とテストを互いに区別できなくなるまでに融合することによって実現される。」</p>
+</blockquote>
+<h3 id="_4">テスト書いてないとか・・・</h3>
+<pre>
+　　　　 ,、,,,、,,, 
+　　　 _,,;' '" '' ;;,, 
+　　（rヽ,;''""''゛゛;,ﾉｒ）　　　　 
+　　 ,; i ___　、___iヽ゛;,　　テスト書いてないとかお前それ
+　 ,;'''|ヽ・〉〈・ノ |ﾞ ';,    @t_wadaの前でも同じ事言えんの？
+　 ,;''"|　 　▼　　 |ﾞ゛';, 
+　 ,;''　ヽ ＿人＿  /　,;'_ 
+ ／ｼ、    ヽ  ⌒⌒  /　 ﾘ　＼ 
+|　　 "ｒ,,｀"'''ﾞ´　　,,ﾐ| 
+|　　 　 ﾘ、　　　　,ﾘ　　 | 
+|　　i 　゛ｒ、ﾉ,,ｒ" i _ | 
+|　　｀ー――-----------┴ ⌒´ ） 
+（ヽ  _____________ ,, ＿´） 
+ （_⌒_______________ ,, ィ 
+     T                 |
+     |                 |
+</pre>
+
+<p><a href="https://mercan.mercari.com/articles/19386/">プログラマでテスト駆動開発者の@t_wadaさんをお招きした社内勉強会での様子をお届け！＃メルカリな日々 | mercan (メルカン)</a></p>
+<blockquote>
+<p>@t_wada：時間を優先するために品質を犠牲にできると信じている人もなかにはいるが、それは「間違い」である。短期的には速度があがっているように見えても、それは「一時的な錯覚」。この短期的の終わりがくる損益分岐点は、3年後とかではなく、1ヶ月以内にあらわれる。つまり、ソフトウェアにおける品質である内部品質を上げることで、手戻りや無駄がなくなり結果的にスピードがあがる。それによって学びのループを高速に回せて外部品質が上がる。</p>
+</blockquote>
+<h2 id="_5">テストの種類</h2>
+<p>テストには、通常、テストの範囲、目的によって「単体」「結合(統合)」「総合」と分け方をすることが多いですが、場合によっては４区分くらいに分ける場合もあります。</p>
+<p>また、プロジェクトによって同じ名称でも内容が異なることがあるので、チームで明示的に定義する必要があります。</p>
+<p>ちなみに、下記書籍で Google でのソフトウェア開発におけるテストでは、上記の呼称ではなく、small, medium, large, enormous(巨大な) の指針の例として、下記が挙げられています。</p>
+<p><a href="https://www.amazon.co.jp/%E3%83%86%E3%82%B9%E3%83%88%E3%81%8B%E3%82%89%E8%A6%8B%E3%81%88%E3%81%A6%E3%81%8F%E3%82%8B-%E3%82%B0%E3%83%BC%E3%82%B0%E3%83%AB%E3%81%AE%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2%E9%96%8B%E7%99%BA-%E3%82%B8%E3%82%A7%E3%83%BC%E3%83%A0%E3%82%BA%E3%83%BB%E3%82%A6%E3%82%A3%E3%83%86%E3%82%AB%E3%83%BC/dp/482228512X">テストから見えてくる グーグルのソフトウェア開発 | ジェームズ・ウィテカー, ジェーソン・アーボン, ジェフ・キャローロ, 長尾高弘 |本 | 通販 | Amazon</a></p>
+<p>(書籍からの要約です。(補足)　は、海老原の所感です。)</p>
+<ul>
+<li>
+<p>small</p>
+<ul>
+<li>環境から切り離してコード単一の振る舞いをチェックする。たとえばクラスや関数単位のでテスト。</li>
+<li>Googleの社外では一般的には「単体テスト」と呼ばれる。</li>
+<li>大規模テストでは到達不可能なところまで包括的にカバーする。</li>
+<li>外部のサービス、モジュールはモックとし、外部依存がないものとする。<ul>
+<li>(補足)外部とはテスト対象のモジュールではないもの。JavaScriptのプロジェクトではモジュール ≒ ファイル。<br />
+  とはいえ、文字列変換など単純なユーティリティ的なものはモック化しないことも。<br />
+  その場合でも、自作のユーティリティであれば、それ自体も単体でテストする。</li>
+</ul>
+</li>
+<li>頻繁に実行され高速に実行できること。</li>
+<li>実装と同時にテストコードを書いていく必要がある。<ul>
+<li>(補足)small test として開発ステップがあるのではなく、実装に small test が含まれる。(開発とテストの融合)</li>
+<li>(補足)テスト記述 -&gt; コーディング -&gt; リファクタ を繰り返す。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>medium</p>
+<ul>
+<li>複数のモジュール間のやり取りをチェックする。</li>
+<li>Googleの社外では一般的には「統合テスト」と呼ばれる。</li>
+<li>small テストより範囲が広く、時間もかかる。</li>
+<li>モジュールの限られたサブセットとの間のやり取りをテストする。</li>
+<li>対象以外のモジュールはモック化することが多い。<ul>
+<li>(補足)localhost で実行される DB などに接続することなどはある。</li>
+</ul>
+</li>
+<li>実行タイミングは、small よりもまばら。<ul>
+<li>(補足)自動テストができれば、1日に1回くらいか。</li>
+<li>(補足)手動であれば、実装、small テストが終わった段階で、など。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>large, enormous</p>
+<ul>
+<li>システム全体が正しく動作しているかをチェックする。<ul>
+<li>(補足)複数のシステムで1つの要件を満たす場合など、個々のシステムのテストを large、全体を enormous とすることになるかと思う。</li>
+<li>(補足)コンテナによるモジュール化、マイクロサービス化が進むと、どのテストレベルでどういった組み合わせを行うかの検討が必要。</li>
+</ul>
+</li>
+<li>環境は本番と同じか近いもので、モックは使うことはない。</li>
+<li>外部のサービスなどのリソースを使うこともある。<ul>
+<li>(補足)large では、軽量フェイクのサービス、enormous は、先方が用意しているの検証環境といった区別があるかと思う。</li>
+</ul>
+</li>
+<li>基本的に手動で時間のかかるテストとなる。<ul>
+<li>(補足)実行のタイミングは、リリース前が考えられる</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>これらの区分は、Google 内でもプロジェクトや製品ごとに細かく違うそうで、作っているものの性質、チームメンバーのスキルなどに合わせて定義する必要があります。</p>
+<p>ここでは、テストの呼称を上の small, medium, large, enormous として呼ぶこととします。</p>
+<h2 id="_6">テストの自動化</h2>
+<p>継続してメンテナンスするアプリケーションについては、各テストレベルでは、できる限り自動テストを実行すべきです。</p>
+<p>"問題が、人間の直感や習慣、思考に関するものでなければ自動化すべし"と Google の指針でも謳っています。</p>
+<p>テスト規模が小さくなるほど、機械で判断できる事が多いと思うので、smallテストでは、現在はテストを書くことが必須である、という認識でいるべきでしょう。</p>
+<h2 id="tdd-bdd">テスト駆動開発（TDD） / ビヘイビア開発（BDD）</h2>
+<p>テスト駆動開発とは（TDD）、はじめにテストを書き、そのテストが成功するのに最低限必要な実装を行ってテストを成功させ、コードを洗練させる（リファクタリング）という、短い繰り返しで実装を行うスタイルのことです。</p>
+<p>メリットとして、下記が挙げられます。</p>
+<ul>
+<li>必要最低限のコードしか書かなくなる。</li>
+<li>コードのリファクタや変更による影響をすぐに確認できる。</li>
+<li>複雑な仕様を1つずつ整理しながら実装することで、実装の速度を上げられる。</li>
+<li></li>
+</ul>
+<p>ビヘイビア開発（BDD）は、TDD を拡張し、要求仕様から振る舞いや条件などを自然言語に近い形でテストコードを記述する点が上げられます。テスト駆動開発が、テストを先に書くことに比べ、仕様を先に書く、という点が異なります。</p>
+<p>個人的には、仕様≒テスト だと思いますので、TDD を始めると自然な形として BDD に帰着するのだと思います。</p>
+<p><a href="https://atmarkit.itmedia.co.jp/ait/articles/1403/05/news035_3.html">テスト駆動開発／振る舞い駆動開発を始めるための基礎知識：いまさら聞けないTDD/BDD超入門（1）（3/3 ページ） - ＠IT</a></p>
+<h2 id="javascript-typescript">JavaScript / TypeScript における テストフレームワーク</h2>
+<p>JavaScript に限らず、テストコードを書いたり実施するには、効率化のためテストフレームワークを利用することが多いです。</p>
+<p>テストフレームワークでは下記のような機能を提供します。</p>
+<ul>
+<li>テストの記述ルール</li>
+<li>モック作成</li>
+<li>評価・結果の表示</li>
+<li>ブラウザなどUIのシミュレート</li>
+<li>カバレッジ</li>
+</ul>
+<p>基本的に、ブラウザなどUIを使用せず、シェル上で動作することが必要です。そうすることで Git にプルリクした時や、リリース前に自動でテストを流す、ということができるからです。</p>
+<p>JavaScript / TypeScript 用のテストフレームワークは、いくつかありますが、Jest と呼ばれるものが最も使用されていると思います。</p>
+<p><a href="https://jestjs.io/ja/#:~:text=Jest%20%E3%81%AF%E3%81%82%E3%82%89%E3%82%86%E3%82%8B%20JavaScript%20%E3%81%AE,%E3%83%86%E3%82%B9%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0%E3%83%95%E3%83%AC%E3%83%BC%E3%83%A0%E3%83%AF%E3%83%BC%E3%82%AF%E3%81%A7%E3%81%99%E3%80%82">Jest · 🃏 Delightful JavaScript Testing</a></p>
+<p>特徴として下記があるとおもいます。</p>
+<ul>
+<li>必要なものがワンパッケージになっている。</li>
+<li>モックが書きやすい。</li>
+<li>結果が見やすい。</li>
+</ul>
+<h2 id="jest">Jest でのテストコードの実践</h2>
+<p>以前作った React のプロジェクトを利用します。</p>
+<p>プロジェクトフォルダで、yarn で Jest をインストールします。同時に、TypeScript でテストを書きたいので、Jest の型定義 <code>@types/jest</code> と TypeScript でテストを直接実行するための <code>ts-jest</code> をあわせて入れます。</p>
+<p><a href="https://kulshekhar.github.io/ts-jest/">ts-jest</a></p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn add -D jest @types/jest ts-jest
+</code></pre></div>
+</td></tr></table>
+<p>Jest の設定ファイルを作成します。 <code>--init</code> をオブションにつけて実行すると、ウィザード形式で作成できます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>&gt; yarn jest --init
+
+<span class="c1"># package.json のスクリプトに、テストを実行する &quot;test&quot; を追加してよいか？</span>
+✔ Would you like to use Jest when running <span class="s2">&quot;test&quot;</span> script <span class="k">in</span> <span class="s2">&quot;package.json&quot;</span>? … yes
+<span class="c1">#  設定ファイルを TypeScript  で出力するか？</span>
+✔ Would you like to use Typescript <span class="k">for</span> the configuration file? … no
+<span class="c1">#  テストを実行する環境</span>
+✔ Choose the <span class="nb">test</span> environment that will be used <span class="k">for</span> testing › node
+<span class="c1"># カバレッジレポートを出力するか？（実行時にオプションで指定もできる）</span>
+✔ Do you want Jest to add coverage reports? … no
+<span class="c1">#  カバレッジレポートの計測に、どのプロバイダを使用するか</span>
+✔ Which provider should be used to instrument code <span class="k">for</span> coverage? › v8
+<span class="c1"># テストごとに自動的にモックのクリア（spyの計測値をリセットする）する。</span>
+✔ Automatically clear mock calls and instances between every test? … yes
+</code></pre></div>
+</td></tr></table>
+<p><code>jest.config.js</code> が作成されました。</p>
+<p>このファイルを開き、<code>ts-jest</code> のための設定を行います。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1">// 他の設定</span>
+    <span class="nx">preset</span><span class="o">:</span> <span class="s2">&quot;ts-jest&quot;</span><span class="p">,</span> <span class="c1">// &lt;-- 追加</span>
+<span class="p">};</span>
+</code></pre></div>
+</td></tr></table>
+<p>簡単なテストを書いて試してみます。<code>src</code>ディレクトリの下に、<code>__tests__</code> フォルダを作成します。テストのファイルを入れるディレクトリとして、この名前が一般的です。</p>
+<p>ここに、<code>first-test.test.ts</code>ファイルを作成します。内容を下記のようにします。ファイル名の末尾が <code>.test.ts</code> なのも慣習的なものです。VSCode のファイルリストではテストのアイコンに変わるため、判別しやすくなります。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;first-rest&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">a</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span><span class="p">;</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">a</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+</td></tr></table>
+<p>これは、変数 <code>a</code> が "test" という文字列であるか、という確認になります。当たり前ですが、これはテストが成功します。シェルで <code>yarn test</code> を実行します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>&gt; yarn test
+yarn run v1.22.15
+$ jest
+ PASS  src/__tests__/first-test.test.ts
+  ✓ first-rest (3 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        4.348 s
+Ran all test suites.
+Done in 4.99s.
+</code></pre></div>
+</td></tr></table>
+<p>失敗させてみます。 <code>const a = 'test1'</code> に変更して、再度テストを実施します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>&gt; yarn test
+yarn run v1.22.15
+$ jest
+ FAIL  src/__tests__/first-test.test.ts
+  ✕ first-rest (3 ms)
+
+  ● first-rest
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: &quot;test&quot;
+    Received: &quot;test1&quot;
+
+      1 | test(&#39;first-rest&#39;, () =&gt; {
+      2 |   const a = &#39;test1&#39;;
+    &gt; 3 |   expect(a).toBe(&#39;test&#39;);
+        |             ^
+      4 | });
+      5 |
+
+      at Object.&lt;anonymous&gt; (src/__tests__/first-test.test.ts:3:13)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 1 total
+Snapshots:   0 total
+Time:        4.003 s, estimated 5 s
+Ran all test suites.
+error Command failed with exit code 1.
+</code></pre></div>
+</td></tr></table>
+<p>このように、どこでどのように失敗したかがわかりやすく表示されます。</p>
+<blockquote>
+<p>Linux (WSLなども)、Powershell では 結果に色がついて見やすくなります。<br />
+Windows のコマンドプロンプトには色をつける機能はないので、単色で表示されます。
+WSL か、Powershell の使用をおすすめします。</p>
+</blockquote>
+<h2 id="_7">テスト駆動開発</h2>
+<p>ここではテスト駆動開発の実践として、リングバッファのクラスを実装することを題材としてみます。</p>
+<p>テスト駆動開発とは、コードを設計・実装するのにテストを軸に進めていくという、開発手法であり、決してテスト手法ではない、ということに注意すべきです。</p>
+<p>テストファースト、という実装方法もありますが、これはあくまでもテストを先に書く、という実装手法であり、設計には及んでいません。</p>
+<h3 id="_8">開発サイクル</h3>
+<p>テスト駆動開発では、下記のようなステップを繰り返して進めます。</p>
+<ol>
+<li>テストを書く<ul>
+<li>必ず失敗する</li>
+</ul>
+</li>
+<li>テストが成功するようにコードを書く<ul>
+<li>成功すること重点を置き、コードの見やすさ、管理のしやすさなどは度外視する。</li>
+<li>ここに時間を掛けないようにする。</li>
+</ul>
+</li>
+<li>コードをリファクタリングする。<ul>
+<li>ここで時間を掛けて、コードの見やすさ、運用のしやすさ、重複の排除などを行う。</li>
+</ul>
+</li>
+</ol>
+<p>また、実装中に生じた懸念やテスト不足は、Todo としてどんどん足して、それらを解消するように上のステップを繰り返していきます。</p>
+<p>ここで、実際にコードを書きながらテスト駆動開発を体験してみましょう。</p>
+<h3 id="_9">リングバッファの仕様</h3>
+<p>バッファとは、データを一時的に保持しておくものです。データの提供側と受け取り側のタイミングが異なる場合などに使用します。簡単な例だと、クリップボードがバッファと言えるでしょう。</p>
+<p>リングバッファは、同じ型の複数のデータをキャッシュしますが、バッファとして上限が有り、上限に達すると、はじめのバッファを上書きしていくようにします。</p>
+<p>リングバッファから値を取り出すときには、最新のものを取得したり、最新からいくつか古いデータを取り出したりします。</p>
+<p>ですので、現在の最新がどこであるかの場所も保持しておく必要がありそうです。</p>
+<h3 id="_10">プロジェクトの準備</h3>
+<p>空のフォルダを作成し、プロジェクトフォルダとします。</p>
+<p><code>package.json</code> を作成し、必要なライブラリをインストールします。</p>
+<p>ここでは、言語は <code>TypeScript</code>、テストフレームワークは、<code>jest</code> を利用します。
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>$ npm init <span class="c1"># Enter 連打でウィザードを終了させる</span>
+$ npm install -D typescript ts-node eslint prettier eslint-config-prettier jest jest ts-jest @types/jest
+</code></pre></div>
+</td></tr></table></p>
+<p>eslint の設定</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>$ npx eslint --init
+✔ How would you like to use ESLint? · problems
+✔ What <span class="nb">type</span> of modules does your project use? · esm
+✔ Which framework does your project use? · none
+✔ Does your project use TypeScript? · No / Yes
+✔ Where does your code run? · node
+✔ What format <span class="k">do</span> you want your config file to be <span class="k">in</span>? · YAML
+✔ Would you like to install them now with npm? · No / Yes
+</code></pre></div>
+</td></tr></table>
+<p><code>.eslint.yml</code> の修正</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>plugins:
+  - &quot;@typescript-eslint&quot;
+  - prettier # 追加
+</code></pre></div>
+</td></tr></table>
+<p>tsconfig.json の作成</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>$ npx tsc --init -moduleResolution node
+</code></pre></div>
+</td></tr></table>
+<p>prettier の設定ファイルのロード<br />
+※ Linux, macOSの場合。windows の場合は、Powershell を使用する
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>curl -LO https://raw.githubusercontent.com/rits-ebihara/webdev-study/main/practice-react/.prettierrc.yml
+</code></pre></div>
+</td></tr></table></p>
+<p>Visual Studio Code を使っていて、ESLint や Prettier の拡張機能が入っていない場合は、入れておくと便利です。</p>
+<p><a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">ESLint - Visual Studio Marketplace</a></p>
+<p><a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode">Prettier - Code formatter - Visual Studio Marketplace</a></p>
+<p>ソースコードのフォルダを作成します。</p>
+<p><code>src</code> と その中に、テストのファイルを格納する <code>__tests__</code> を用意します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>mkdir -p src/__tests__
+</code></pre></div>
+</td></tr></table>
+<p>実装を書いていく <code>src/ringBuffer.ts</code> と、そのテストを書いていく <code>src/__tests__/ringBuffer.test.ts</code> を作成しましょう。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>touch src/ringBuffer.ts
+touch src/__tests__/ringBuffer.test.ts
+</code></pre></div>
+</td></tr></table>
+<p>jest の設定をします。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>$ npx jest --init
+✔ Would you like to use Jest when running <span class="s2">&quot;test&quot;</span> script <span class="k">in</span> <span class="s2">&quot;package.json&quot;</span>? … yes
+✔ Would you like to use Typescript <span class="k">for</span> the configuration file? … no
+✔ Choose the <span class="nb">test</span> environment that will be used <span class="k">for</span> testing › node
+✔ Do you want Jest to add coverage reports? … no
+✔ Which provider should be used to instrument code <span class="k">for</span> coverage? › v8
+✔ Automatically clear mock calls, instances and results before every test? … yes
+</code></pre></div>
+</td></tr></table>
+<p>ts-jest の設定のため、<code>jest.config.js</code> を変更します。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">jest.config.js</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="nx">preset</span><span class="o">:</span> <span class="s1">&#39;ts-jest&#39;</span><span class="p">,</span>
+</code></pre></div>
+</td></tr></table>
+<h3 id="todo">TODO を考える</h3>
+<p>リングバッファを作る上で、はじめに考えられる機能や確認事項を列挙してみましょう。</p>
+<p>今はあまり深く考えなくていいです。この TODO は実装中に判明した問題や課題を追加していくことになります。</p>
+<p>TODO をテストファイルにコメントとして記載していきましょう</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/ringBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cm">/*</span>
+<span class="cm">- 大きさを指定してバッファを作成する</span>
+<span class="cm">- バッファから最新の値を取得する</span>
+<span class="cm">- バッファから最新から指定した数を戻ったインデックスの値を取得する</span>
+<span class="cm">- バッファに値を追加する</span>
+<span class="cm">*/</span>
+</code></pre></div>
+</td></tr></table>
+<p>どれから実装しましょう。実装イメージが付きやすいものから取り組むのが良いでしょう。"大きさを指定してバッファを作成する" が考えやすそうです。これから始めてみましょう。</p>
+<h3 id="_11">大きさを指定してバッファを作成する</h3>
+<p>まずは、TODO リストで取り掛かる作業の項目に <code>➡</code> (UTF-8 の emoji です 'やじるし'で変換) をつけておきましょう。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/ringBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cm">/*</span>
+<span class="hll"><span class="cm">➡ 大きさを指定してバッファを作成する</span>
+</span><span class="cm">- バッファから最新の値を取得する</span>
+<span class="cm">- バッファから最新から指定した数を戻ったインデックスの値を取得する</span>
+<span class="cm">- バッファに値を追加する</span>
+<span class="cm">*/</span>
+</code></pre></div>
+</td></tr></table>
+<p>"バッファを作成”ということなので、まずはコンストラクタ関数を実装・・・ではなく、テストを書きましょう。コンストラクタ関数にサイズとなる 10 を引数として渡します。評価として、クラスで作成されたバッファの配列の大きさをチェックします。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/ringBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="p">{</span> <span class="nx">RingBuffer</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;../ringBuffer&#39;</span><span class="p">;</span>
+
+<span class="nx">test</span><span class="p">(</span><span class="s1">&#39;バッファの大きさを指定してバッファを作成する&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">10</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">buffer</span><span class="p">.</span><span class="nx">length</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="mf">10</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+</td></tr></table>
+<p>まだ、実装としてなにもないので、もちろんコンパイルエラーにになります。まずは、コンパイルエラーにならないように実装しますが、少し気になる点があります。</p>
+<p>buffer が参照されていることです。これが外部に公開されているのは、不味いです。利用者側で勝手に変更されないように、private にしたいところですが、今の実装には関係ありません。こういった実装中の懸念点は、TODO に書き足していきましょう。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/ringBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cm">/*</span>
+<span class="cm">➡ 大きさを指定してバッファを作成する</span>
+<span class="cm">- バッファから最新の値を取得する</span>
+<span class="cm">- バッファから最新から指定した数を戻ったインデックスの値を取得する</span>
+<span class="cm">- バッファに値を追加する</span>
+<span class="hll"><span class="cm">- buffer を非公開にする</span>
+</span><span class="cm">*/</span>
+</code></pre></div>
+</td></tr></table>
+<p>いまは、コンパイルエラーがなくなるための最低限の実装を行ってみましょう。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/ringBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">export</span> <span class="kd">class</span> <span class="nx">RingBuffer</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="kr">constructor</span><span class="p">(</span><span class="nx">size</span>: <span class="kt">number</span><span class="p">)</span> <span class="p">{}</span>
+  <span class="k">public</span> <span class="nx">buffer</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>なんてひどい実装でしょう。しかし、いきなり正しい実装をするのではなく、１歩ずつすすめるのが TDD です。コードを綺麗にする機会は、このあとにあるので安心して下さい。</p>
+<p>コンパイルエラーはなくなりましたので、テストを動かしてみましょう。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    Expected: 10
+    Received: 0
+
+      13 | test(&#39;バッファの大きさを指定してバッファを作成する&#39;, () =&gt; {
+      14 |   const ringBuffer = new RingBuffer(10);
+    &gt; 15 |   expect(ringBuffer.buffer.length).toBe(10);
+         |                                    ^
+      16 | });
+      17 |
+</code></pre></div>
+</td></tr></table>
+<p>もちろん、テストは失敗します。でも、着実に実装は進んでいるという証です。</p>
+<p>このテストをクリアするように、“最低限”の実装をします。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/ringBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">export</span> <span class="kd">class</span> <span class="nx">RingBuffer</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="kr">constructor</span><span class="p">(</span><span class="nx">size</span>: <span class="kt">number</span><span class="p">)</span> <span class="p">{}</span>
+  <span class="k">public</span> <span class="nx">buffer</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="mf">10</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>今度はテストが成功しました！赤色が緑色に変わるということで気分もスッキリです。しかしこれで終わりでないのは判っているでしょう。やっぱりひどい実装ですね。</p>
+<p>このあとは、コードの重複を削除する、という作業に取り掛かります。コードの重複とは、同じようなロジックが記述してあることもそうですが、データの重複もあります。</p>
+<p>ここでは、<code>10</code> という数字が実装の中とテストで出てきています。これを解消するには、実装の方から <code>10</code> という数値を取り除く必要があります。</p>
+<p><code>10</code> はテストで、コンストラクタ関数から渡された値を参照すればいいので、次のような実装にしてみます。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/ringBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">export</span> <span class="kd">class</span> <span class="nx">RingBuffer</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="kr">constructor</span><span class="p">(</span><span class="nx">size</span>: <span class="kt">number</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">size</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">public</span> <span class="nx">buffer</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>保存しても、テストは成功したままで、安心できます。</p>
+<p>ここで、ちょっと懸念があります。<code>buffer</code> の配列はの型は何でしょうか？このままでは、<code>any</code> の配列となり、配列に何でも入ってしまいます。配列の１番目に <code>string</code> 、２番めに <code>number</code> ということもできてしまいます。型安全のことを考えると、型が指定されていたほうが良いですがこれは、利用者側が指定できるようにしたほうが汎用性が高くなるでしょう。</p>
+<p>まだバッファのサイズは、マイナスや0はありえないですし、大きすぎるバッファも困りものです。これらの入力チェックも必要そうです。</p>
+<p>こららのことも TODO において、後で解決してみましょう。</p>
+<p>また、"大きさを指定してバッファを作成する" のタスクは完了したので、先頭を <code>✔</code> にしておきます。 </p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/ringBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cm">/*</span>
+<span class="hll"><span class="cm">✔ 大きさを指定してバッファを作成する</span>
+</span><span class="cm">- バッファから最新の値を取得する</span>
+<span class="cm">- バッファから最新から指定した数を戻ったインデックスの値を取得する</span>
+<span class="cm">- バッファに値を追加する</span>
+<span class="hll"><span class="cm">- buffer を非公開にする</span>
+</span><span class="hll"><span class="cm">- バッファの型を指定できるようにする</span>
+</span><span class="cm">- バッファの大きさの制限を設ける</span>
+<span class="cm">*/</span>
+</code></pre></div>
+</td></tr></table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>このように、細かくステップを踏んで進めていくことが大事です。実際すべての実装でここまで細かくやるのかというと、'No' です。ですが、複雑な問題を考えるときに、このように細かくステップを分ける、ということが大事で、小さすぎるかな、というところまでできたところがちょうどよいサイズ、といえます。</p>
+</div>
+<p>次は、どの TODO を処理しましょうか。バッファから最新の値を取得する、が考えやすそうなので、これにしましょう。</p>
+<h3 id="_12">バッファから最新の値を取得する</h3>
+<p>バッファから最新のインデックスの値を取得するというのは、どのような実装・・・ではなくテストになるでしょうか。<code>getCurrent</code> メソッドで引数なしで呼び出すのはどうでしょう。</p>
+<p>また、その前に値が入っていないといけません。"バッファに値を追加する"の TODO と重複するのですが、こちらのメソッドも決めてしまいましょう。このメソッドを <code>push</code> としておきましょう。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/ringBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;バッファから最新の値を取得する&#39;</span> <span class="p">,()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">5</span><span class="p">);</span>
+  <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;a1&#39;</span><span class="p">);</span>
+  <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;a2&#39;</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">getCurrent</span><span class="p">()).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;a2&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+</td></tr></table>
+<p>コンパイルが通るようにします。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/ringBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">export</span> <span class="kd">class</span> <span class="nx">RingBuffer</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="kr">constructor</span><span class="p">(</span><span class="nx">size</span>: <span class="kt">number</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">size</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">public</span> <span class="nx">buffer</span><span class="p">;</span>
+<span class="hll">  <span class="k">public</span> <span class="nx">push</span><span class="p">(</span><span class="nx">value</span>: <span class="kt">any</span><span class="p">)</span> <span class="p">{}</span>
+</span><span class="hll">  <span class="k">public</span> <span class="nx">getCurrent</span><span class="p">()</span> <span class="p">{}</span>
+</span><span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>コンパイルが通るようになったのでテストします。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    Expected: &quot;a2&quot;
+    Received: undefined
+
+      18 |   ringBuffer.push(&#39;a1&#39;);
+      19 |   ringBuffer.push(&#39;a2&#39;);
+    &gt; 20 |   expect(ringBuffer.getCurrent()).toBe(&#39;a2&#39;);
+         |                                   ^
+      21 | });
+      22 |
+</code></pre></div>
+</td></tr></table>
+<p>もちろんエラーです。何度も言いますが、これで良いんです。テストが成功する最低限の実装をしましょう。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">public</span> <span class="nx">getCurrent</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s1">&#39;a2&#39;</span><span class="p">;</span>
+  <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>テストが成功します。もちろんこれではいけません。少しずつ本来の実装に近づけましょう。</p>
+<p>この機能の要件は、バッファの最新のインデックスから値を返す、です。まず、単純にするため意図的に条件を無視すると、バッファの値を返す、です。インデックスのことは忘れて、この実装をしましょう。リファクタのはじめの一歩です。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">public</span> <span class="nx">getCurrent</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;a2&#39;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="mf">0</span><span class="p">];</span>
+  <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>テストが成功しました。もう１歩進みます。<code>getCurrent</code> 関数の中で buffer に追加していますが、ここが適切でしょうか？ buffer に追加するのは、<code>push</code>メソッドの役割ですね。そこに移動しましょう。</p>
+<p>また、インデックスが '0' とハードコーディングされています。今の最新のインデックスは、クラスの内部で持っておけば良さそうです。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">public</span> <span class="nx">push</span><span class="p">(</span><span class="nx">value</span>: <span class="kt">any</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;a2&#39;</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">public</span> <span class="nx">getCurrent</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span><span class="p">];</span>
+  <span class="p">}</span>
+  <span class="k">private</span> <span class="nx">currentIndex</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span>
+</code></pre></div>
+</td></tr></table>
+<p><code>push</code> の内容は、"バッファに値を追加する"で実装するので、今はこのテストが通る最低限の実装にしておきます。</p>
+<p>テストは成功したままです。このTODOはこれで良さそうです。TODO リストを更新しておきます。</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../08.async-functions/react/" class="md-footer__link md-footer__link--prev" aria-label="Previous: React を使った例" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              React を使った例
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.b1047164.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@8.0.0/dist/mermaid.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+      
+        <script src="../javascripts/config.js"></script>
+      
+    
+  </body>
+</html>

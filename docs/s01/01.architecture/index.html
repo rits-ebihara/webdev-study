@@ -1,0 +1,1310 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <meta name="author" content="EBIHARA Kenji (kenji.ebihara@jrits.ricoh.co.jp)">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
+    
+    
+      
+        <title>Webアプリケーションのアーキテクチャ - Webアプリ開発の基本</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.a57b2b03.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/mermaid@8.0.0/dist/mermaid.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
+    
+      <link rel="stylesheet" href="../custom.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#web" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Webアプリ開発の基本" class="md-header__button md-logo" aria-label="Webアプリ開発の基本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Webアプリ開発の基本
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Webアプリケーションのアーキテクチャ
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Webアプリ開発の基本" class="md-nav__button md-logo" aria-label="Webアプリ開発の基本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Webアプリ開発の基本
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Top Page
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Webアプリケーションのアーキテクチャ
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Webアプリケーションのアーキテクチャ
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    概要
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    サーバーサイドレンダリングとクライアントレンダリング
+  </a>
+  
+    <nav class="md-nav" aria-label="サーバーサイドレンダリングとクライアントレンダリング">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    サーバーの負荷の違い
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    サービス指向アーキテクチャ
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seo" class="md-nav__link">
+    SEO
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    ファーストインプレッション
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    サーバーの言語とフレームワーク
+  </a>
+  
+    <nav class="md-nav" aria-label="サーバーの言語とフレームワーク">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#java" class="md-nav__link">
+    Java
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    Python
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ruby" class="md-nav__link">
+    Ruby
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#php" class="md-nav__link">
+    PHP
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nodejs" class="md-nav__link">
+    Node.js
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#net" class="md-nav__link">
+    .NET
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web_1" class="md-nav__link">
+    Webクライアントのフレームワーク
+  </a>
+  
+    <nav class="md-nav" aria-label="Webクライアントのフレームワーク">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    レンダリングフレームワーク
+  </a>
+  
+    <nav class="md-nav" aria-label="レンダリングフレームワーク">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jquery" class="md-nav__link">
+    jQuery
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#react" class="md-nav__link">
+    React
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vuejs" class="md-nav__link">
+    Vue.js
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angularjs-angular" class="md-nav__link">
+    AngularJS / Angular
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    データフロー・フレームワーク
+  </a>
+  
+    <nav class="md-nav" aria-label="データフロー・フレームワーク">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flux" class="md-nav__link">
+    Flux
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    テストフレームワーク
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    開発環境
+  </a>
+  
+    <nav class="md-nav" aria-label="開発環境">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nodejs_1" class="md-nav__link">
+    node.js
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visual-studio-code" class="md-nav__link">
+    Visual Studio Code
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    [参考]ソースコード用フォント
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    [参考]キーボード
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    [参考]マウス/トラックボール
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    まとめ
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02.package-manager/" class="md-nav__link">
+        パッケージ・マネージャ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03.libraries/" class="md-nav__link">
+        JavaScript でよく使用されるライブラリ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04.language/" class="md-nav__link">
+        言語 - ES20xx / TypeScript
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05.webpack/" class="md-nav__link">
+        モジュールバンドラ: Webpack
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Webフレームワーク
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Webフレームワーク" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Webフレームワーク
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06.web-framework/" class="md-nav__link">
+        はじめに
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06.web-framework/react/" class="md-nav__link">
+        React
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06.web-framework/vuejs/" class="md-nav__link">
+        Vue.js
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07.linter-formatter/" class="md-nav__link">
+        Linter と Formatter
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          非同期関数
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="非同期関数" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          非同期関数
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08.async-functions/" class="md-nav__link">
+        概要
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08.async-functions/react/" class="md-nav__link">
+        React を使った例
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09.test/" class="md-nav__link">
+        Webアプリケーションのテスト
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    概要
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    サーバーサイドレンダリングとクライアントレンダリング
+  </a>
+  
+    <nav class="md-nav" aria-label="サーバーサイドレンダリングとクライアントレンダリング">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    サーバーの負荷の違い
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    サービス指向アーキテクチャ
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seo" class="md-nav__link">
+    SEO
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    ファーストインプレッション
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    サーバーの言語とフレームワーク
+  </a>
+  
+    <nav class="md-nav" aria-label="サーバーの言語とフレームワーク">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#java" class="md-nav__link">
+    Java
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    Python
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ruby" class="md-nav__link">
+    Ruby
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#php" class="md-nav__link">
+    PHP
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nodejs" class="md-nav__link">
+    Node.js
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#net" class="md-nav__link">
+    .NET
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web_1" class="md-nav__link">
+    Webクライアントのフレームワーク
+  </a>
+  
+    <nav class="md-nav" aria-label="Webクライアントのフレームワーク">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    レンダリングフレームワーク
+  </a>
+  
+    <nav class="md-nav" aria-label="レンダリングフレームワーク">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jquery" class="md-nav__link">
+    jQuery
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#react" class="md-nav__link">
+    React
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vuejs" class="md-nav__link">
+    Vue.js
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#angularjs-angular" class="md-nav__link">
+    AngularJS / Angular
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    データフロー・フレームワーク
+  </a>
+  
+    <nav class="md-nav" aria-label="データフロー・フレームワーク">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flux" class="md-nav__link">
+    Flux
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    テストフレームワーク
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    開発環境
+  </a>
+  
+    <nav class="md-nav" aria-label="開発環境">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nodejs_1" class="md-nav__link">
+    node.js
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visual-studio-code" class="md-nav__link">
+    Visual Studio Code
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    [参考]ソースコード用フォント
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    [参考]キーボード
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    [参考]マウス/トラックボール
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    まとめ
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="web">Webアプリケーションのアーキテクチャ</h1>
+<p>筆者: 海老原 賢次（kenji.ebihara@jrits.ricoh.co.jp）<br />
+作成日: 2021-08-18<br />
+更新履歴:</p>
+<ul>
+<li>2021-08-18: 新規作成</li>
+</ul>
+<hr />
+<h2 id="_1">概要</h2>
+<p>ここでは、Webアプリケーションを設計する上で必要な知識について学びます。</p>
+<p>また、よく使用される言語やフレームワーク、ライブラリについてもお話します。</p>
+<p><strong>ここで書かれている評価や見解は、あくまでも個人的な経験や調査した結果を考察した上での意見であり、参考程度としてください。</strong></p>
+<p>Webアプリケーションが動作するときに、どこで何がどのように処理しているのか、考えたことが有るでしょうか？</p>
+<p>ここで、Webアプリケーションの歴史について少しお話します。</p>
+<hr />
+<p>Webはもともと静的なHTMLファイルを表示するもので、HTMLは、文書に意味をもたせる、例えば文書のタイトルはコレだとか、これは重要な部分であるとかですが、それをルール化したマークアップ言語というもので、それ自体にアプリケーションの機能はありませんでした。</p>
+<p>その後、CGIという仕組みにより、HTMLをサーバー側で動的に書き換えてクライアントに送ることができるようになり、HTMLもテキストボックスやボタンなどのフォームの機能を持つようになったことで、インタラクティブな処理、つまり UI を持てるようになりました。</p>
+<p>CGIはWebサーバーのおまけ程度のもので、非常にシンプルな機能で言語も簡易なもので、たくさんのリクエストや重い処理を行うには荷が重く、複雑な処理を書くとメンテナンス性の非常に悪いものでした。
+Webアプリに多くの機能を求められるようになると、CGIでは対処できなくなりました。</p>
+<p>そうなると、Webアプリケーションに特化したサーバー製品が登場します。Java Servlet や .NET の ASP などです。</p>
+<p>これらも、内部の動作は CGI と大きく違うものの、サーバー側で動的なHTMLを作成する、という手段はCGIと変わりませんでした。</p>
+<p>Google が Google maps などで、クライアントスクリプトでバックグランドで通信した情報を取得し、それをもとにクライアント上で動的にHTMLを書き換える仕組みを採用し、話題となりました。</p>
+<p>クライアント上で動的にHTMLを書き換える仕組みはそれ以前から有りましたが、せいぜい見た目を変えるだけで、バックグランドの通信と組み合わせたことで、Webアプリケーションの利便性は格段に向上しました。この仕組を当時は Ajax と言いました。</p>
+<p>現在では更にそれを推し進めて、サーバー側には静的なベースとなるHTMLのみを置き、レンダリングは全てクライアントで行う、クライアントレンダリングの仕組みを採用することが多くなっています。これに対して、従来のサーバー側で動的なHTMLを構築することを、サーバーサイドレンダリングと呼びます。</p>
+<hr />
+<p>サーバー側の処理に注目してみましょう。</p>
+<p>サーバーの処理として、サーバーサイドレンダリングではHTML生成が必要ですし、クライアントレンダリングの場合はクライアントのバックグランドの呼び出しに応答する API が必要になります。</p>
+<p>これらの実装には、言語とフレームワークが選択でき、それらによって大きく異なります。後にいくつか紹介します。</p>
+<hr />
+<p>ブラウザ側の処理に注目してみましょう。</p>
+<p>ブラウザで採用できる言語は JavaScript 1択です。</p>
+<p>ブラウザ側で動的にHTMLを生成したり変更したりすることを DOM操作 といいますが、クライアントレンダリングの需要が増えるのに伴い、この DOM操作のコーディングにも問題が出てきました。</p>
+<p>まず、JavaScriptは軽量な言語で、コンパイルや変数の型指定などが必要なく、小さいプログラムを書くには非常に効率の良いものです。Webアプリの黎明期にはそれで良かったのですが、その需要の高まりに伴い、クライアントでも大規模な開発が多くなりました。そうなると、JavaScriptの利点が欠点となってきました。</p>
+<p>また、DOM操作も複雑になりました。原因としてHTMLとJavaScript、CSS が分離しており、大規模になるとそれらの管理が難しくなるためです。</p>
+<p>そのため、DOM操作を行う ユーティリティやフレームワークが次々と派生することになりました。また、Alt JavaScript というコンパイルしてJavaScriptに変換する言語も登場しました。</p>
+<hr />
+<p>ここでは、サーバーサイドレンダリングとクライアントレンダリングといった、全体的なアーキテクチャと、サーバー側のフレームワーク、ブラウザ側のフレームワークについて話をします。</p>
+<h2 id="_2">サーバーサイドレンダリングとクライアントレンダリング</h2>
+<p>Webアプリケーションが動作するときには、どんな処理がどこで動いているのでしょう。</p>
+<p>システムの目的や仕組みによって様々ではありますが、一般的な流れとしては、下記のようになっていると思います。</p>
+<ul>
+<li>データベースとの I/O</li>
+<li>ビジネスロジックの処理</li>
+<li>HTMLの生成</li>
+<li>HTMLの表示</li>
+</ul>
+<p>このうち、HTMLの表示はブラウザが行います。</p>
+<p>サーバーサイドレンダリングでは、HTML生成までを役割として担います。</p>
+<p>クライアントレンダリングでは、HTMLの生成をブラウザの処理で行います。</p>
+<p><img alt="Webアプリの処理" src="01.architecture-01.drawio.png" /></p>
+<h3 id="_3">サーバーの負荷の違い</h3>
+<p>サーバーの処理の負荷を考えると、一見してわかるように、クライアントレンダリングのほうが軽いです。ブラウザがサーバーの負荷を肩代わりするようなものですね。</p>
+<p>HTMLの生成処理は、複雑な画面になるほどメモリやCPUを消費します。1つのリクエストではたいしたことはなくても、1分間に数百、数千のリクエストが来る場合、レスポンスを確保するためサーバーのスペックを上げる必要があります。つまり、クライアントレンダリングに比べて運用面でコスト高となります。</p>
+<h3 id="_4">サービス指向アーキテクチャ</h3>
+<p>クライアントレンダリングを採用した場合、サーバー側はHTMLを返すのではなく、必要に応じたデータのI/Oを受け持つ API を実装し、クライアントからその API をコールすることになります。</p>
+<p>これは、サーバーのAPIをブラウザのUIに限らずアクセスできるものなので、他のUI（例えばモバイルアプリ）や外部のシステムからも利用できるようにもなります。</p>
+<p>別な言い方をすると、UI と サービス（機能）を分離することになり、サービス指向アーキテクチャとして設計しやすく、システムの汎用性が高まります。</p>
+<p>ただし、サービス指向に基づいた API の設計が必要となります。</p>
+<p>ちなみに、API設計 というのは、開発者の1つのスキルとなっており、例えば企業の求人での望まれるスキルの1つになっていたりもします。</p>
+<p>サーバーサイドレンダリングで同様のことをしようとすると、HTMLを返すインターフェースとは別に作成する必要があり、メンテナンス性でも劣ります。</p>
+<h3 id="seo">SEO</h3>
+<p>SEO とは、Search Engine Optimization の略で、検索サイトでのヒットのしやすいように HTML などを工夫することを言います。</p>
+<p>Google や Yahoo! などの検索エンジンの仕組みは明らかにされていませんが、自動でクローニングすることから、ブラウザでレンダリングするものに関しては、検索エンジンが見てくれない可能性が高いです。</p>
+<p>サーバーサイドレンダリングでは、クライアント側ではそれが静的なHTMLか、サーバーで動的に作成されたかは関係ないので、検索エンジンがレンダリングした内容を読み込んでくれるでしょう。</p>
+<p>商用サイトなどで、検索エンジンにヒットしないのは致命的な損失で、そのような場合は部分的にサーバーサイドレンダリングを行うこともあります。</p>
+<h3 id="_5">ファーストインプレッション</h3>
+<p>SEO に通じるところもありますが、はじめにサイトにアクセスして画面が表示されるまで時間がかかるとユーザーが離れていってしまいます。</p>
+<p>社内アプリではあまり問題になりませんが、商用サイトではとても重要です。</p>
+<p>これに関しては、サーバーサイドレンダリング、クライアントレンダリングのどちらが良いかというのは難しいです。</p>
+<p>複雑な画面の場合、基本的にはサーバー側で静的なHTMLか、必要に応じて部分的な比較的軽い動的なHTML生成処理として、基本的にはクライアントレンダリングで行うのが良いでしょう。</p>
+<p>その場合でも、はじめの画面が真っ白ではなく、ユーザーに少しずつでも情報を表示できるような仕組みによって、待ち時間を感じさせないような工夫があると良いでしょう。</p>
+<h2 id="_6">サーバーの言語とフレームワーク</h2>
+<p>サーバーでは、様々な言語と言語ごとのフレームワークが選択できます。</p>
+<p>フレームワークを使わなくても、サーバー処理は実装できますが、非常に効率が悪いので、フレームワークを使うことは必然でしょう。</p>
+<p>サーバーレンダリングに特化したものや、WebAPI に特化したもの、その両方に対応したもの、など、それぞれに特徴やトレンドがあるので、選択する際には仕様をよく確認しましょう。</p>
+<p>言語としては、Java、Python、Ruby、PHP、JavaScript（Node.js）、.NET (C#, VB.NET) などがメジャーです。</p>
+<h3 id="java">Java</h3>
+<p>Java は、過去のものも含めると最も実績のあるものでしょう。開発者も他と比べても最も多いでしょう。</p>
+<p>Webフレームワークとしてはサーブレットという仕組みの上にフレームワークを導入するのが一般的です。このフレームワークにもいくつもの種類があり、Spring やStruts といったものがメジャーなものだと思います。</p>
+<h3 id="python">Python</h3>
+<p>Python は最近最も人気のある言語です。が、すみません、あまり知識ないです。Webのフレームワークとしては、Django, Flask というものがあるようです。</p>
+<h3 id="ruby">Ruby</h3>
+<p>Ruby は一時開発者の間で人気のあった言語で、今でも多くのサーバーで動作しています。手軽に始められるので、スタートアップ企業で採用されることが多いです。</p>
+<p>Webのフレームワークとしては、Ruby on Rails や Sinatra がよく採用されるようです。</p>
+<h3 id="php">PHP</h3>
+<p>PHP は、CGI に変わる言語として、古くから利用されてきました。歴史はありますが、現役で動作しているものも多いと思います。</p>
+<p>現在でもバージョンアップを続けており、最近のバージョンでは Null Safety の機能もありますし、開発者が多いので、人材を集めやすいのも特徴と言えるでしょう。</p>
+<p>PHPのフレームワークとしては、Laravel, CakePHP などを利用することが多いようです。</p>
+<p><a href="https://www.php.net/">PHP: Hypertext Preprocessor</a></p>
+<h3 id="nodejs">Node.js</h3>
+<p>Node.js は、サーバーサイドで動作するJavaScript で、ブラウザと異なりOSのファイルやプロセスの操作などもできます。
+他と異なり、Webクライアントと同じ言語で書けるので、学習コストが低く、非常にメリットがあります。</p>
+<p>Webフレームワークとしては、AdonisJs, Express.js がよく使われます。</p>
+<p><a href="https://nodejs.org/ja/">Node.js</a></p>
+<h3 id="net">.NET</h3>
+<p>.NET は、マイクロソフトが開発している、クロスプラットフォームの実行環境です。C# や VB.NET などの複数の言語が提供されており、開発者も多いです。</p>
+<p>Webのフレームワークとしては、ASP.NET や ASP.NET MVC、ASP.NET Web API などがあります。Windows Server のWebサーバー IIS 上で動作させるのが一般的です。Linux 上でも ASP.NET Core を利用して動作できるようですが、事例はあまりないかと思います。</p>
+<p><a href="https://dotnet.microsoft.com/">.NET | Free. Cross-platform. Open Source.</a></p>
+<h2 id="web_1">Webクライアントのフレームワーク</h2>
+<h3 id="_7">レンダリングフレームワーク</h3>
+<p>Webクライアントのレンダリングのフレームワークでは、DOM 操作や管理を如何に簡単に行うことができるか、というところが要点になります。</p>
+<h4 id="jquery">jQuery</h4>
+<p>10年くらい前までは jQuery が多く使われていました。jQuery は冗長的な DOM操作を簡単に記述でき、機能も豊富で非常に人気がありました。
+現在もまだ利用しているところも多いかと思います。</p>
+<p>しかし現在のおいては、脱 jQuery が叫ばれるようになりました。</p>
+<p>原因は、Webアプリの複雑性に伴い、その管理が煩雑になってしまったことです。どこで何の DOM操作が行われているのか、データと処理と出力の因果関係がわかりづらくなってしまいます。これは、jQuery があくまでも DOM操作の延長線上のものであり、HTMLと処理が分離してしまっていることに起因します。</p>
+<p><a href="https://jquery.com/">jQuery</a></p>
+<h4 id="react">React</h4>
+<p>React は、上記の問題をコンポーネントという概念を用いて解決しました。コンポーネントはWebをパーツ化して、それぞれのパーツで与えられたデータをもとに動的にレンダリング結果を出力することができます。1つのファイルに処理とレンダリング結果を記載でき、それをパーツとして組み立てるように構築できます。</p>
+<p>コンポーネントの単位で管理できるので、処理と出力の因果関係が明確で、メンテナンス性が非常に向上します。大規模なWebアプリでもコンポーネントに分割することで、管理がしやすく拡張性も持てる、非常に良いフレームワークです。</p>
+<p>そのため、React は今最も人気のあるフレームワークと言って良いでしょう。</p>
+<p><a href="https://ja.reactjs.org/">React – ユーザインターフェース構築のための JavaScript ライブラリ</a></p>
+<h4 id="vuejs">Vue.js</h4>
+<p>Vue.js は、React よりも後発のフレームワークです。React はコンポーネントによって管理がしやすくなった反面、いままでの DOM操作とはまるで異なる処理を書くことになりました。その学習コストはやや高く、jQuery に馴染んでいた人にとっては難しいものでした。また、jQueryで書かれたコードを React に移植するには、ほぼすべてのコードを書き換えることになります。</p>
+<p>Vue.js は、HTMLが中心のDOM操作ができる部分を残しつつ、ゆるいコンポーネントも作れる、といった感じでしょうか。規模が小さい場合や jQuery からの移行には、React は冗長的で、Vue.jsが望まれると思います。</p>
+<p><a href="https://jp.vuejs.org/index.html">Vue.js</a></p>
+<h4 id="angularjs-angular">AngularJS / Angular</h4>
+<p>AngularJS / Angular は、Google が開発した Webフレームワークです。AngularJS が version2 で大きく仕様が変わったことから、Angular に名前が変わりました。</p>
+<p>レンダリング部分だけでなく、下で説明している データフローの機能など併せ持っており、フルスタックなフレームワークと言えます。また、TypeScriptで書くことが前提、DI（依存性注入）の思想に則って仕様が策定されている特徴もあります。</p>
+<p>一時は利用が広まったのですが、多機能であるがゆえに仕様が複雑で、学習コストが高いことが課題であり、React / Vue.js にくらべシェアを落としています。</p>
+<p>React / Vue.js は、レンダリングのみに特化していて、他の機能は別のライブラリを選定して組み合わせる、という手間はありますが、必要最低限であり機能同士の境界線がはっきりしているので、仕様もそれぞれで理解すればよいため、特に小規模で始めるようなプロジェクトではフルスタックなフレームワークより、このやり方のほうが向いているでしょう。</p>
+<h3 id="_8">データフロー・フレームワーク</h3>
+<p>Webクライアントアプリでは、サーバーサイドレンダリングではデータフローはあまり考えられてきませんでしたが、クライアントレンダリングだとサーバーから送られてくるのはデータなので、クライアントでそのデータをどう保持して、レンダリング・フレームワークにどう渡すのかを検討する必要があります。</p>
+<h4 id="flux">Flux</h4>
+<p>上でも紹介した、Angularはレンダリングとデータの管理を併せ持ったもで、レンダリングとデータ(Model)を相互に参照するものです。例えばテキストボックス、Modelのプロパティが指定してあり、そのデータが表示される、変更したらModelが変更される、Modelが変更されるとそれを参照しているテキストボックスやレンダリング（例えば表示・非表示が切り替わるなど）します。</p>
+<p>一見、シンプルで当たり前のような仕様なのですが、レンダリングするもの（部品）が増えるとそれに対となるモデルも増え、データを処理する（データの取得、保存、変更管理）複雑度が上がります。</p>
+<p>Flux はこのような問題を改善するために考えられたアーキテクチャです。</p>
+<p><a href="https://qiita.com/knhr__/items/5fec7571dab80e2dcd92">Fluxとはなんなのか - Qiita</a></p>
+<p><a href="https://techblog.roxx.co.jp/entry/2019/06/12/134154">Flux パターンが解決した課題 - ROXX開発者ブログ</a></p>
+<p>Flux とは、データフローのアーキテクチャの概念の定義です。ライブラリの名前では有りません。</p>
+<p>Flux では データの流れは、1方向で単純です。View はデータのインプットしかなく、Viewでの変更は、何をする、というTypeとそのための必要な情報を持った Action を Dispatcher に送られます。Dispatcher は ActionのTypeによって、Store を更新します。View は Dispatcher の処理の内容はには感知しません。</p>
+<p>Store の変更はそれを参照している View に渡され、View はそれに応じて表示を変更します。</p>
+<p>つまり、View はもらったデータに応じて描画する、ということに専念できます。また、それぞれの役割分担が明確になり、ソースコードの管理がしやすくなります。</p>
+<p><img alt="01.architecture-02.drawio.png" src="01.architecture-02.drawio.png" /></p>
+<p>Flux のアーキテクチャを実現したフレームワークとして Redux があります。これについては、ライブラリの章でお話します。</p>
+<h2 id="_9">テストフレームワーク</h2>
+<p>現在の開発では、ユニットテスト・フレームワークを利用して、テストプログラムを書くことは、当たり前になってきています。</p>
+<p>テストプログラムを作成するには、それなりのスキルが必要ですが、開発者は当然のように身につけておくことが今後必要になるでしょう。</p>
+<p>言語ごとに複数のテストフレームワークがあり、より良いものを選択する必要があります。</p>
+<p>Java であれば、JUnit、.NET であれば、xUnit, NUnit、がよく使われると思います。</p>
+<p>JavaScript でも様々なフレームワークがありますが、Jest が抜きん出ていてスタンダードになっています。</p>
+<p><a href="https://jestjs.io/ja/">Jest · 🃏 Delightful JavaScript Testing</a></p>
+<p><a href="https://qiita.com/jintz/items/61af86a12b53b24ef121">jestでユニットテスト基礎 - Qiita</a></p>
+<h2 id="_10">開発環境</h2>
+<p>Webアプリ開発は、ツールを使わない場合は、極端な話ですがメモ帳があればできます。</p>
+<p>ですが、もちろん効率が悪いので、様々なツールを使います。</p>
+<h3 id="nodejs_1">node.js</h3>
+<p>サーバー環境のところでも出てきましたが、開発環境でも利用します。モダンなWeb開発としては必須です。</p>
+<p>node.js がないと、npm も使えません。</p>
+<p>また、TypeScript のコンパイラや、webpack といったツールも node.js 上で動作するものなので、必須となります。</p>
+<p>JavaScript で簡単に処理が書けるので、ビルドなどで独自のバッチなども作ることも多いです。</p>
+<h3 id="visual-studio-code">Visual Studio Code</h3>
+<p>マイクソフトが無償で提供している、ソースコードエディタです。</p>
+<p>同類のツールは多数ありますが、抜きん出て人気があります。下記の特徴があります。</p>
+<ul>
+<li>Windows, Linux, macOS のマルチプラットフォーム</li>
+<li>デバッグ機能付き（環境整備が簡単でない場合もあります）</li>
+<li>Gitの操作（commit, pull などほどんどのコマンド）が可能</li>
+<li>豊富な拡張機能</li>
+<li>多くの言語に対応したコードハイライトやスニペットなど</li>
+<li>TypeScript の標準対応と、バージョンアップの早期対応</li>
+<li>豊富なカスタマイズ項目</li>
+<li>軽量な動作</li>
+<li>Docker のサポート（Docker内にリモートで入るなど）</li>
+</ul>
+<p><a href="https://azure.microsoft.com/ja-jp/products/visual-studio-code/">Visual Studio Code – コード エディター | Microsoft Azure</a></p>
+<hr />
+<p>この下は、完全に開発者の好みの問題です。</p>
+<h3 id="_11">[参考]ソースコード用フォント</h3>
+<p>Windows であれば、Consolas という等幅フォントが、ソースコードの用として入っています。</p>
+<p>それよりもソースコードに適した、より良いフォントがたくさんあります。これらのフォントの特徴として、下記が挙げられます。</p>
+<ul>
+<li>視認性の向上</li>
+<li>等幅で適切な間隔がある</li>
+<li>間違いの気付き</li>
+<li>0(ゼロ)やO(オー)、l(エル),I(アイ),1(いち)などの判別がつきやすくなっています。  </li>
+<li>合成文字によるわかりやすさ</li>
+<li>フォントにもよりますが、例えば !== とうつと ≠ と見える（見えるだけでデータは !==）ものなどがあります。</li>
+</ul>
+<p>ちょっとしたことなのですが、開発者として生産性を上げるために、フォントにはこだわりましょう！</p>
+<p>おすすめのフォント</p>
+<ul>
+<li><a href="https://github.com/tonsky/FiraCode/releases">Fira Code</a></li>
+<li>日本語には対応していませんが、合成文字でわかりやすい表示が特徴です。</li>
+<li>
+<p>日本語に対応していないですが、表示できないわけではなく、別のフォントで表示されます。</p>
+</li>
+<li>
+<p><a href="https://github.com/adobe-fonts/source-han-code-jp/releases/tag/2.012">source-han-code-jp</a></p>
+</li>
+<li>日本語にも対応している、等幅なソースコード用フォントです。</li>
+<li>
+<p>エディタで日本語のズレが気になる場合は、これを使ってみてください。</p>
+</li>
+<li>
+<p><a href="https://itouhiro.hatenablog.com/entry/20140917/font">Nasuフォント ： 見た目が似ている文字を判別しやすくするフリーフォント</a></p>
+</li>
+<li>上のフォントを元に、日本語を見やすくしたフォントです。</li>
+<li>たとえば、「ぱ」と「ば」 など濁音、半濁音が見やすく設計されていたりします。</li>
+</ul>
+<h3 id="_12">[参考]キーボード</h3>
+<p>一日のほどんどの時間、PCに向かっている開発者にとって、キーボードの性能は、ちょっとの差であっても生産性に影響します。</p>
+<p>キーボードの性能によって、打ちやすさ、疲れのたまり具合、打ち間違いにくさなど変わります。安いものだと、タイピング速が早すぎてご動作するものもあります。</p>
+<p>普段意識していなくても、変えてみたら楽になって、というこもあるでしょう。</p>
+<p>開発者であれば、メカニカル式や静電容量無接点方式がおすすめです。値段は 1～2,3 万くらいするので、高いと思うかもしれませんが、長く使うものだからこそ、良いものを選びたいです。</p>
+<p>メカニカル式は、軸の種類によってしっかりした打ち応えの有るものから、軽いもの、カチッというクリック感があるもの、静音性に優れたものなど様々で、自分の好みの軸を選ぶことが出来ます。</p>
+<p><a href="https://www.diatec.co.jp/products/CHERRY/">CHERRY MXスイッチとは | ダイヤテック株式会社</a></p>
+<p>上のメーカーのブランドである FILCO が人気だと思います。ちなみに筆者は、ここの青軸が好きで愛用しています。</p>
+<p>静電容量無接点方式は、その名の通り電極の接触ではなく、電極同士が一定距離に近づいたときの変化を検知するものです。ですので、軽いタッチで疲れなく正確に打つことができます。</p>
+<p>メカニカル式にくらべ価格が高いのですが、非常に人気があります。</p>
+<p><a href="[Happy Hacking Keyboard｜PFUダイレクト](https://www.pfu.fujitsu.com/direct/hhkb/)">PFUのHHK</a>(ハッピーハッキングキーボード)が代表ですね。</p>
+<p>また、キー配列も日本語キーボードよりUSキーボードをオススメします。</p>
+<p>コーディングでは、通常の文書と個なり、カッコ (), {},[] や :; などの記号を大量に打ちます。USキーボードの方が、それらが合理的に配置されていたり、ホームポジションがキーボードの中央であること、右手の位置からEnter(日本語だと Return) キーの位置が近くいことから、USの方が打ちやすいです。</p>
+<p>日本語キーボードからの乗り換えの際は、記号の配置が異なることに不安があるでしょうけど、3日も打っていると慣れます。（個人差はあります）</p>
+<h3 id="_13">[参考]マウス/トラックボール</h3>
+<p>開発者がキーボードの次に多く触っているのは、マウスでしょう。</p>
+<p>ものすごく個人的な見解ですが、マウスよりトラックボールをおすすめします。</p>
+<p>理由は疲れにくさです。</p>
+<p>最近は、マルチモニターであったり、大型のモニターを使うことが多いです。</p>
+<p>そうなると、マウスカーソルの移動が多くなります。マウスだと移動量が多くなり、場合によっては机が狭く何回か持ち上げ置き直すことになるでしょう。机が広くても腕の伸び縮が大変です。手首への負担も増えます。</p>
+<p>トラックボールは、腕の位置を変えないまま広い範囲を移動できるので、腕や手首への負担が有りません。</p>
+<p>実際、筆者もマウスで手首が痛くなり作業効率が大幅に下がったため、トラックボールに乗り換えて改善しました。</p>
+<p>また、マウスだとクリックした瞬間にずれちゃった、ということないですか？</p>
+<p>トラックボールなら、ボールから指を離せばポインタが動くことが有りません。</p>
+<p>トラックボール使ってみたけど、ポインタを細かく動かせない、という人が多いですが、それはポインタの速度がトラックボールにあってなく、早すぎるためです。</p>
+<p>トラックボールでは、ポインタの速度を大きく下げて、ボールをグリグリ動かして使うものです。あなたが思うよりもたくさんグリグリして使います。</p>
+<p>1週間もすれば慣れます。（個人差があります）</p>
+<h2 id="_14">まとめ</h2>
+<p>余談も含みましたが、Webアプリケーションにおける構成、環境等の概要が把握できたでしょうか？</p>
+<p>トレンドによっては、今後も部分的に変わっていったりします。特にWebアプリケーションは、いろいろなものを組み合わせて動作したり作っていくものなので、それぞれが別のものに入れ替わったりします。</p>
+<p>現在のトレンドを踏まえ、将来トレンドになりそうなものをキャッチアップできるよう、アンテナを広げておくことが必要です。</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: Top Page" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Top Page
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../02.package-manager/" class="md-footer__link md-footer__link--next" aria-label="Next: パッケージ・マネージャ" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              パッケージ・マネージャ
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.b1047164.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@8.0.0/dist/mermaid.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+      
+        <script src="../javascripts/config.js"></script>
+      
+    
+  </body>
+</html>

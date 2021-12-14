@@ -1,0 +1,1214 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <meta name="author" content="EBIHARA Kenji (kenji.ebihara@jrits.ricoh.co.jp)">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
+    
+    
+      
+        <title>React - Webアプリ開発の基本</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.a57b2b03.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/mermaid@8.0.0/dist/mermaid.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
+    
+      <link rel="stylesheet" href="../../custom.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#react" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Webアプリ開発の基本" class="md-header__button md-logo" aria-label="Webアプリ開発の基本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Webアプリ開発の基本
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              React
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Webアプリ開発の基本" class="md-nav__button md-logo" aria-label="Webアプリ開発の基本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Webアプリ開発の基本
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Top Page
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01.architecture/" class="md-nav__link">
+        Webアプリケーションのアーキテクチャ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02.package-manager/" class="md-nav__link">
+        パッケージ・マネージャ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03.libraries/" class="md-nav__link">
+        JavaScript でよく使用されるライブラリ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04.language/" class="md-nav__link">
+        言語 - ES20xx / TypeScript
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05.webpack/" class="md-nav__link">
+        モジュールバンドラ: Webpack
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Webフレームワーク
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Webフレームワーク" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Webフレームワーク
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        はじめに
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          React
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        React
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#react_1" class="md-nav__link">
+    React の特徴
+  </a>
+  
+    <nav class="md-nav" aria-label="React の特徴">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#view" class="md-nav__link">
+    宣言的な View
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    コンポーネントベース
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    一度学習すれば、どこでも使える
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#react_2" class="md-nav__link">
+    React の演習
+  </a>
+  
+    <nav class="md-nav" aria-label="React の演習">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    準備
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    数値を表示するコンポーネントの作成
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    ボタンのコンポーネントの作成
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    数値表示とボタンを組み合わせたコンポーネントの作成
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#html" class="md-nav__link">
+    HTMLへの挿入
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#css-in-js" class="md-nav__link">
+    CSS in JS でスタイルを定義してみる
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#react-hooks" class="md-nav__link">
+    React のパフォーマンスと Hooks
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    関数やオブジェクトの同一性
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vuejs/" class="md-nav__link">
+        Vue.js
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07.linter-formatter/" class="md-nav__link">
+        Linter と Formatter
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          非同期関数
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="非同期関数" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          非同期関数
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08.async-functions/" class="md-nav__link">
+        概要
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08.async-functions/react/" class="md-nav__link">
+        React を使った例
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09.test/" class="md-nav__link">
+        Webアプリケーションのテスト
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#react_1" class="md-nav__link">
+    React の特徴
+  </a>
+  
+    <nav class="md-nav" aria-label="React の特徴">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#view" class="md-nav__link">
+    宣言的な View
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    コンポーネントベース
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    一度学習すれば、どこでも使える
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#react_2" class="md-nav__link">
+    React の演習
+  </a>
+  
+    <nav class="md-nav" aria-label="React の演習">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    準備
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    数値を表示するコンポーネントの作成
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    ボタンのコンポーネントの作成
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    数値表示とボタンを組み合わせたコンポーネントの作成
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#html" class="md-nav__link">
+    HTMLへの挿入
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#css-in-js" class="md-nav__link">
+    CSS in JS でスタイルを定義してみる
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#react-hooks" class="md-nav__link">
+    React のパフォーマンスと Hooks
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    関数やオブジェクトの同一性
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="react">React の特徴と演習</h1>
+<p>ホームページ: <a href="https://ja.reactjs.org/">React – ユーザインターフェース構築のための JavaScript ライブラリ</a></p>
+<p>GitHub: <a href="https://github.com/facebook/react/">facebook/react: A declarative, efficient, and flexible JavaScript library for building user interfaces.</a></p>
+<p>React は、Facebook が作ったフレームワークです。今最もメジャーなライブラリだと言っていいでしょう。</p>
+<p>React の公式ページでは、3つの特徴があるとしています。それは、React の設計思想、モチベーション、ということになるかと思います。</p>
+<p>１つずつ見てみましょう。</p>
+<h2 id="react_1">React の特徴</h2>
+<h3 id="view">宣言的な View</h3>
+<p>宣言的とはなんでしょうか。宣言的の反対は、手続き的、と言えるでしょうか。</p>
+<p>なにをするか、ではなく、何がやりたいか（何をやるのか）が明確だということとも言えるかもしれません。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a href="https://qiita.com/Hiroyuki_OSAKI/items/f3f88ae535550e95389d">宣言的？ Declarative?どういうこと？ - Qiita</a></p>
+</div>
+<p>React では、データを受け取って、それに従って描画するということに専念します。データの変更も自動で検知して、再レンダリングされるので、その処理を意識することは有りません。</p>
+<p>コードの見通しがよく、管理がしやすくなります。</p>
+<h3 id="_1">コンポーネントベース</h3>
+<p>React は、Webページを複数のパーツに分けて管理します。共通化される場合もありますが、管理のために分けることも多いです。</p>
+<p>このパーツのことをコンポーネントと読んでいます。</p>
+<p>コンポーネントに分けることで、その中でそれぞれの状態や処理を持つことが出来、カプセル化されます。単純化したコンポーネントを組み合わせることで、複雑な画面を作ることが出来ます。</p>
+<p>また、HTMLもテンプレートを持つのではなく、そのコンポーネントの中で生成するので、入力値、状態によって、どのような出力がされるのかをコンポーネントの単位で把握できるので、非常に管理がしやすくなります。</p>
+<h3 id="_2">一度学習すれば、どこでも使える</h3>
+<p>どこでも、というのはちょっと大げさですが、React は Webブラウザアプリで使うことが主ですが、サーバーサイドレンダリングでも使用できます。(要 Node.js)</p>
+<p>また、<code>React Native</code>プラットフォームでは、React を使って、まるでWebアプリケーションを作るような感じで、モバイルのネイティブアプリ（しかも、iOS, Android ハイブリッド！）を作成することが出来ます。</p>
+<h2 id="react_2">React の演習</h2>
+<p>といっても、言葉では伝わりにくいので、実査に書いてみるのがいいですね。</p>
+<p>ここでは、簡単にカウンターのアプリを作ってみます。</p>
+<p><img alt="アプリ仕様" src="../%E3%82%A2%E3%83%97%E3%83%AA%E4%BB%95%E6%A7%98.png" /></p>
+<p>＋ボタンを押すと数字が足され、－ボタンを押すと減る、という単純なものです。</p>
+<p>ここでのコンポーネントは、数値部分、ボタン部分、数値とボタンを組み合わせた部分
+と3つに分けます。ボタン部分は、共通のコンポーネントとします。</p>
+<p>細かすぎる感じがしますが、実際でもこのくらいまで細かくすることも多いと思います。</p>
+<h3 id="_3">準備</h3>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>ここでは、必要なライブラリや設定を手動で行いますが、スターターキットもあるので、手軽にはめるにはそちらをおすすめします。  
+https://github.com/facebook/create-react-app
+</code></pre></div>
+</td></tr></table>
+<p>空のフォルダから始める場合は、前のセクションを参照して、<code>npm init</code>(<code>yarn init</code> でも可) と <code>webpack init</code> を作成してください。webpack では、TypeScript と React を使うようにします。</p>
+<p>webpack のウィザードの選択肢</p>
+<pre>
+? Which of the following JS solutions do you want to use? <span style="color: blue">Typescript</span>
+? Do you want to use webpack-dev-server? <span style="color: blue">Yes</span>
+? Do you want to simplify the creation of HTML files for your bundle? <span style="color: blue">Yes</span>
+? Do you want to add PWA support? <span style="color: blue">No</span>
+? Which of the following CSS solutions do you want to use? <span style="color: blue">none</span>
+? Do you like to install prettier to format generated configuration? <span style="color: blue">Yes</span>
+? Pick a package manager: <span style="color: blue">yarn</span>
+[webpack-cli] ℹ INFO  Initialising project...
+ conflict package.json
+? Overwrite package.json? <span style="color: blue">overwrite this and all others</span> # 'a' をタイプ
+</pre>
+
+<p>React と関連するライブラリをインストールします。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn add react react-dom
+</code></pre></div>
+</td></tr></table>
+<p>TypeScriptのための型定義もインストールします。<code>-D</code> を忘れないようにします。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn add -D @types/react @types/react-dom
+</code></pre></div>
+</td></tr></table>
+<p>TypeScript で後述する <code>JSX</code> を利用するので、<code>tsconfig.json</code> にそのオプションをつけておきます。また、   "moduleResolution" に "node" を、"files" も <code>src/index.tsx</code> としておきます。</p>
+<p><code>index.ts</code> のファイル名も <code>index.tsx</code> に変えておきます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="nt">&quot;compilerOptions&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;allowSyntheticDefaultImports&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;noImplicitAny&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;module&quot;</span><span class="p">:</span> <span class="s2">&quot;es6&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;target&quot;</span><span class="p">:</span> <span class="s2">&quot;es5&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;jsx&quot;</span><span class="p">:</span> <span class="s2">&quot;react&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;allowJs&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;moduleResolution&quot;</span><span class="p">:</span> <span class="s2">&quot;node&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;files&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;src/index.tsx&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p><code>webpack.config.js</code> の entry も変更しておきます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">const</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">entry</span><span class="o">:</span> <span class="s2">&quot;./src/index.tsx&quot;</span><span class="p">,</span>
+  <span class="c1">// ...省略</span>
+<span class="p">};</span>
+</code></pre></div>
+</td></tr></table>
+<p>以上で、準備はできました。</p>
+<h3 id="_4">数値を表示するコンポーネントの作成</h3>
+<p>まず、数値の表示部分を作ります。ここでは、外から数値を受け取って、それをレンダリングすることだけを考えます。</p>
+<p>ファイルは、<code>src/DisplayNumber.tsx</code> とします。拡張子が <code>.tsx</code> であることに注意してください。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>import React from &#39;react&#39;;
+
+type PropType = {num: number};
+
+export const DisplayNumber: React.FC&lt;PropType&gt; = props =&gt; {
+  return &lt;span&gt;{props.num}&lt;/span&gt;;
+};
+</code></pre></div>
+</td></tr></table>
+<p>はじめに <code>React</code> をインポートしています。これは、コンポーネント作成する上で必須になります。</p>
+<p>type は、外部からどのような値を受け取るか、その値のオブジェクトの型を宣言しています。</p>
+<p>その下がコンポーネントの定義になります。このように、関数で定義します。</p>
+<p>export とつけるのは、このコンポーネントを使う側が import でこの関数を参照できるようにするためです。</p>
+<p>関数の引数には、外部からの値=プロパティが入ります。React.FCの &lt; &gt; には、そのプロパティの型を定義しているわけです。</p>
+<p>関数の戻り値となる <code>return</code> には、HTMLのタグがまんま入っているように見えます。これは、JavaScript 内で、DOM（HTMLタグ）のようなものを書くことができる書式です。</p>
+<p>これは、JSX と呼ばれる記法です。拡張子を <code>.tsx</code> としたのは、TypeScript の JSX で書かれることを表しています。</p>
+<p>React は、JSX 記法でなくても書けるのですが、こちらのほうが直感的だと思います。</p>
+<p>JSX 内では、{ } に変数や関数を書くことができ、動的な値を出力するときに使います。</p>
+<p>JSX で書かれたタグは、仮想DOM と呼ばれますが、HTMLと異なるところがあります。例えば属性に <code>class</code> がありますが、それはJavaScript の予約語となっているため、<code>className</code> となります。</p>
+<p>また、仮想DOM はオブジェクトでも有るため、下記のように変数に入れることが出来ます。不特定の数を出力するときなど、これを配列として使ったりします。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>const numberElement = &lt;span&gt;{props.count}&lt;/span&gt;;
+</code></pre></div>
+</td></tr></table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a href="https://ja.reactjs.org/docs/introducing-jsx.html">JSX の導入 – React</a></p>
+</div>
+<h3 id="_5">ボタンのコンポーネントの作成</h3>
+<p>ボタンは、＋および－で共通で使われることとします。ただし、ボタン上の表示と処理が異なります。</p>
+<p>処理は、数値に +1 するか、-1 にするか、ですが、その数値自体はこのボタンで管理するものではありません。このボタンを使う側で管理するものです。</p>
+<p>したがって、ボタンを押したときに何をするのか＝関数、を使う側からもらうようにしましょう。</p>
+<p>プロパティとしては、ボタン上の文字（キャプション）とボタンを押したときの処理が書いてある関数とします。</p>
+<p><code>src/IncrementalButton.tsx</code>  ファイルを作成します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>import React from &#39;react&#39;;
+
+type PropType = {
+  caption: string,
+  onClick: () =&gt; void;
+}
+
+export const IncrementalButton: React.FC&lt;PropType&gt; = props =&gt; {
+  return &lt;button onClick={props.onClick}&gt;{props.caption}&lt;/button&gt;
+};
+</code></pre></div>
+</td></tr></table>
+<p>HTMLの属性にも { } で動的に値を渡すことが出来ます。</p>
+<p>このように、コンポーネントの引数に関数を入れることができるため、外から振る舞いを変える（依存性の注入: DI とも言います）ことが簡単にできます。</p>
+<h3 id="_6">数値表示とボタンを組み合わせたコンポーネントの作成</h3>
+<p>これまで作ったコンポーネントを組み合わせたコンポーネントを作ってみましょう。</p>
+<p><code>src/Counter.tsx</code> ファイルを作成します。</p>
+<p>また、カウントする数値はこのコンポーネント内でその値（状態）を管理します。よって、外部から値を受け取る必要はありません。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>import React, { useCallback, useState } from &quot;react&quot;;
+import { DisplayNumber } from &quot;./DisplayNumber&quot;;
+import { IncrementalButton } from &quot;./IncrementalButton&quot;;
+
+export const Counter: React.FC = () =&gt; {
+  const [counter, setCounter] = useState(0);
+  const increment = useCallback(() =&gt; {
+    setCounter(counter + 1);
+  }, [counter, setCounter]);
+  const decrement = useCallback(() =&gt; {
+    setCounter(counter - 1);
+  }, [counter, setCounter]);
+  return (
+    &lt;div&gt;
+      &lt;IncrementalButton caption=&quot;-&quot; onClick={decrement} /&gt;
+      &lt;DisplayNumber num={counter} /&gt;
+      &lt;IncrementalButton caption=&quot;+&quot; onClick={increment} /&gt;
+    &lt;/div&gt;
+  );
+};
+</code></pre></div>
+</td></tr></table>
+<p>import で作ったコンポーネントを参照します。</p>
+<p>コンポーネントは、JSXのタグとして使用できます。このとき、プロパティを属性として渡します。</p>
+<p>管理する数値を、<code>useState</code> で宣言します。引数は初期値です。</p>
+<p><code>useState</code> の戻り値はタプル型の配列で、1番目に状態の値（state, ここでは数値）、2番目に状態の値を変更するための関数となります。</p>
+<p>状態（state, 値）を変える場合、値の変数を直接変更するのではなく、必ずこの関数を使う必要があります。</p>
+<p><code>useCallback</code> で、state の値に +1, -1 する処理を宣言しています。</p>
+<p>この useCallback, useState については、この下の「<a href="#hooks">React のパフォーマンスと Hooks</a>」で説明します。</p>
+<h3 id="html">HTMLへの挿入</h3>
+<p>コンポーネントは作りましたが、それをHTMLのどこに当てはめるのか、ということが必要です。</p>
+<p>また、それを行うファイルこそがアプリの起点（はじめに読み込まれるファイル）となります。</p>
+<p>まず、<code>index.html</code> に、React のコンポーネントが描画される場所を作りましょう。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span> <span class="p">/&gt;</span>
+        <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Webpack App<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;app&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div>
+</td></tr></table>
+<p>id が "app" の div 要素に React をレンダリングするようにしましょう。</p>
+<p><code>index.tsx</code> を作成します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nx">React</span> <span class="kr">from</span> <span class="s2">&quot;react&quot;</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">render</span> <span class="p">}</span> <span class="kr">from</span> <span class="s2">&quot;react-dom&quot;</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Counter</span> <span class="p">}</span> <span class="kr">from</span> <span class="s2">&quot;./Counter&quot;</span><span class="p">;</span>
+
+<span class="nx">render</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">Counter</span> <span class="o">/&gt;</span><span class="p">,</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">));</span>
+</code></pre></div>
+</td></tr></table>
+<p>ここでも、コンポーネントを import して、render に渡すだけです。</p>
+<p>描画先となる、HTMLの DOM を 通常のWebアプリでよく見る <code>document.getElementById</code> を使って取得しています。</p>
+<p>これで完成です。ターミナルから <code>yarn serve</code> を実行してみましょう！</p>
+<p>このように動作したでしょうか。</p>
+<p><img alt="run01" src="../run01.gif" /></p>
+<h3 id="css-in-js">CSS in JS でスタイルを定義してみる</h3>
+<p>ボタンも小さくて、それぞれの隙間がなくて操作しづらいので、スタイルで調整してみましょう。</p>
+<p>以前のセクションで CSS in JS のライブラリとして紹介した、"Emotion" を使ってみましょう。</p>
+<p>何はさておき、インストールです。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">yarn</span> <span class="n">add</span> <span class="nv">@emotion</span><span class="p">/</span><span class="n">react</span>
+</code></pre></div>
+</td></tr></table>
+<p>ボタンにスタイルを割り当ててみましょう。<code>IncrementButton.tsx</code> を開きます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cm">/** @jsx jsx */</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">css</span><span class="p">,</span> <span class="nx">jsx</span> <span class="p">}</span> <span class="kr">from</span> <span class="s2">&quot;@emotion/react&quot;</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">styles</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">button</span>: <span class="kt">css</span><span class="sb">`</span>
+<span class="sb">    background-color: #3399ff;</span>
+<span class="sb">    border: 1px solid blue;</span>
+<span class="sb">    margin: 0 1em;</span>
+<span class="sb">    padding: 0.5em 1em;</span>
+<span class="sb">  `</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="kr">type</span> <span class="nx">PropType</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">caption</span>: <span class="kt">string</span><span class="p">;</span>
+  <span class="nx">onClick</span><span class="o">:</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="ow">void</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">IncrementButton</span>: <span class="kt">React.FC</span><span class="o">&lt;</span><span class="nx">PropType</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">css</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">button</span><span class="p">}</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">onClick</span><span class="p">}</span><span class="o">&gt;</span>
+      <span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">caption</span><span class="p">}</span>
+    <span class="o">&lt;</span><span class="err">/button&gt;</span>
+  <span class="p">);</span>
+<span class="p">};</span>
+</code></pre></div>
+</td></tr></table>
+<p>1行目のコメントは、emotion を使うにあたって必要なもので、これがあることで、仮想DOMに本来無い <code>css</code> の属性が適用できます。また、React のインポートも必要なくなります。</p>
+<p>emotion から参照した、<code>css</code> という関数でスタイルを定義します。</p>
+<p>この関数に <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Template_literals#tagged_templates">タグ付きテンプレート</a> として、文字列で CSS を渡します。</p>
+<p>ここでは、style というオブジェクトを定義して、その中でスタイルを定義していますが、直接変数に与えても構いません。ただ、コンポーネントの中で複数のスタイルを扱う場合、このようにオブジェクトにまとめておいたほうが、管理しやすいと思います。</p>
+<p>スタイルを 仮想DOMに割り当てるには、タグの属性 <code>css</code> に定義した値を与えるだけです。</p>
+<p>保存して実行してみましょう。スタイルが適用されました。</p>
+<p><img alt="run02" src="../run02.png" /></p>
+<p>通常の HTMLとCSS を使ったスタイル定義では、それぞれ別のファイルに分かれて書きます。</p>
+<p>そうすると、CSS の中で定義しているクラスなどが、どこで使われて、変更がどこに影響があるのかを管理するのが難しくなります。</p>
+<p>React のコンポーネント内にパッキングすることで、部品とスタイルが同じところで管理されるため、関係性が非常にわかりやすくなります。</p>
+<h3 id="react-hooks">React のパフォーマンスと Hooks<a id="hooks"></a></h3>
+<p>上のコードは、<code>useCallback</code> を使わずに、下記のように書いても動作します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  // ❌ 良くない例です
+  const increment = () =&gt; {
+    setCounter(counter + 1);
+  };
+  const decrement = () =&gt; {
+    setCounter(counter - 1);
+  };
+  return (
+    &lt;div&gt;
+      &lt;IncrementButton caption=&quot;-&quot; onClick={decrement} /&gt;
+      &lt;DisplayNumber num={counter} /&gt;
+      &lt;IncrementButton caption=&quot;+&quot; onClick={increment} /&gt;
+    &lt;/div&gt;
+  );
+</code></pre></div>
+</td></tr></table>
+<p>ただし、この書き方はパフォーマンスが低下します。</p>
+<p>仮想DOM 自体や、仮想DOMのプロパティ（属性）に割り当てられている値（オブジェクト）が変わると、再レンダリング（DOMを作って置き換える）されます。</p>
+<p>再レンダリングされるときには、コンポーネントの関数の作成と割り当てが毎回実行される、ということになります。</p>
+<p>上の例では、Increment コンポーネントが再レンダリングされると、increment や decrement 関数が実行されるたびに再定義されます。</p>
+<p>関数の内容が同じではありますが、関数オブジェクトとしては、毎回新しく作り直すことになるので、別なものとして認識されます。</p>
+<p><img alt="function-identity" src="../function-identity.drawio.png" /></p>
+<p>よって、必要のないレンダリングが発生することになります。</p>
+<p><code>useState</code> や <code>useCallback</code>  を使うことで、そこで宣言したものは <a href="https://qiita.com/seira/items/42576765aecc9fa6b2f8#%E3%83%A1%E3%83%A2%E5%8C%96%E3%81%A8%E3%81%AF">メモ化</a> され、<strong>必要のない限り</strong> 再生成しないようになります。</p>
+<p><strong>必要のない限り</strong>、と書きましたが、どういった時に再生成が必要か、と疑問に思うでしょう。</p>
+<p>関数の中で使用しているその外側の変数（上の例では、setCounter, counter）は、それを生成したときの値に固定され、いくらその値を書き換えても、その関数の結果は同じものを変えします。</p>
+<p>useCallback の関数のあとにある第2引数の配列(<code>[counter, setCounter]</code>)は、それらの値が変更された時にその関数を作り直す、ということをします。</p>
+<p>また、「値が変更される」というところも重要で、プログラム的には <code>===</code> で比較して同じかどうかを判断します。これは、オブジェクトの時に重要で、オブジェクト同士の比較は、同一オブジェクトかどうか、という判断になります。</p>
+<p>同一オブジェクトかどうか、という判断についても正しい認識が必要です。この下の解説を参考にしてください。</p>
+<p><code>useState</code> についても、コンポーネント関数が複数回呼ばれても保持した値が（同一オブジェクトとして）変わらないようにするものです。値を変更する場合は、<code>useState</code> の戻り値の配列の２つ目の関数（ここでは、setCounter）を使う必要があります。</p>
+<h2 id="_7">関数やオブジェクトの同一性</h2>
+<p>下の例を見てください。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">const</span> <span class="nx">obj1</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;ricoh01&#39;</span> <span class="p">};</span>
+<span class="kd">const</span> <span class="nx">obj2</span> <span class="o">=</span> <span class="nx">obj1</span><span class="p">;</span>
+<span class="nx">obj2</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;ricoh02&#39;</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj1</span> <span class="o">===</span> <span class="nx">obj2</span><span class="p">);</span> <span class="c1">// true</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj1</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &quot;ricoh2&quot;</span>
+<span class="kd">const</span> <span class="nx">obj3</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;ricoh02&#39;</span> <span class="p">};</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj3</span> <span class="o">===</span> <span class="nx">obj1</span><span class="p">);</span> <span class="c1">// false</span>
+</code></pre></div>
+</td></tr></table>
+<p><code>obj2</code> は、<code>obj1</code> を代入してあり、これは同じオブジェクトを指し示しているので、比較結果は <code>true</code> となります。また、obj2 で変更したプロパティは obj1 も影響受けます。繰り返しになりますが、これはメモリ上のオブジェクトを参照しているからです。</p>
+<p><code>obj3</code> は中身は同じですが、別に生成されたものなので、比較結果は <code>false</code> となります。</p>
+<p>このように、オブジェクトの場合は、オブジェクトの扱いの意識を正しく持つ必要があります。</p>
+<p><img alt="object-identity.png" src="../object-identity.drawio.png" /></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>尤も、このようなオブエジェクトの同一性に関しては React を使う上だけではなく、JavaScript を含め、Java や C# など他の言語、プラットフォームでも同様ですので、プログラマとして正しく把握しておく必要があるものです。<br />
+ただ、値渡し、参照渡し、といった議論になると、JavaScript 自体が他とは違いちょっと特殊です。詳しくは、下記参考のリンク先で勉強してください。</p>
+</div>
+<p>React では、今回の例のように小さい規模のものであれば問題はないですが、規模が大きくなるに連れ、影響は大きくなります。例えば、テキストボックスに1文字入力するたびに画面全部が再描画され、使い物にならない、ということにもなりますので、<strong>この理解は重要です</strong>。</p>
+<div class="admonition 参考">
+<p class="admonition-title">参考</p>
+<p><a href="https://ja.reactjs.org/docs/hooks-overview.html">フック早わかり – React</a><br />
+<a href="https://qiita.com/Yametaro/items/621bfd8c894f8fd36539">5歳娘「パパのReact、めっちゃ遅いね！」 - Qiita</a><br />
+<a href="https://qiita.com/mozisan/items/1b9d4bf5a1bb341dd354">JavaScriptはオブジェクトについて参照渡しだなんて、信じない - Qiita</a><br />
+<a href="https://qiita.com/yuta0801/items/f8690a6e129c594de5fb#%E3%83%97%E3%83%AA%E3%83%9F%E3%83%86%E3%82%A3%E3%83%96%E5%80%A4%E3%81%AF%E5%80%A4%E6%B8%A1%E3%81%97%E3%81%A8%E8%A8%80%E3%82%8F%E3%82%8C%E3%81%A6%E3%81%8D%E3%81%9F%E3%82%82%E3%81%AE">JavaScriptに参照渡し/値渡しなど存在しない - Qiita</a></p>
+</div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: はじめに" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              はじめに
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../vuejs/" class="md-footer__link md-footer__link--next" aria-label="Next: Vue.js" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Vue.js
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.b1047164.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@8.0.0/dist/mermaid.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+      
+        <script src="../../javascripts/config.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1173 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <meta name="author" content="EBIHARA Kenji (kenji.ebihara@jrits.ricoh.co.jp)">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
+    
+    
+      
+        <title>Vue.js - Webアプリ開発の基本</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.a57b2b03.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/mermaid@8.0.0/dist/mermaid.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
+    
+      <link rel="stylesheet" href="../../custom.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#vuejs" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Webアプリ開発の基本" class="md-header__button md-logo" aria-label="Webアプリ開発の基本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Webアプリ開発の基本
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Vue.js
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Webアプリ開発の基本" class="md-nav__button md-logo" aria-label="Webアプリ開発の基本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Webアプリ開発の基本
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Top Page
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01.architecture/" class="md-nav__link">
+        Webアプリケーションのアーキテクチャ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02.package-manager/" class="md-nav__link">
+        パッケージ・マネージャ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03.libraries/" class="md-nav__link">
+        JavaScript でよく使用されるライブラリ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04.language/" class="md-nav__link">
+        言語 - ES20xx / TypeScript
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05.webpack/" class="md-nav__link">
+        モジュールバンドラ: Webpack
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Webフレームワーク
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Webフレームワーク" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Webフレームワーク
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        はじめに
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../react/" class="md-nav__link">
+        React
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Vue.js
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Vue.js
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    概要
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    演習
+  </a>
+  
+    <nav class="md-nav" aria-label="演習">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    準備
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    数値を表示するコンポーネントの作成
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    増減ボタンコンポーネントの作成
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    数値表示とボタンを組み合わせたコンポーネントの作成
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    スタイルを適用する
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    まとめ
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07.linter-formatter/" class="md-nav__link">
+        Linter と Formatter
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          非同期関数
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="非同期関数" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          非同期関数
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08.async-functions/" class="md-nav__link">
+        概要
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08.async-functions/react/" class="md-nav__link">
+        React を使った例
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09.test/" class="md-nav__link">
+        Webアプリケーションのテスト
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    概要
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    演習
+  </a>
+  
+    <nav class="md-nav" aria-label="演習">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    準備
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    数値を表示するコンポーネントの作成
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    増減ボタンコンポーネントの作成
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    数値表示とボタンを組み合わせたコンポーネントの作成
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    スタイルを適用する
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    まとめ
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="vuejs">Vue.js</h1>
+<h2 id="_1">概要</h2>
+<p><a href="https://jp.vuejs.org/index.html">Vue.js</a></p>
+<p>Vue.js は React と同様に、動的な HTML をレンダリングするWeb UI フレームワークです。</p>
+<p>特徴として、下記が挙げられています。</p>
+<ul>
+<li>親しみやすい: HTML, CSS, JavaScript を知っていれば、基本的な使い方の習得は早い</li>
+<li>必要なものがはじめから揃っている（CSS in JS、SPAなど）</li>
+<li>サイズが小さい</li>
+</ul>
+<p>PHPのように HTML 内に直接動的なHTMLを入れることも可能ですし、React のようにコンポーネントでのコーディングも可能です。</p>
+<p>このように、書き方に幅があるので、jQuery を利用していたプロジェクトを移行するとしたら、React よりも Vue.js の方が容易でしょう。</p>
+<p>ただし、コードの保守の効率性を考えると、コンポーネント化というのは避けられません。</p>
+<p>コンポーネントベースで作成していくとなると、React と同等の学習コストはかかります。</p>
+<p>実際に書いてみます。</p>
+<h2 id="_2">演習</h2>
+<h3 id="_3">準備</h3>
+<p>Vue.js のスターターキットがあるので、それを利用しましょう。</p>
+<p>そのツールをインストールします。フォルダには影響ないのでどこでも構いません</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn global add @vue/cli
+</code></pre></div>
+</td></tr></table>
+<p>global を指定すると、そのフォルダではなく、どこからでも使える領域にインストールされます。</p>
+<p>プロジェクトを作成します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>vue create vue-practice
+</code></pre></div>
+</td></tr></table>
+<p>ウィザードが開始します。Default はいろいろなライブラリを選択せずに簡単に作れるモードですが、TypeScriptを選択したいので、"Manually select features" を選択します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>❯ Manually select features 
+</code></pre></div>
+</td></tr></table>
+<p>機能を選択しますが、デフォルトのものに <code>TypeScript</code> を追加して、enter を押します。</p>
+<p>ここでは、コンポーネントの扱いが大きく変わった 3.x をベースにしたいと思いますので、vue.js のバージョンは、3.x を選択します。</p>
+<p>class-style のコンポーネントは No、<code>Use Babel ...</code> は、Yes としておきます。</p>
+<p>ESLint は、 <code>+ Prettier</code> を選択します。</p>
+<p>あとは、デフォルトのままでいいでしょう。</p>
+<p>初期化が終わったら、サンプルのアプリを起動してみます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>cd vue-practice
+yarn serve
+</code></pre></div>
+</td></tr></table>
+<p>ブラウザで、<code>http://localhost:8080/</code> にアクセスして、「Welcome to your Vue.js + TypeScript App」 とページが出てきたら OK です。</p>
+<p>React と同じように、カウンターのアプリを作ってみます。</p>
+<h3 id="_4">数値を表示するコンポーネントの作成</h3>
+<p><code>src/components</code>　フォルダに、<code>DisplayNumber.vue</code> ファイルを作成します。</p>
+<p>まず、コンポーネントとなるHTML をテンプレートとして書きます。</p>
+<p>数字が入る場所には、 <code>{{}}</code>とカッコでくくって、変数名 <code>num</code> をいれます。この変数は後ほど定義します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>&lt;template&gt;
+  &lt;span&gt;{{ num }}&lt;/span&gt;
+&lt;/template&gt;
+</code></pre></div>
+</td></tr></table>
+<p>次に処理となる Script を書きます。これも <code>&lt;script&gt;</code>タグでくくります。<code>lang='ts'</code> とすることで、TypeScript で書くことを意味します。</p>
+<p>まず、Vue を インポートしておきましょう。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nx">Vue</span> <span class="kr">from</span> <span class="s2">&quot;vue&quot;</span><span class="p">;</span>
+</code></pre></div>
+</td></tr></table>
+<p>プロパティの型定義を行ないます。ここでは、表示する数値を受け取ります。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kr">type</span> <span class="nx">Props</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">num</span>: <span class="kt">Number</span><span class="p">;</span>
+  <span class="nx">required</span>: <span class="kt">true</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
+</td></tr></table>
+<p>次にコンポーネントの定義となるオブジェクトを定義し、それを export default として公開することで、Vue.js からコンポーネントと認識されます。</p>
+<p>このオブジェクトの型として、Vue.Component を指定することで、プロパティが参照入力できます。また、ジェネリックとして、プロパティの型を指定することで、この中で定義するプロパティの型を特定することが出来ます。</p>
+<p>プロパティは <code>props</code> で定義します。 </p>
+<p>ファイル全内容</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>&lt;template&gt;
+  &lt;span&gt;{{ num }}&lt;/span&gt;
+&lt;/template&gt;
+
+&lt;script lang=&quot;ts&quot;&gt;
+import Vue from &quot;vue&quot;;
+type Props = {
+  num: number;
+};
+export default {
+  props: {
+    num: {
+      type: Number,
+      required: true,
+    },
+  },
+} as Vue.Component&lt;Props&gt;;
+&lt;/script&gt;
+</code></pre></div>
+</td></tr></table>
+<p>これで、プロパティを持ったコンポーネントの完成です。</p>
+<h3 id="_5">増減ボタンコンポーネントの作成</h3>
+<p>次にボタンコンポーネントを作ってみます。</p>
+<p><code>components</code> フォルダに、<code>IncrementalButton.vue</code> ファイルを作成します。</p>
+<p>まず、テンプレートを作成します。動的な箇所は後から書きましょう。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>&lt;template&gt;
+  &lt;button type=&quot;button&quot;&gt;&lt;/button&gt;
+&lt;/template&gt;
+</code></pre></div>
+</td></tr></table>
+<p>スクリプトを書きます。</p>
+<p>プロパティとしては、ボタンの表示文字=キャプションと、クリックしたときの処理、つまり関数を受け取ります。</p>
+<p>クリックしたときの処理は、<code>onClick</code> という名前にしたいところですが、DOMの持つ onClick と重複してしまうので、ここでは <code>onClickFn</code> としておきます。</p>
+<p>先ほどと同じように、プロパティを定義します。</p>
+<p>テンプレートで、これらを参照します。</p>
+<p>イベントハンドラは <code>@click</code> のように前に <code>@</code> をつけるのが、vue のルールです。</p>
+<p>caption は、前と同じく表示するだけなので、<code>{{ caption }}</code> とします。</p>
+<p>ファイル全内容</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>&lt;template&gt;
+  &lt;button type=&quot;button&quot; @click=&quot;onClickFn&quot;&gt;{{ caption }}&lt;/button&gt;
+&lt;/template&gt;
+
+&lt;script lang=&quot;ts&quot;&gt;
+import Vue from &quot;vue&quot;;
+type Props = {
+  caption: string;
+  onClickFn: () =&gt; void;
+export default {
+  props: {
+    caption: {
+      type: String,
+      required: true,
+    },
+    onClickFn: {
+      type: Function,
+      required: true,
+    },
+  },
+} as Vue.Component&lt;Props&gt;;
+&lt;/script&gt;
+</code></pre></div>
+</td></tr></table>
+<h3 id="_6">数値表示とボタンを組み合わせたコンポーネントの作成</h3>
+<p>作成したコンポーネントを組み合わせたものを作成します。</p>
+<p><code>components</code> フォルダに、<code>Counter.vue</code> ファイルを作成します。</p>
+<p>テンプレートの枠だけ作成して、スクリプトを書きます。</p>
+<p>作ったコンポーネントをインポートします。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>&lt;template&gt;
+  &lt;div&gt;&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script lang=&quot;ts&quot;&gt;
+import Vue from &quot;vue&quot;;
+import DisplayNumber from &quot;./DisplayNumber.vue&quot;;
+import IncrementalButton from &quot;./IncrementalButton.vue&quot;;
+
+export default {} as Vue.Component;
+&lt;/script&gt;
+</code></pre></div>
+</td></tr></table>
+<p>まず、テンプレートでインポートしたコンポーネントを使えるようにします。</p>
+<p>components を定義します。ここでは、テンプレートでタグ名として使う名前と、コンポーネントを key / value で紐付けるのですが、通常は同じ名前でいいでしょう。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">export</span> <span class="k">default</span> <span class="p">{</span>
+  <span class="nx">components</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">DisplayNumber</span><span class="p">,</span>
+    <span class="nx">IncrementalButton</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">};</span>
+</code></pre></div>
+</td></tr></table>
+<p>このコンポーネントを、テンプレートに追加します。プロパティはこの後に書きましょう。</p>
+<p>ボタンは、数字表示を挟んで2つ必要です。それぞれ、<code>caption</code> を指定しておきましょう。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>&lt;template&gt;
+  &lt;div&gt;
+    &lt;IncrementalButton caption=&quot;-&quot; /&gt;
+    &lt;DisplayNumber /&gt;
+    &lt;IncrementalButton caption=&quot;+&quot; /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+</code></pre></div>
+</td></tr></table>
+<p>このコンポーネントでは、プロパティはありません。</p>
+<p>カウントした数値を管理する必要があります。また、カウントした数値を表示用コンポーネントに、インクリメント、デクリメントする関数をボタンに割り当てる必要があります。</p>
+<p>そのためには、setup というプロパティを関数として定義します。</p>
+<p>その中で、まずカウントした数値を保持する変数を定義します。</p>
+<p>vue から <code>ref</code> を参照します。refは関数で、引数に初期値を渡します。戻り値は、ref オブジェクトで値は、<code>.value</code> に入っています。このようにする理由は、ref オブジェクト（ここでは <code>counter</code>）が不変である必要があるからです。ref オブジェクト自体が入れ替わってしまうと、テンプレートへの反映がされなくなってしまいます。</p>
+<p>定義した値は、return でオブジェクトとして返します。ここで指定したプロパティが template で使用できます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">export</span> <span class="k">default</span> <span class="p">{</span>
+  <span class="nx">components</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">DisplayNumber</span><span class="p">,</span>
+    <span class="nx">IncrementalButton</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="nx">setup</span><span class="o">:</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">counter</span> <span class="o">=</span> <span class="nx">ref</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="nx">counter</span><span class="p">,</span>
+    <span class="p">};</span>
+  <span class="p">},</span>
+<span class="p">}</span> <span class="kr">as</span> <span class="nx">Vue</span><span class="p">.</span><span class="nx">Component</span><span class="p">;</span>
+</code></pre></div>
+</td></tr></table>
+<p>テンプレートでプロパティ <code>num</code> に <code>counter</code> を渡します。このとき、<code>:num</code> とコロンを付ける必要があります。これは、<code>counter</code> が文字列ではなく JavaScript の式として処理されることを意味します。ここでは、変数 <code>counter</code> の値がここに展開されます。</p>
+<p>リテラルの文字以外の値を渡すときには、このようにする必要があります。テンプレートでは、refオブジェクトの <code>.value</code> を指定する必要ありません。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>&lt;template&gt;
+  &lt;div&gt;
+    &lt;IncrementalButton /&gt;
+    &lt;DisplayNumber :num=&quot;counter&quot; /&gt;
+    &lt;IncrementalButton /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+</code></pre></div>
+</td></tr></table>
+<p>インクリメント、デクリメントの関数も割り当てましょう。これらは、特別なことなく関数を変数に入れて、return するオブジェクトに入れるだけです。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>&lt;template&gt;
+  &lt;div&gt;
+    &lt;IncrementalButton caption=&quot;-&quot; :onClickFn=&quot;decrements&quot; /&gt;
+    &lt;DisplayNumber :num=&quot;counter&quot; /&gt;
+    &lt;IncrementalButton caption=&quot;+&quot; :onClickFn=&quot;increments&quot; /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script lang=&quot;ts&quot;&gt;
+import Vue, { ref } from &quot;vue&quot;;
+import DisplayNumber from &quot;./DisplayNumber.vue&quot;;
+import IncrementalButton from &quot;./IncrementalButton.vue&quot;;
+
+export default {
+  components: {
+    DisplayNumber,
+    IncrementalButton,
+  },
+  setup: () =&gt; {
+    const counter = ref(0);
+    const increments = () =&gt; {
+      counter.value++;
+    };
+    const decrements = () =&gt; {
+      counter.value--;
+    };
+    return {
+      counter,
+      increments,
+      decrements,
+    };
+  },
+} as Vue.Component;
+&lt;/script&gt;
+</code></pre></div>
+</td></tr></table>
+<p>トップページから、作成したコンポーネントを参照して表示します。</p>
+<p>HelloWorld を消して、<code>Counter.vue</code> に差し替えます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>&lt;template&gt;
+  &lt;div&gt;
+    &lt;img alt=&quot;Vue logo&quot; src=&quot;./assets/logo.png&quot; /&gt;
+    &lt;div&gt;
+      &lt;Counter /&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script lang=&quot;ts&quot;&gt;
+import { defineComponent } from &quot;vue&quot;;
+import Counter from &quot;./components/Counter.vue&quot;;
+
+export default defineComponent({
+  name: &quot;App&quot;,
+  components: {
+    Counter,
+  },
+});
+&lt;/script&gt;
+</code></pre></div>
+</td></tr></table>
+<p>保存して実行してみましょう。下記コマンドで簡易Webサーバーを起動して、コンパイルされます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn serve 
+</code></pre></div>
+</td></tr></table>
+<p>ブラウザで、<code>http://localhost:8080/</code> にアクセスしてみます。下記のように動作しましたか？</p>
+<p><img alt="vue-sample" src="../vue-sample.gif" /></p>
+<h3 id="_7">スタイルを適用する</h3>
+<p>ボタンが小さく、カウンタの表示と余白がほしいです。スタイルを当てましょう。</p>
+<p><code>incrementalButton.vue</code> でスタイルを定義します。</p>
+<p>スタイルは、<code>&lt;style&gt;&lt;/style&gt;</code> タグで定義します。</p>
+<p>スタイルはページ全体に影響しますが、<code>scoped</code> を指定することで、スタイルを書いたコンポーネント内に制限することが出来ます。通常は、これをつけたほうが良いでしょう。</p>
+<p><code>lang='sass'</code> を指定することで SASS 形式で書けます。SASS は、CSSを拡張した書き方で非常に便利な機能をもっているので、こちらで書けるようにしたいです。</p>
+<p>事前にコンパイルするためのパッケージ <code>sass</code> と <code>sass-loader</code> のインストールが必要です。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn add -D sass sass-loader@10
+</code></pre></div>
+</td></tr></table>
+<div class="admonition 注意">
+<p class="admonition-title">注意</p>
+<p>2021年9月時点で、sass-loader の最新 11.x.x を入れるとコンパイルでエラーになります。<br />
+sass-loader の 10.x.x を入れるようにします</p>
+</div>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>&lt;style lang=&quot;sass&quot; scoped&gt;
+button: {
+  background-color: #3399ff;
+  border: 1px solid blue;
+  margin: 0 1em;
+  padding: 0.5em 1em;
+}
+&lt;/style&gt;
+</code></pre></div>
+</td></tr></table>
+<p>下記のようになったでしょうか。</p>
+<p><img alt="styled-button" src="../styled-button.png" /></p>
+<h2 id="_8">まとめ</h2>
+<p>Vue.js では コードと HTML を分けて書くことができ、それを1つのファイルでパッキングできます。
+また、今回はコンポーネントでの実装を行ないましたが、そうではなく jQuery を使った開発用のように HTML に直接導入することも出来ます。</p>
+<p>このように、これまでの非コンポーネントの HTML の開発に慣れている場合は、React よりも Vue.js の方が直感的にわかりやすいのではないかと思います。</p>
+<p>ただ、実装していておわかりだと思いますが、テンプレートでプロパティの型チェックや必須のなどチェックがコンパイル時に効きません。これらは、実行時にブラウザのコンソールに出力されます。</p>
+<p>また、テンプレートで TypeScript での型定義が効かなかったり、コンポーネントのプロパティの型と定義のズレなども検知できません。</p>
+<p>コードの堅牢性に関しては React と TypeScript の組み合わせに軍配が上がります。これは、規模が大きくなるほど有効になります。</p>
+<p>規模が小さい場合は、素早く書ける Vue.js が有効でしょう。</p>
+<p>このように、それぞれの特徴を踏まえて採用することが必要です。</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../react/" class="md-footer__link md-footer__link--prev" aria-label="Previous: React" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              React
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../../07.linter-formatter/" class="md-footer__link md-footer__link--next" aria-label="Next: Linter と Formatter" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Linter と Formatter
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.b1047164.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@8.0.0/dist/mermaid.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+      
+        <script src="../../javascripts/config.js"></script>
+      
+    
+  </body>
+</html>

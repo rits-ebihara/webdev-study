@@ -1,0 +1,981 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <meta name="author" content="EBIHARA Kenji (kenji.ebihara@jrits.ricoh.co.jp)">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
+    
+    
+      
+        <title>React を使った例 - Webアプリ開発の基本</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.a57b2b03.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/mermaid@8.0.0/dist/mermaid.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
+    
+      <link rel="stylesheet" href="../../custom.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#react" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Webアプリ開発の基本" class="md-header__button md-logo" aria-label="Webアプリ開発の基本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Webアプリ開発の基本
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              React を使った例
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Webアプリ開発の基本" class="md-nav__button md-logo" aria-label="Webアプリ開発の基本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Webアプリ開発の基本
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Top Page
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01.architecture/" class="md-nav__link">
+        Webアプリケーションのアーキテクチャ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02.package-manager/" class="md-nav__link">
+        パッケージ・マネージャ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03.libraries/" class="md-nav__link">
+        JavaScript でよく使用されるライブラリ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04.language/" class="md-nav__link">
+        言語 - ES20xx / TypeScript
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05.webpack/" class="md-nav__link">
+        モジュールバンドラ: Webpack
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Webフレームワーク
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Webフレームワーク" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Webフレームワーク
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06.web-framework/" class="md-nav__link">
+        はじめに
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06.web-framework/react/" class="md-nav__link">
+        React
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06.web-framework/vuejs/" class="md-nav__link">
+        Vue.js
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07.linter-formatter/" class="md-nav__link">
+        Linter と Formatter
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          非同期関数
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="非同期関数" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          非同期関数
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        概要
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          React を使った例
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        React を使った例
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    目的
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    アプリの目的
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    アプリ仕様
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    プロジェクトの準備と動作
+  </a>
+  
+    <nav class="md-nav" aria-label="プロジェクトの準備と動作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    前提条件
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    スタートアップ プロジェクトの展開と実行
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    コールバック関数による事後処理
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    関数のプロミス化
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#async-await" class="md-nav__link">
+    async / await を利用する
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    まとめ
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    おまけ
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09.test/" class="md-nav__link">
+        Webアプリケーションのテスト
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    目的
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    アプリの目的
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    アプリ仕様
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    プロジェクトの準備と動作
+  </a>
+  
+    <nav class="md-nav" aria-label="プロジェクトの準備と動作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    前提条件
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    スタートアップ プロジェクトの展開と実行
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    コールバック関数による事後処理
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    関数のプロミス化
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#async-await" class="md-nav__link">
+    async / await を利用する
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    まとめ
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    おまけ
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="react">非同期処理の React での実践</h1>
+<h2 id="_1">目的</h2>
+<p>ここでは、React アプリの作成を通して、JavaScript での非同期処理の扱いを学習します。</p>
+<p>Promise や async / await を使った関数を作成し、それを呼び出すコードを書くことで、非同期関数の扱いを学びます。</p>
+<h2 id="_2">アプリの目的</h2>
+<p>気象庁が天気予報の情報を API で提供しています。</p>
+<blockquote>
+<p>正式には、公開されているAPIではありません。気象庁がホームページで利用している API を拝借しているだけです。<br />
+なので、公式のドキュメントもないですし、気象庁の都合で変更される可能性があります。<br />
+利用に関しては、政府標準利用規約に準拠する必要があります。</p>
+<ul>
+<li><a href="https://forest.watch.impress.co.jp/docs/serial/yajiuma/1309318.html">気象庁公式の天気予報API（？）が発見 ～Twitterの開発者界隈に喜びの声が満ちる - やじうまの杜 - 窓の杜</a>  </li>
+<li><a href="https://twitter.com/e_toyoda/status/1364504338572410885?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1364504338572410885%7Ctwgr%5E%7Ctwcon%5Es1_&amp;ref_url=https%3A%2F%2Fforest.watch.impress.co.jp%2Fdocs%2Fserial%2Fyajiuma%2F1309318.html">気象庁の中の人によるツイート</a>  </li>
+<li><a href="https://www.jma.go.jp/jma/kishou/info/coment.html">気象庁 | 著作権・リンク・個人情報保護について</a></li>
+</ul>
+</blockquote>
+<h2 id="_3">アプリ仕様</h2>
+<p><img alt="アプリ仕様図" src="../application.drawio.png" /></p>
+<ul>
+<li>画面表示時<ul>
+<li>下記URLから、非同期でデータをロードする。<br />
+  https://www.jma.go.jp/bosai/forecast/data/forecast/130000.json</li>
+<li>ロード中はそれがわかるように、<a href="https://zenn.dev/kii/articles/progress-indicator-ui#%E6%8F%8F%E7%94%BB%E3%81%95%E3%82%8C%E3%82%8B-ui-%E3%81%AE%E5%9E%8B%3A%E3%82%B9%E3%82%B1%E3%83%AB%E3%83%88%E3%83%B3%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%EF%BC%88skeleton-screen%EF%BC%89">スケルトン・ローダー</a>を表示する。</li>
+<li>データが取得できたら、天気を日付別に表示する。<ul>
+<li>データには、複数の地方の情報が入っているが、一番上のデータを表示する。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>他の都道府県の天気予報を取得する場合、<code>130000.json</code> の数値を書き変えます。<br />
+都道府県ごとのコードは、下記で確認できる。<br />
+http://www.jma.go.jp/bosai/common/const/area.json</p>
+<p>スケルトン・ローダーは、npm パッケージ <code>react-loading-skeleton</code> を利用します。 </p>
+</blockquote>
+<h2 id="_4">プロジェクトの準備と動作</h2>
+<h3 id="_5">前提条件</h3>
+<p>PCに下記がインストールされていることを確認して下さい。</p>
+<ul>
+<li><code>node.js@12.x+</code></li>
+<li><code>yarn@1.x</code></li>
+</ul>
+<blockquote>
+<p>yarn@1 は、<code>npm install -g yarn</code> で入ります。</p>
+</blockquote>
+<h3 id="_6">スタートアップ プロジェクトの展開と実行</h3>
+<ol>
+<li>
+<p>今回のプロジェクトとして、スタートアップZIPを用意しています。これをフォルダに展開して下さい。</p>
+<p><a href="s01-webアプリ開発基本/docs/08.async-functions/async-sample-app-startup.zip">async-sample-app-startup.zip</a></p>
+<p>この中には、既に Webアプリとして動作するものが入っています。</p>
+</li>
+<li>
+<p>ターミナルから、<code>yarn install</code> を実行します。</p>
+</li>
+<li>ターミナルで <code>yarn serve</code> を実行すると、Webアプリが起動します。</li>
+</ol>
+<p>天気予報が表示されたと思いますが、これは通信を行って取得したのではなく、JSONファイルから取得して表示したものになります。</p>
+<p>そのJSONファイルも、Webpack で同梱したも、つまりハードコーディングしたものになります。</p>
+<p>データの読み込みとして、<code>src/WeatherNews.tsx</code> で <code>loadWeatherNews</code> 関数を定義しており、<code>setTimeout</code> を使って、非同期の処理をシミュレートしています。</p>
+<p>これを、天気予報のURLから動的に取得するように変更します。</p>
+<h2 id="_7">コールバック関数による事後処理</h2>
+<p>まずは、Promise を使わずに、コールバック関数で事後処理を書きます。</p>
+<p><code>loadWeatherNews</code>関数では、既にコールバック関数が定義されており、一定時間後にこのコールバック関数を実行するようになっています。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">const</span> <span class="nx">loadWeatherNews</span> <span class="o">=</span> <span class="p">(</span><span class="nx">cb</span><span class="o">:</span> <span class="p">(</span><span class="nx">weatherData</span>: <span class="kt">Weather</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="ow">void</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">cb</span><span class="p">(</span><span class="nx">dummyData</span> <span class="kr">as</span> <span class="nx">Weather</span><span class="p">);</span>
+  <span class="p">},</span> <span class="mf">3000</span><span class="p">);</span>
+<span class="p">};</span>
+</code></pre></div>
+</td></tr></table>
+<p>まずは、URLからデータを取得するようにします。最近のブラウザでは、<code>fetch</code>関数が実装されており、それでデータを取得することができます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;https://www.jma.go.jp/bosai/forecast/data/forecast/130000.json&#39;</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span>
+    <span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">().</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="nx">cb</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="mf">0</span><span class="p">]);</span>
+      <span class="p">});</span>
+    <span class="p">},</span>
+  <span class="p">);</span>
+</code></pre></div>
+</td></tr></table>
+<p><code>fetch</code>自体、<code>Promise</code> を返す関数なので、<code>then</code> を使っています。</p>
+<p>レスポンスの <code>.json</code> で、レスポンスデータを JSON パースしてオブジェクトを返します。
+これも <code>Promise</code> 関数になっているので、この <code>then</code> でコールバック関数を実行しています。</p>
+<p>保存して実行してみます。</p>
+<p>本日と明日（時間帯によっては明後日も）の天気予報が表示されたでしょうか？</p>
+<p>一応、正しく動きますがネストが深いですね。<code>Promise</code> 化することで、コードをもっとスッキリさせましょう。</p>
+<h2 id="_8">関数のプロミス化</h2>
+<p>まずPromise を使っているのに、<code>.then</code> がネストしているのはもったいないです。</p>
+<p>このコードは下記のように書き変えることができます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;https://www.jma.go.jp/bosai/forecast/data/forecast/130000.json&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">response</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="nx">cb</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="mf">0</span><span class="p">]);</span>
+    <span class="p">});</span>
+</code></pre></div>
+</td></tr></table>
+<p>だいぶスッキリしました。</p>
+<p><code>.json</code> は、<code>Promise</code>関数なので、そのまま <code>return</code> して、メソッドチェーンで <code>.then</code> でその結果を受け取ります。</p>
+<p>保存して実行して、結果が変わらないことを確認します。</p>
+<p>次は、<code>loadWeatherNews</code> 関数自体も　<code>Promise</code> 化して、この関数を使う側のソースコードがスッキリ書けるようにしましょう。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">const</span> <span class="nx">loadWeatherNews</span> <span class="o">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="ow">new</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="nx">Weather</span><span class="o">&gt;</span><span class="p">((</span><span class="nx">resolve</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;https://www.jma.go.jp/bosai/forecast/data/forecast/130000.json&#39;</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">response</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+      <span class="p">})</span>
+      <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="nx">resolve</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="mf">0</span><span class="p">]);</span>
+      <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">};</span>
+</code></pre></div>
+</td></tr></table>
+<p>引数のコールバック関数を廃止し、<code>new Promise</code> したものを <code>return</code> するようにしました。</p>
+<p>使う側で <code>.then</code> で結果を受け取るために、<code>resolve</code> でロードしたデータを渡しています。</p>
+<p>また TypeScript では、Promise で返す値の型を明示する必要があります。<code>Promise</code> にジェネリック型で指定します。</p>
+<p>使う側はこのようになります。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="nx">useEffect</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">loadWeatherNews</span><span class="p">().</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="nx">setWeatherData</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">},</span> <span class="p">[]);</span>
+</code></pre></div>
+</td></tr></table>
+<p>保存して実行して、結果が変わらないことを確認します。</p>
+<p>これでも良いんですが、そもそも <code>fetch</code> や <code>.json</code> が <code>Promise</code> を返すので、それをそのまま <code>return</code> することもできます。</p>
+<p>使用側は何も変わりません。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">const</span> <span class="nx">loadWeatherNews</span> <span class="o">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;https://www.jma.go.jp/bosai/forecast/data/forecast/130000.json&#39;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">response</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">data</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span> <span class="kr">as</span> <span class="nx">Weather</span><span class="p">;</span>
+    <span class="p">});</span>
+<span class="p">};</span>
+</code></pre></div>
+</td></tr></table>
+<p>かなり簡潔になりました。このように、<code>Promise</code> をそのまま返すことで関数を <code>Promise</code> 化することもできます。</p>
+<h2 id="async-await">async / await を利用する</h2>
+<p><code>Promise</code> でも 全く問題はないのですが、async / await を使ってさらにコードを読みやすくします。</p>
+<p>関数に <code>async</code> をつけて、非同期関数（実際には、<code>Promise</code> を返す関数）として宣言します。</p>
+<p><code>fetch</code>と<code>.json</code> の呼び出しで、<code>await</code> をつけて実行が完了するまで、それぞれの行で停止するようにします。</p>
+<p>最後に <code>.json</code> の結果を返します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">const</span> <span class="nx">loadWeatherNews</span> <span class="o">=</span> <span class="k">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;https://www.jma.go.jp/bosai/forecast/data/forecast/130000.json&#39;</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+  <span class="k">return</span> <span class="nx">data</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span> <span class="kr">as</span> <span class="nx">Weather</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
+</td></tr></table>
+<p>ソースが単純明快になりました。非同期関数を <code>Promise</code> をあまり意識することなく書くことができるのがわかるかと思います。</p>
+<p>これでも、前のソースと同じで <code>Promise</code> を返す関数なので、使用側のコードは変わりません。</p>
+<p>保存して実行して、結果が変わらないことを確認してみてください。</p>
+<h2 id="_9">まとめ</h2>
+<p>非同期関数を作成して、それを利用したアプリを動かしてみました。</p>
+<p>今回使用した <code>fetch</code> や <code>axios</code> などのHTTPクライアントのライブラリ、Node.js の DB クライアントやファイル操作など、I/O を行うライブラリは、その殆どが <code>Promise</code>化されており、自作の <code>Promise</code> 関数を作ることは、多くはないのではないかと思います。</p>
+<p>ただ、await を使う場合は、async の関数である必要があり、つまりそれは <code>Promise</code> 関数を作ることになります。</p>
+<p>ですので、<code>Promise</code> の扱いを身につけておく必要があります。</p>
+<h2 id="_10">おまけ</h2>
+<p>下記に、フルバージョンとして、全国の天気を見ることができソースを置いています。</p>
+<p><code>WeatherNews.tsx</code> の内容を差し替えて、<code>AreaType.ts</code> ファイルを追加して下さい。</p>
+<p>React の参考としてください。</p>
+<p>https://github.com/rits-ebihara/webdev-study/blob/main/async-functions/src/WeatherNews-full-version.tsx</p>
+<p>https://github.com/rits-ebihara/webdev-study/blob/main/async-functions/src/AreaType.ts</p>
+<p><img alt="full-version" src="../full-version.png" /></p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: 概要" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              概要
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../../09.test/" class="md-footer__link md-footer__link--next" aria-label="Next: Webアプリケーションのテスト" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Webアプリケーションのテスト
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.b1047164.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@8.0.0/dist/mermaid.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+      
+        <script src="../../javascripts/config.js"></script>
+      
+    
+  </body>
+</html>

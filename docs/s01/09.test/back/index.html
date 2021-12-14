@@ -1,0 +1,1007 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <meta name="author" content="EBIHARA Kenji (kenji.ebihara@jrits.ricoh.co.jp)">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
+    
+    
+      
+        <title>Back - Webアプリ開発の基本</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.a57b2b03.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/mermaid@8.0.0/dist/mermaid.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
+    
+      <link rel="stylesheet" href="../../custom.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Webアプリ開発の基本" class="md-header__button md-logo" aria-label="Webアプリ開発の基本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Webアプリ開発の基本
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Back
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Webアプリ開発の基本" class="md-nav__button md-logo" aria-label="Webアプリ開発の基本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Webアプリ開発の基本
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Top Page
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01.architecture/" class="md-nav__link">
+        Webアプリケーションのアーキテクチャ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02.package-manager/" class="md-nav__link">
+        パッケージ・マネージャ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03.libraries/" class="md-nav__link">
+        JavaScript でよく使用されるライブラリ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04.language/" class="md-nav__link">
+        言語 - ES20xx / TypeScript
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05.webpack/" class="md-nav__link">
+        モジュールバンドラ: Webpack
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Webフレームワーク
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Webフレームワーク" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Webフレームワーク
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06.web-framework/" class="md-nav__link">
+        はじめに
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06.web-framework/react/" class="md-nav__link">
+        React
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06.web-framework/vuejs/" class="md-nav__link">
+        Vue.js
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07.linter-formatter/" class="md-nav__link">
+        Linter と Formatter
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          非同期関数
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="非同期関数" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          非同期関数
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08.async-functions/" class="md-nav__link">
+        概要
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08.async-functions/react/" class="md-nav__link">
+        React を使った例
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        Webアプリケーションのテスト
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    コンストラクタのテスト
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    まとめ
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  <h1>Back</h1>
+                
+                <p>テスト駆動開発では、テストを先に書くわけですが、そのためには仕様が明確になっている必要があります。</p>
+<blockquote>
+<p>もし仕様が書けないのであれば、仕様が決まっていない、ひいては設計が完了していない、ということになります。
+そういう意味でも、テストを先に書いて仕様漏れ、検討漏れの防止にもなります。</p>
+</blockquote>
+<p>リングバッファの仕様として、下記とします。</p>
+<ul>
+<li>コンストラクタ<ul>
+<li>ジェネリック型でバッファの型を指定できる。</li>
+<li>引数に、バッファのサイズを数値で指定できる。(2以上の整数)<ul>
+<li>2未満の場合は、例外を発生させる。メッセージは、"引数のバッファサイズは 2以上 を指定して下さい。"</li>
+</ul>
+</li>
+<li>現在のインデックスを '0' とする。</li>
+</ul>
+</li>
+<li>push メソッド<ul>
+<li>リングバッファに引数の値をバッファの現在のインデックスの次に格納する。</li>
+<li>バッファの現在の現在のインデックスを +1 する。<ul>
+<li>最大バッファ数を超えす場合は、現在のインデックスを 0 とする。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>pop メソッド<ul>
+<li>バッファの現在のインデックスの値を返す。</li>
+<li>現在のインデックスを -1 する。<ul>
+<li>0を下回る場合は、(最大バッファ数 -1 )とする。</li>
+</ul>
+</li>
+<li>初期状態の場合は、undefined を返し、現在のインデックスは変更しない</li>
+</ul>
+</li>
+<li>getCurrent メソッド<ul>
+<li>バッファの現在のインデックスの値を返す。</li>
+</ul>
+</li>
+<li>currentIndex プロパティ<ul>
+<li>読み込み専用</li>
+<li>現在のインデックスの数値を返す。</li>
+</ul>
+</li>
+<li>toArray メソッド<ul>
+<li>通常の配列を返す。</li>
+<li>値の順番は、先頭に現在のインデックスの値となるように、リングバッファの順番で出力する。<ul>
+<li>バッファが <code>['a', 'b', 'c']</code> で、現在のインデックスが '1'(2番め) の場合 <code>['b', 'c' ,'a']</code> となる</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="_1">コンストラクタのテスト</h3>
+<p>まず、リングバッファの実装をするファイル <code>RingBuffer.ts</code> と、そのテストのファイル <code>RingBuffer.test.ts</code> を作成します。
+場所は、それぞれ <code>src/</code> , <code>src/__tests__/</code> で良いでしょう。</p>
+<p>テストから書く、とはいってもクラスやそのメンバがなければ、そもそもコンパイルエラーでテストが実行できないので、想定されるクラスのメンバだけは実装しましょう。所謂スケルトンコードというものです。</p>
+<p>関数の戻り値や変数の型違反にならないよう、最低限の return は書いています。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/RingBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">export</span> <span class="kd">class</span> <span class="nx">RingBuffer</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="k">private</span> <span class="nx">buffer</span>: <span class="kt">T</span><span class="p">[]</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="k">private</span> <span class="nx">_currentIndex</span>: <span class="kt">number</span><span class="p">;</span>
+  <span class="kr">constructor</span><span class="p">(</span><span class="nx">size</span>: <span class="kt">number</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 未実装</span>
+  <span class="p">}</span>
+  <span class="k">public</span> <span class="nx">toArray</span><span class="p">()</span><span class="o">:</span> <span class="nx">T</span><span class="p">[]</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[];</span>
+  <span class="p">}</span>
+  <span class="k">public</span> <span class="nx">push</span><span class="p">(</span><span class="nx">item</span>: <span class="kt">T</span><span class="p">)</span><span class="o">:</span> <span class="ow">void</span> <span class="p">{</span>
+    <span class="c1">// 未実装</span>
+  <span class="p">}</span>
+  <span class="k">public</span> <span class="nx">pop</span><span class="p">()</span><span class="o">:</span> <span class="nx">T</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{}</span> <span class="kr">as</span> <span class="nx">T</span>
+  <span class="p">}</span>
+  <span class="nx">getCurrent</span><span class="p">()</span><span class="o">:</span> <span class="nx">T</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{}</span> <span class="kr">as</span> <span class="nx">T</span>
+  <span class="p">}</span>
+  <span class="nx">get</span> <span class="nx">currentIndex</span><span class="p">()</span><span class="o">:</span> <span class="kt">number</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mf">1</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>テストコードを書きます。</p>
+<p>まず、テスト対象のファイルを import します。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/RingBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="p">{</span> <span class="nx">RingBuffer</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;../RingBuffer&#39;</span><span class="p">;</span>
+</code></pre></div>
+</td></tr></table>
+<p>はじめにコンストラクタ関数をテストを書きます。コンストラクタ関数では、引数で定義した数値の細部のバッファを持ちます。</p>
+<p>仕様から評価を検討します。下記の2点が評価項目となるでしょう。</p>
+<ul>
+<li>buffer の配列の数が引数とあっているか。</li>
+<li>_currentIndex が、<code>0</code> であるか。</li>
+</ul>
+<p>それぞれ private のメンバーですが、JavaScriptではインデクサにプロパティ名を入れることでアクセスできます。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/RingBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;constructor&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">10</span><span class="p">);</span>
+  <span class="c1">// 引数に、バッファのサイズを数値で指定できる。(2以上の整数)</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;buffer&#39;</span><span class="p">].</span><span class="nx">length</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="mf">10</span><span class="p">);</span>
+  <span class="c1">// 現在のインデックスを &#39;-1&#39;(バッファがないため) とする。</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;_currentIndex&#39;</span><span class="p">]).</span><span class="nx">toBe</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+</td></tr></table>
+<p>テストを実行します。</p>
+<p>コンストラクタ関数には、まだ何も実装していないので、当然エラーになります。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>&gt; yarn test ./src/__tests__/RingBuffer.test.ts 
+
+  ● constructor
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 10
+    Received: 0
+</code></pre></div>
+</td></tr></table>
+<p>テストが成功するように、実装しましょう。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/RingBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">private</span> <span class="nx">buffer</span>: <span class="kt">T</span><span class="p">[];</span> <span class="c1">// コンストラクタで初期化するので、初期値は不要</span>
+  <span class="cm">/**</span>
+<span class="cm">   *</span>
+<span class="cm">   * @param size - バッファサイズ;</span>
+<span class="cm">   */</span>
+  <span class="kr">constructor</span><span class="p">(</span><span class="nx">size</span>: <span class="kt">number</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nb">Array</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">size</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_currentIndex</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span>
+  <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>もう一度テストします。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>➜  practice git:(main) ✗ yarn test ./src/__tests__/RingBuffer.test.ts
+yarn run v1.22.15
+$ jest ./src/__tests__/RingBuffer.test.ts
+ PASS  src/__tests__/RingBuffer.test.ts
+  ✓ constructor (2 ms)
+</code></pre></div>
+</td></tr></table>
+<p>テストが成功しました。しかし、引数に入れられる値は、'2以上である'という制約がありますが、ここではこれでよいです。</p>
+<p>1つのテストを成功させるため、最低限の実装だけを行います。</p>
+<p>次にそのテストを書きましょう。別のテストとして書きます。</p>
+<p>例外が発生する場合が成功となります。その場合は、<code>expect</code> の引数に関数を指定し、その中で例外が発生する可能性のある処理を書きます。</p>
+<p>評価方法として、<code>.ThrowError</code> を利用します。引数に発生するはずのエラーメッセージを引数に指定します。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/RingBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;constructor - failed&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="c1">// 2未満の場合は、例外を発生させる。</span>
+  <span class="c1">// メッセージは、&quot;引数のバッファサイズは 2以上 を指定して下さい。&quot;</span>
+  <span class="nx">expect</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
+  <span class="p">}).</span><span class="nx">toThrowError</span><span class="p">(</span><span class="s1">&#39;引数のバッファサイズは 2以上 を指定して下さい。&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+</td></tr></table>
+<p>入力チェックを実装していないので、例外は発生せずテストは失敗します。</p>
+<p>その実装を入れます。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/RingBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="kr">constructor</span><span class="p">(</span><span class="nx">size</span>: <span class="kt">number</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">size</span> <span class="o">&lt;</span> <span class="mf">2</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">throw</span> <span class="ow">new</span> <span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;引数のバッファサイズは 2以上 を指定して下さい。&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nb">Array</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">size</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_currentIndex</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span>
+  <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>テストが成功しました。</p>
+<p>続いて、push のテストをします。push では、引数の値をバッファの先頭に格納します。</p>
+<p>また、現在のインデックスを +1 します。それらを評価しましょう。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/RingBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;push - first&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">10</span><span class="p">);</span>
+  <span class="c1">// はじめのインデックスが &#39;-1&#39; であることを確認する</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;_currentIndex&#39;</span><span class="p">]).</span><span class="nx">toBe</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">);</span>
+  <span class="c1">// push実行</span>
+  <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;test1&#39;</span><span class="p">);</span>
+  <span class="c1">// リングバッファに引数の値をバッファの現在のインデックスの次に格納する。</span>
+  <span class="c1">// 現在のインデックスが &#39;-1&#39;（初期状態）の場合は、&#39;0&#39; に格納する。</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;buffer&#39;</span><span class="p">][</span><span class="mf">0</span><span class="p">]).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;test1&#39;</span><span class="p">);</span>
+  <span class="c1">// バッファの現在の現在のインデックスを +1 する。</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;_currentIndex&#39;</span><span class="p">]).</span><span class="nx">toBe</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+</td></tr></table>
+<p>実装していないので、エラーになります。成功するように書きましょう。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/RingBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">public</span> <span class="nx">push</span><span class="p">(</span><span class="nx">item</span>: <span class="kt">T</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_currentIndex</span> <span class="o">===</span> <span class="o">-</span><span class="mf">1</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">_currentIndex</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">_currentIndex</span><span class="p">]</span> <span class="o">=</span> <span class="nx">item</span><span class="p">;</span>
+  <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>テストを実行すると、成功します。が、お気づきのように2回めの push ではおかしくなるはずです。でも今はこれで良いです。</p>
+<p>仕様の 「リングバッファに引数の値をバッファの現在のインデックスの次に格納する。」 がテストできていません。</p>
+<p>このテストを追加しましょう。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/RingBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;push - seconds&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">10</span><span class="p">);</span>
+  <span class="c1">// はじめのインデックスが &#39;-1&#39; であることを確認する</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;_currentIndex&#39;</span><span class="p">]).</span><span class="nx">toBe</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">);</span>
+  <span class="c1">// push実行</span>
+  <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;test1&#39;</span><span class="p">);</span>
+  <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;test2&#39;</span><span class="p">);</span>
+  <span class="c1">// リングバッファに引数の値をバッファの現在のインデックスの次に格納する。</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;buffer&#39;</span><span class="p">][</span><span class="mf">1</span><span class="p">]).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;test2&#39;</span><span class="p">);</span>
+  <span class="c1">// バッファの現在の現在のインデックスを +1 する。</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;_currentIndex&#39;</span><span class="p">]).</span><span class="nx">toBe</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+</td></tr></table>
+<p>テスト実行すると、失敗するでしょう。成功するように実装します。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/RingBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">public</span> <span class="nx">push</span><span class="p">(</span><span class="nx">item</span>: <span class="kt">T</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_currentIndex</span> <span class="o">===</span> <span class="o">-</span><span class="mf">1</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">_currentIndex</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="o">++</span><span class="k">this</span><span class="p">.</span><span class="nx">_currentIndex</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">_currentIndex</span><span class="p">]</span> <span class="o">=</span> <span class="nx">item</span><span class="p">;</span>
+  <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>これでテストが成功します。しかし実装をよく見ると、<code>_currentIndex</code> が初期値の <code>-1</code> の場合でも 1 追加すれば良さそうで、そうなると <code>if</code> が必要無さそうです。</p>
+<p>リファクタリングしましょう。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/RingBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">public</span> <span class="nx">push</span><span class="p">(</span><span class="nx">item</span>: <span class="kt">T</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="o">++</span><span class="k">this</span><span class="p">.</span><span class="nx">_currentIndex</span><span class="p">]</span> <span class="o">=</span> <span class="nx">item</span><span class="p">;</span>
+  <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>テストを実行すると、ちゃんと成功しました。つまり、リファクタリングしても結果が変わらないことが保証されました。</p>
+<p>テスト駆動開発では、テストを書く -&gt; テストを満たす最低限の実装 -&gt; リファクタリング　の流れで作成していきます。</p>
+<p>push では、もう1つ確認しないといけない仕様があります。「最大バッファ数を超える場合は、現在のインデックスを 0 とする。」です。</p>
+<p>これのテストを書いていきましょう。</p>
+<p>バッファを埋めないといけないので、ループで push します。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/RingBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;push - full&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">5</span><span class="p">);</span>
+  <span class="c1">// はじめのインデックスが &#39;-1&#39; であることを確認する</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;_currentIndex&#39;</span><span class="p">]).</span><span class="nx">toBe</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">);</span>
+  <span class="c1">// 前提データの作成</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mf">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;buffer&#39;</span><span class="p">][</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span> <span class="o">+</span> <span class="nx">i</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;_currentIndex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">4</span><span class="p">;</span>
+  <span class="c1">// push実行</span>
+  <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;test - add&#39;</span><span class="p">);</span>
+  <span class="c1">// リングバッファに引数の値をバッファの現在のインデックスの次に格納する。</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;buffer&#39;</span><span class="p">][</span><span class="mf">0</span><span class="p">]).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;test - add&#39;</span><span class="p">);</span>
+  <span class="c1">// バッファの長さが変わらない</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;buffer&#39;</span><span class="p">].</span><span class="nx">length</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="mf">5</span><span class="p">);</span>
+  <span class="c1">// バッファの現在の現在のインデックスを +1 する。</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;_currentIndex&#39;</span><span class="p">]).</span><span class="nx">toBe</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+</td></tr></table>
+<p>毎回のことながら、バッファがいっぱいになったときの実装していないのでエラーになります。</p>
+<p>成功するように修正します。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/RingBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">public</span> <span class="nx">push</span><span class="p">(</span><span class="nx">item</span>: <span class="kt">T</span><span class="p">)</span><span class="o">:</span> <span class="ow">void</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">++</span><span class="k">this</span><span class="p">.</span><span class="nx">_currentIndex</span> <span class="o">&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mf">1</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">_currentIndex</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">_currentIndex</span><span class="p">]</span> <span class="o">=</span> <span class="nx">item</span><span class="p">;</span>
+  <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>次は、<code>pop</code> メソッドのテストを書きます。</p>
+<p>まずは、ノーマルな処理で、最後に push した値が取得できることと、インデックスが戻っていることを確認します。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/RingBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;pop - normal&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">10</span><span class="p">);</span>
+  <span class="c1">// 前提データの作成</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mf">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;buffer&#39;</span><span class="p">][</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span> <span class="o">+</span> <span class="nx">i</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;_currentIndex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">4</span><span class="p">;</span>
+  <span class="kd">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span>
+  <span class="c1">// バッファの現在のインデックスの値を返す。</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">result</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;test4&#39;</span><span class="p">);</span>
+  <span class="c1">// 現在のインデックスを -1 する。</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;_currentIndex&#39;</span><span class="p">]).</span><span class="nx">toBe</span><span class="p">(</span><span class="mf">3</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+</td></tr></table>
+<p>失敗することを確認します。実装しましょう。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/RingBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">public</span> <span class="nx">pop</span><span class="p">()</span><span class="o">:</span> <span class="nx">T</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">_currentIndex</span><span class="o">--</span><span class="p">];</span>
+  <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>テストが成功しました。</p>
+<p>現在のインデックスが 0 の場合、バッファの最後に移動するので、その動作を確認します。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/RingBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;pop - back to last&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">5</span><span class="p">);</span>
+  <span class="c1">// 前提データの作成</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mf">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;buffer&#39;</span><span class="p">][</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span> <span class="o">+</span> <span class="nx">i</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;_currentIndex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span>
+  <span class="c1">// バッファの現在のインデックスの値を返す。</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">result</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;test0&#39;</span><span class="p">);</span>
+  <span class="c1">// 現在のインデックスを -1 する。</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;_currentIndex&#39;</span><span class="p">]).</span><span class="nx">toBe</span><span class="p">(</span><span class="mf">4</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+</td></tr></table>
+<p>失敗を確認して、仕様を実装します。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/RingBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">public</span> <span class="nx">pop</span><span class="p">()</span><span class="o">:</span> <span class="nx">T</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">res</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">_currentIndex</span><span class="o">--</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_currentIndex</span> <span class="o">&lt;</span> <span class="mf">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">_currentIndex</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mf">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">res</span><span class="p">;</span>
+  <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>テストが成功することを確認します。</p>
+<p><code>getCurrent</code> と プロパティの<code>currentIndex</code> が残っていますが、これまでのものを参考にテストと実装が書けると思います。各自、実施してみて下さい。</p>
+<h2 id="_2">まとめ</h2>
+<p>テスト駆動開発について、ハンズオンを交えて説明しました。</p>
+<p>テスト -&gt; 実装 の流れをなんとなくでも掴むことができたでしょうか？</p>
+<p>はじめにテストで失敗する事が大事です。まず仕様を正しく把握できますし、テストの実装違いで常に成功するテストを書いてしまうかもしれません。失敗から成功に変わる確認が必要です。</p>
+<p>はじめのテストが失敗してから、成功するコードを書くときには、なるべく早く成功する方法で書きます。たとえそれが戻り値をハードコーディングすることでも良いです。成功することを確認した後、リファクタリングでテストが成功のままであることを確認します。</p>
+<p>実装中にテストに必要な追加パターンが判明することがあります。それも随時テストに追加していくことが大事です。</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.b1047164.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@8.0.0/dist/mermaid.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+      
+        <script src="../../javascripts/config.js"></script>
+      
+    
+  </body>
+</html>

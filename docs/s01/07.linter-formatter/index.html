@@ -1,0 +1,1078 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <meta name="author" content="EBIHARA Kenji (kenji.ebihara@jrits.ricoh.co.jp)">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
+    
+    
+      
+        <title>Linter と Formatter - Webアプリ開発の基本</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.a57b2b03.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/mermaid@8.0.0/dist/mermaid.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
+    
+      <link rel="stylesheet" href="../custom.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#linter-formatter" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Webアプリ開発の基本" class="md-header__button md-logo" aria-label="Webアプリ開発の基本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Webアプリ開発の基本
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Linter と Formatter
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Webアプリ開発の基本" class="md-nav__button md-logo" aria-label="Webアプリ開発の基本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Webアプリ開発の基本
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Top Page
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01.architecture/" class="md-nav__link">
+        Webアプリケーションのアーキテクチャ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02.package-manager/" class="md-nav__link">
+        パッケージ・マネージャ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03.libraries/" class="md-nav__link">
+        JavaScript でよく使用されるライブラリ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04.language/" class="md-nav__link">
+        言語 - ES20xx / TypeScript
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05.webpack/" class="md-nav__link">
+        モジュールバンドラ: Webpack
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Webフレームワーク
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Webフレームワーク" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Webフレームワーク
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06.web-framework/" class="md-nav__link">
+        はじめに
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06.web-framework/react/" class="md-nav__link">
+        React
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06.web-framework/vuejs/" class="md-nav__link">
+        Vue.js
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Linter と Formatter
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Linter と Formatter
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    概要
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eslint" class="md-nav__link">
+    ESLint
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prettier" class="md-nav__link">
+    Prettier
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eslint-prettier" class="md-nav__link">
+    ESLint と　Prettier の組み合わせ
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    まとめ
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          非同期関数
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="非同期関数" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          非同期関数
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08.async-functions/" class="md-nav__link">
+        概要
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08.async-functions/react/" class="md-nav__link">
+        React を使った例
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09.test/" class="md-nav__link">
+        Webアプリケーションのテスト
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    概要
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eslint" class="md-nav__link">
+    ESLint
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prettier" class="md-nav__link">
+    Prettier
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#eslint-prettier" class="md-nav__link">
+    ESLint と　Prettier の組み合わせ
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    まとめ
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="linter-formatter">Linter と Formatter</h1>
+<h2 id="_1">概要</h2>
+<p>ソースコードを書く上で、Linter と Formatter があると無いとでは効率が大きく異なります。</p>
+<p>Linter は、構文チェックです。これは、言語仕様として間違っているところだけではなく、推奨されない書き方を警告したり、場合によっては自動的に修正してくれます。</p>
+<p>Formatter は、コードの整形ツールです。コードの読みやすさに貢献します。また、チームで開発する場合、インデントの数が開発者によって異なると、gitなどの構成管理ツールでインデントの変更だけで履歴が作成されてしまい、本当に確認すべき変更点を見つけにくくなってしまいます。</p>
+<p>いずれも、ルールをカスタマイズすることができ、チームごとに定義されたコーディング規約を機械的に守らせることができるので、レビューでの最低限のチェックを省くことも出来ます。</p>
+<p>殆どの言語には Linter / Formatter のツールが用意されているので、積極的に利用しましょう。</p>
+<p>ここでは、JavaScript / TypeScript のこれらについて説明します。</p>
+<h2 id="eslint">ESLint</h2>
+<p><a href="https://eslint.org/">ESLint - Pluggable JavaScript linter</a></p>
+<p>ESLint は、JavaScript の　Linter で、プラグインを導入することで、TypeScript にも対応できます。</p>
+<p>ルールの種類は 200 以上あり、環境や好みに合わせた柔軟な設定ができます。
+<a href="https://eslint.org/docs/rules/">List of available rules - ESLint - Pluggable JavaScript linter</a></p>
+<p>その一方でそんなに数があると、自分で1つ1つ設定するのは非常に困難です。そこで、ルールのセットも用意されており、これをベースに一部を上書き、追加することが通常の利用方法だと思います。</p>
+<p>そのセットも、ESLint 標準のもの、Google の JavaScript スタイルガイドに沿ったもの、Airbnb のスタイルガイドに沿ったもの、などが公開されておりそれらを利用することも出来ます。</p>
+<p>実際にその効果を試してみましょう。</p>
+<p>前の講座で React を作成したフォルダがあればそれを利用しましょう。</p>
+<p>まずは、ESLint を <code>yarn add</code> で導入します。開発環境で使うものなので、<code>-D</code> を忘れないようにします。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn add -D eslint
+</code></pre></div>
+</td></tr></table>
+<p>ESLint のルールや動作の設定は、<code>.eslintrc</code> ファイルに書く必要がありますが、これは
+ウィザードで作成することが出来ます。下記コマンドで開始できます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn eslint --init
+</code></pre></div>
+</td></tr></table>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>? How would you like to use ESLint? … 
+  To check syntax only
+  To check syntax and find problems
+▸ To check syntax, find problems, and enforce code style
+</code></pre></div>
+</td></tr></table>
+<p>はじめの質問は、ESLint でチェックする内容です。ここで一番下のものを選択すると、後ほど、Google や Airbnb のコーディング規約を選択できます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>? What type of modules does your project use? … 
+▸ JavaScript modules (import/export)
+  CommonJS (require/exports)
+  None of these
+</code></pre></div>
+</td></tr></table>
+<p>次は、モジュール参照の仕方を聞いています。TypeScript を使うので、一番上の <code>JavaScript modules</code> を選択します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>? Which framework does your project use? … 
+▸ React
+  Vue.js
+  None of these
+</code></pre></div>
+</td></tr></table>
+<p>次は、使用するフレームワークがあればそれを選択します。ここでは、React を使うのでそれを選択します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>? Does your project use TypeScript? ‣ No / Yes
+</code></pre></div>
+</td></tr></table>
+<p>TypeScript を使うので、<code>Yes</code> です。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code> ? Where does your code run? …  (Press &lt;space&gt; to select, &lt;a&gt; to toggle all, &lt;i&gt; to invert selection)
+✔ Browser
+  Node
+</code></pre></div>
+</td></tr></table>
+<p>プログラムは、ブラウザで動作するものか、Node.js で動作するものかを選択します。両方選択することも出来ます。ここでは、<code>Browser</code> を選択しておきましょう。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>? How would you like to define a style for your project? … 
+▸ Use a popular style guide
+  Answer questions about your style
+  Inspect your JavaScript file(s)
+</code></pre></div>
+</td></tr></table>
+<p>コードスタイルのガイドラインの利用を選択します。ここでは、ポピュラーなスタイルガイドを利用したいので <code>Use a popular style guide</code> を選択します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>? Which style guide do you want to follow? … 
+  Airbnb: https://github.com/airbnb/javascript
+  Standard: https://github.com/standard/standard
+▸ Google: https://github.com/google/eslint-config-google
+  XO: https://github.com/xojs/eslint-config-xo
+</code></pre></div>
+</td></tr></table>
+<p>コードスタイルを選択します。好みで選んでよいのですが、ここでは <code>Google</code> のものを選択しておきましょう。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>? What format do you want your config file to be in? … 
+  JavaScript
+▸ YAML
+  JSON
+</code></pre></div>
+</td></tr></table>
+<p><code>.eslint</code> をどの形式で書くかを聞いています。どれでも問題ないのですが、ここではYAML がシンプルでわかりやすいので、それを選択しましょう。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>? Would you like to install them now with npm? ‣ No / Yes
+</code></pre></div>
+</td></tr></table>
+<p>必要な追加のパッケージをインストールするかと聞いてます。<code>Yes</code> とします。</p>
+<p>ただし、今回は <code>yarn</code> を使っているので、処理が終わった後に <code>package-lock.json</code> を削除し、<code>yarn</code> で実行し直しておきます。</p>
+<p>そうすることで、<code>yarn.lock</code> ファイルに追加したパッケージのバージョン情報を入れることが出来ます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>rm ./package-lock.json
+yarn
+</code></pre></div>
+</td></tr></table>
+<p>追加で、React Hooks の プラグインも入れます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn add -D eslint-plugin-react-hooks
+</code></pre></div>
+</td></tr></table>
+<p>このプラグインを適用するため、<code>.eslintrc.yml</code> に追加します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">plugins</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">react</span>
+  <span class="p p-Indicator">-</span> <span class="s">&quot;@typescript-eslint&quot;</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">react-hooks</span> <span class="c1"># &lt;- add</span>
+<span class="nt">rules</span><span class="p">:</span>
+  <span class="nt">react/prop-types</span><span class="p">:</span> <span class="s">&quot;off&quot;</span>
+  <span class="nt">react-hooks/rules-of-hooks</span><span class="p">:</span> <span class="s">&quot;error&quot;</span> <span class="c1"># &lt;- add</span>
+  <span class="nt">react-hooks/exhaustive-deps</span><span class="p">:</span> <span class="s">&quot;warn&quot;</span> <span class="c1"># &lt;- add</span>
+</code></pre></div>
+</td></tr></table>
+<p>早速チェックしてみます。下記コマンドで実行します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn eslint ./src/**/*
+  ...
+  1:19  error  Strings must use singlequote  quotes
+  ...
+  1:16  error  There should be no space after &#39;{&#39;   object-curly-spacing
+  ...
+  20:48  error  &#39;onClick&#39; is missing in props validation  react/prop-types
+  21:14  error  &#39;caption&#39; is missing in props validation  react/prop-types
+</code></pre></div>
+</td></tr></table>
+<p>色々エラーが出ました。</p>
+<p><code>quotes</code> や <code>object-curly-spacing</code> とあるのは、コードの整形に関するものです。これは、後ほど Prettier の方で定義しますので、今は無視してください。</p>
+<p><code>react/prop-types</code> は、React でプロパティの型チェックを推奨するルールのために発生しています。</p>
+<p>しかし、これは TypeScript で型指定されているので、今回のこれについては必要のないエラーです。ルールでこれを off にしましょう。</p>
+<p>エラーメッセージの末尾にあるのが、ルール名です。これをコピーします。そして、<code>.eslintrc.yml</code> ファイルに、ルールを追加します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">rules</span><span class="p">:</span>
+  <span class="nt">react/prop-types</span><span class="p">:</span> <span class="s">&quot;off&quot;</span>
+</code></pre></div>
+</td></tr></table>
+<p>再度テストを実行すると、エラーが無くなっていることが確認できます。</p>
+<p>今度は、 <code>--fix</code> をつけて実行します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn eslint ./src/**/* --fix
+</code></pre></div>
+</td></tr></table>
+<p>すると、エラーが表示されなくなりました。コードを見ると、文字列リテラルが、シングルクォーテーションに変わっています。また、{ } の間のスペースが無くなりました。</p>
+<p>このように、全てではないですがこのように自動修正できるルールもあります。</p>
+<p>React Hooks のプラグインの効果を見てみます。<code>Increment.tsx</code> を開き、useCallback の第2引数の配列を空にしてみます。</p>
+<p><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  const decrement = useCallback(() =&gt; {
+    setCounter(counter - 1);
+  }, []);
+</code></pre></div>
+</td></tr></table>
+eslint を実行すると、下記のような warning が出ます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  12:6  warning  React Hook useCallback has a missing dependency: &#39;counter&#39;. Either include it or remove the dependency array. You can also do a functional update &#39;setCounter(c =&gt; ...)&#39; if you only need &#39;counter&#39; in the &#39;setCounter&#39; call  react-hooks/exhaustive-deps
+</code></pre></div>
+</td></tr></table>
+<p>これは、<code>useCallback</code> の関数の中で使っている変数を、第2引数に定義していない場合に警告されます。第2引数に値が入っていないと、関数が更新されず、関数内の変数も初期の状態が保持され、その変数が変更されても関数の結果が変わらない、ということになります。</p>
+<p>React Hooks ではこれを忘れやすいのですが、ESLint で警告してくれるのでミスが少なくなります。</p>
+<p>ESLint をいちいちコマンド打つのは面倒です。Visual Studio Code などのソースコードエディタやIDEでは、ESLint の拡張を入れることでソースコードにリアルタイムで警告を出すことが出来ます。</p>
+<p><a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">ESLint - Visual Studio Marketplace</a></p>
+<h2 id="prettier">Prettier</h2>
+<p><a href="https://prettier.io/">Prettier · Opinionated Code Formatter</a></p>
+<p>Prettier は、多くのプログラム言語に対応したコードフォーマッタです。自動で修正もしてくれます。</p>
+<p>もちろん、JavaScript / TypeScript に対応しています。</p>
+<p>インストールして試してみます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn add prettier
+</code></pre></div>
+</td></tr></table>
+<p>ルールは、<code>.prettierrc.yml</code> ファイルに書きます。</p>
+<p>ルールの種類と設定値は、こちらにあります。</p>
+<p><a href="https://prettier.io/docs/en/options.html">Options · Prettier</a></p>
+<p>ここで、その一覧を提示しておきます。そのまま定義ファイルとして利用できます。(v 2.4.1)</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c1"># rules https://prettier.io/docs/en/options.html</span>
+<span class="nt">printWidth</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">80</span> <span class="c1"># number, 1行の最大文字数</span>
+<span class="nt">tabWidth</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span> <span class="c1"># インデントの文字数, number</span>
+<span class="nt">useTabs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span> <span class="c1"># boolean, インデントを Tab 文字とする場合は true, スペースの場合は false</span>
+<span class="nt">semi</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span> <span class="c1"># boolean, セミコロンを矯正する</span>
+<span class="nt">singleQuote</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span> <span class="c1"># 文字列リテラルをシングルクォーテーションで統一する</span>
+<span class="nt">endOfLine</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">lf</span> <span class="c1"># 改行コード</span>
+<span class="nt">quoteProps</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">as-needed</span> <span class="c1"># オブジェクトリテラルのプロパティ名にクォーテーションを使うか 以下の値が使用可能</span>
+<span class="c1">#   &quot;as-needed&quot; - 必要なときのみ</span>
+<span class="c1">#   &quot;consistent&quot; - オブジェクト内に必要があるものが1つでもあれば、全部つける</span>
+<span class="c1">#   &quot;preserve&quot; - ユーザーの入力を尊重する -&gt; prettier は関与しない</span>
+<span class="nt">jsxSingleQuote</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span> <span class="c1"># React などで使用する JSX のタグの属性の値で、シングルクォーテーションを使用する</span>
+<span class="c1">#   例えば &lt;input type=&quot;text&quot; /&gt; の &quot;text&quot; を &#39;text&#39; とするか、という意味</span>
+<span class="nt">trailingComma</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">all</span> <span class="c1"># オブジェクトリテラルや配列の最後のカンマを強制するか 以下の値が使用可能</span>
+<span class="c1">#   &quot;es5&quot; - ES5で有効な場合は末尾のコンマをつける。</span>
+<span class="c1">#   &quot;none&quot; - 末尾のコンマはつけない</span>
+<span class="c1">#   &quot;all&quot; - 必ずつける ES2017 以降で有効</span>
+<span class="nt">bracketSpacing</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span> <span class="c1"># boolean オブジェクトリテラルの {} 内でスペースを開けるか</span>
+<span class="c1">#   true - 例: { foo: bar }</span>
+<span class="c1">#   false - 例: {foo: bar}</span>
+<span class="nt">bracketSameLine</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span> <span class="c1"># 複数行になるHTMLタグ(JSX(React), Vue.js も対象))の閉じ&#39;&gt;&#39;を別の行に置くか</span>
+<span class="c1">#   true</span>
+<span class="c1">#     &lt;button</span>
+<span class="c1">#       id=&quot;prettier-id&quot;</span>
+<span class="c1">#       onClick={this.handleClick}&gt;</span>
+<span class="c1">#       Click Here</span>
+<span class="c1">#     &lt;/button&gt;</span>
+<span class="c1">#   false</span>
+<span class="c1">#     &lt;button</span>
+<span class="c1">#       id=&quot;prettier-id&quot;</span>
+<span class="c1">#       onClick={this.handleClick}</span>
+<span class="c1">#     &gt;</span>
+<span class="c1">#       Click Here</span>
+<span class="c1">#     &lt;/button&gt;</span>
+<span class="nt">arrowParens</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">always</span> <span class="c1"># Arrow関数の引数が省略できる時でも省略しないか</span>
+<span class="c1">#   &quot;always&quot; - 常に省略しない. 例: (x) =&gt; x</span>
+<span class="c1">#   &quot;avoid&quot; - 可能な場合は省略する 例: x =&gt; x</span>
+<span class="nt">rangeStart</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span> <span class="c1"># ファイル内のフォーマットの対象範囲 開始行</span>
+<span class="c1"># rangeEnd: infinity # ファイル内のフォーマットの対象範囲 終了行　指定しない場合は末尾まで全部</span>
+<span class="c1"># parser: babylon # 特定の言語のみを対象とする場合に、ここに列記する</span>
+<span class="c1">#   指定できる値 https://prettier.io/docs/en/options.html#parser</span>
+<span class="nt">requirePragma</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span> <span class="c1"># ソースコードの先頭に プラグマコメントを書くことで、Prettier の対象を制限することができる</span>
+<span class="nt">insertPragma</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span> <span class="c1"># Prettier でフォーマットした時に ソースコードの先頭に requirePragma で有効なプラグマコメントを追加する</span>
+<span class="nt">proseWrap</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">preserve</span> <span class="c1"># markdown などの時に、改行するかどうか</span>
+<span class="nt">htmlWhitespaceSensitivity</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">css</span> <span class="c1"># HTML 内の空白文字の取り扱い</span>
+<span class="nt">vueIndentScriptAndStyle</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span> <span class="c1"># Vue.js テンプレートの &lt;script&gt;, &lt;style&gt; タグ内にインデントを含むかどうか</span>
+<span class="nt">embeddedLanguageFormatting</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">auto</span> <span class="c1"># Markdown のコードブロックなど、別なコードの埋め込みを判断して対象とするか</span>
+</code></pre></div>
+</td></tr></table>
+<p>試してみましょう。まずは構文としてはあっているけど、フォーマットがメチャクチャなソースコードを用意しましょう。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nx">React</span> <span class="kr">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+
+<span class="kr">type</span> <span class="nx">PropType</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">num</span>: <span class="kt">number</span> <span class="p">};</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">DisplayNumber</span>: <span class="kt">React.FC</span><span class="o">&lt;</span><span class="nx">PropType</span><span class="o">&gt;</span> <span class="o">=</span>
+ <span class="p">(</span><span class="nx">props</span><span class="p">)</span>
+  <span class="p">=&gt;</span>
+   <span class="p">{</span>
+<span class="k">return</span> <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">num</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/span&gt;;</span>
+<span class="p">};</span>
+</code></pre></div>
+</td></tr></table>
+<p>コマンドプロンプトで、prettier を実行します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>&gt; yarn prettier ./src/DisplayNumber.tsx
+
+import React from &#39;react&#39;;
+
+type PropType = { num: number };
+
+export const DisplayNumber: React.FC&lt;PropType&gt; = (props) =&gt; {
+  return &lt;span&gt;{props.num}&lt;/span&gt;;
+};
+</code></pre></div>
+</td></tr></table>
+<p>結果として、整形されたコードが出力されました。通常はファイルを自動的に更新して保存したいでしょう。
+その場合は、<code>-w</code> をつけて実行します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>&gt; yarn prettier -w ./src/DisplayNumber.tsx
+</code></pre></div>
+</td></tr></table>
+<p>ファイルが書き換わりました。フォルダ内のファイルを一度に処理するには、下記のようにします。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>&gt; yarn prettier -w ./src/**/*
+</code></pre></div>
+</td></tr></table>
+<blockquote>
+<p>ファイルパスには、Glob と呼ばれるパス指定方法が使用できます。 <br />
+Prettier 以外にも採用しているツールは多いので、覚えておくと良いです。<br />
+https://github.com/mrmlnc/fast-glob#pattern-syntax</p>
+</blockquote>
+<p>VSCode の拡張として Prettier があるので、これを入れておくとコマンドを打つことなく、コードを書きながら整形ができて効率的です。</p>
+<p><a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode">Prettier - Code formatter - Visual Studio Marketplace</a>
+インストールしたら、デフォルトのフォーマッタとして登録しましょう。</p>
+<p><span class="keys"><kbd class="key-control">Ctrl</kbd><span>+</span><kbd class="key-shift">Shift</kbd><span>+</span><kbd class="key-p">P</kbd></span> -&gt; [ドキュメントのフォーマット...] -&gt; [規定のフォーマッタを構成...] -&gt; [Prettier]</p>
+<p><img alt="vscode - prettier" src="vscode-prettier.gif" /></p>
+<p>エディタ上でのフォーマットは、 <span class="keys"><kbd class="key-shift">Shift</kbd><span>+</span><kbd class="key-alt">Alt</kbd><span>+</span><kbd class="key-f">F</kbd></span> でできます。</p>
+<p>また、設定で保存時に自動的にフォーマットをする、というオプションもあります。</p>
+<p>これらにより、コードを書くと気にフォーマットを気にせず、ロジックを書くことに集中できるようになります。</p>
+<h2 id="eslint-prettier">ESLint と　Prettier の組み合わせ</h2>
+<p>ESLint には、フォーマッタの機能もあるのですが、後述する Prettier の方が性能がよいので、組み合わせて使われます。</p>
+<p>具体的には、ESLint のフォーマットに関するルールを無効にして、Prettier に依存することになります。</p>
+<p>そのための方法が、Prettier の公式のサイトに書かれています。</p>
+<p><a href="https://prettier.io/docs/en/integrating-with-linters.html">Integrating with Linters · Prettier</a></p>
+<blockquote>
+<p>以前は、公式の連携方法として、ESLint のエラーとして、Prettier のフォーマット違反を出力するようにしていましたが、
+現在では、エラーとはせず、eslint の --fix で Prettier のフォーマットも行うことが推奨されています。<br />
+理由としては、下記があります。</p>
+<ul>
+<li>エディターに赤いニョロニョロがたくさん出てくる。Prettier は format のことを気にしなくてもいいようにさせるツールなのに、フォーマットの警告が前面にでてきてしまう。</li>
+<li>直接 Prettier を実行するより遅い</li>
+<li>レイヤーをひとつ挟んでおり、不整合が起きる可能性がある</li>
+</ul>
+<p>確かに、VSCode などのエディタでもフォーマットを直ちに行う事ができるので、ツールでエラーを出すこともないと思います。</p>
+</blockquote>
+<p>ESLint のフォーマット関連のルールを無効化するプラグインをインストールします。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn add -D  eslint-config-prettier
+</code></pre></div>
+</td></tr></table>
+<p>.eslintrc.yml の extends に下記を追加します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nt">extends</span><span class="p">:</span>
+  <span class="c1"># 他の extends</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">prettier</span>
+</code></pre></div>
+</td></tr></table>
+<p>これで、エディタ上でフォーマットに関するエラーが出なくなりました。</p>
+<p>npm スクリプトで、eslint と prettier を一緒に書けるようにコマンドを定義します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="nt">&quot;scripts&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="err">//</span> <span class="err">他のスクリプト</span>
+    <span class="nt">&quot;fix&quot;</span><span class="p">:</span> <span class="s2">&quot;yarn prettier -w ./src/**/* &amp;&amp; yarn eslint --fix&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<h2 id="_2">まとめ</h2>
+<p>ESLint と Prettier について説明しました。</p>
+<p>これらのルールは多岐にわたるので、プロジェクトに合わせて設定してみて下さい。</p>
+<p>また、組織で Recommend の定義を作っておくことで、開発者が統一したルールで作業できるので、さらに効率が上がるのではないでしょうか？</p>
+<p>これらは、JavaScript の開発ではデファクト・スタンダードなものですが、モジュールバンドラやテストなども含めて様々なツールを組み合わせることが必要です。</p>
+<p>それは、それぞれツールを入れ替えるなどして柔軟な対応ができる反面、めんどくさくもあります。</p>
+<p>現在、それらを統一したツールを作成しようと、Rome というプロジェクトが立ち上がっています。</p>
+<p>まだこれから、というものなので使用できるのはもう少し先になりそうですが、注目していきたいです。</p>
+<p>https://rome.tools/</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../06.web-framework/vuejs/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Vue.js" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Vue.js
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../08.async-functions/" class="md-footer__link md-footer__link--next" aria-label="Next: 概要" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              概要
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.b1047164.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@8.0.0/dist/mermaid.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+      
+        <script src="../javascripts/config.js"></script>
+      
+    
+  </body>
+</html>

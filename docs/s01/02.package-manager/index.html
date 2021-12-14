@@ -1,0 +1,879 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <meta name="author" content="EBIHARA Kenji (kenji.ebihara@jrits.ricoh.co.jp)">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
+    
+    
+      
+        <title>パッケージ・マネージャ - Webアプリ開発の基本</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.a57b2b03.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/mermaid@8.0.0/dist/mermaid.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
+    
+      <link rel="stylesheet" href="../custom.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Webアプリ開発の基本" class="md-header__button md-logo" aria-label="Webアプリ開発の基本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Webアプリ開発の基本
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              パッケージ・マネージャ
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Webアプリ開発の基本" class="md-nav__button md-logo" aria-label="Webアプリ開発の基本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Webアプリ開発の基本
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Top Page
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01.architecture/" class="md-nav__link">
+        Webアプリケーションのアーキテクチャ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          パッケージ・マネージャ
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        パッケージ・マネージャ
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    概要
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#npm" class="md-nav__link">
+    npm
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yarn" class="md-nav__link">
+    yarn
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#npm-yarn-next" class="md-nav__link">
+    npm / yarn next...
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    パッケージの利用
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    ツール類のパッケージ
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#npm_1" class="md-nav__link">
+    npm スクリプト
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    まとめ
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03.libraries/" class="md-nav__link">
+        JavaScript でよく使用されるライブラリ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04.language/" class="md-nav__link">
+        言語 - ES20xx / TypeScript
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05.webpack/" class="md-nav__link">
+        モジュールバンドラ: Webpack
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          Webフレームワーク
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Webフレームワーク" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Webフレームワーク
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06.web-framework/" class="md-nav__link">
+        はじめに
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06.web-framework/react/" class="md-nav__link">
+        React
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06.web-framework/vuejs/" class="md-nav__link">
+        Vue.js
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07.linter-formatter/" class="md-nav__link">
+        Linter と Formatter
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          非同期関数
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="非同期関数" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          非同期関数
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08.async-functions/" class="md-nav__link">
+        概要
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08.async-functions/react/" class="md-nav__link">
+        React を使った例
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09.test/" class="md-nav__link">
+        Webアプリケーションのテスト
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    概要
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#npm" class="md-nav__link">
+    npm
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yarn" class="md-nav__link">
+    yarn
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#npm-yarn-next" class="md-nav__link">
+    npm / yarn next...
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    パッケージの利用
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    ツール類のパッケージ
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#npm_1" class="md-nav__link">
+    npm スクリプト
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    まとめ
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="_1">パッケージ・マネージャ</h1>
+<p>筆者: 海老原 賢次（kenji.ebihara@jrits.ricoh.co.jp）<br />
+作成日: 2021-08-18<br />
+更新履歴:</p>
+<ul>
+<li>2021-10-18: yarn pnp, npm tink の説明を追加した</li>
+<li>2021-08-18: 新規作成</li>
+</ul>
+<hr />
+<h2 id="_2">概要</h2>
+<p>Webアプリケーションに限らず、システム開発では多くのOSS（だけではないですが）ライブラリを利用することが多いです。</p>
+<p>以前は、ブラウザでWebサイトからソースやバイナリのファイルをダウンロードしてプロジェクト内にコピーしていました。</p>
+<p>しかし、この方法では下記の問題があります。</p>
+<ul>
+<li>Gitなどの構成管理には、OSSライブラリを履歴管理する必要はないが、入れない場合各開発者がダウンロードする必要がある。その場合バージョンを合わせることやライブラリの数が増えると単純作業でも手間が大変になる。</li>
+<li>ライブラリが依存している他のライブラリがある場合、関係性を把握して入れないといけない。</li>
+<li>脆弱性の修正等のバージョンアップを利用しているライブラリのサイトを巡回して確認しないといけない。</li>
+<li>開発環境で利用するツール類も同様で、特にプロジェクトごとに使用するバージョンが異なる場合などは困難となる。</li>
+</ul>
+<p>このような問題を解決するため、システム開発ではパッケージマネージャを利用するのが、ほぼ必須です。</p>
+<h2 id="npm">npm</h2>
+<p>JavaScriptの開発では、パッケージマネージャとして npm を使います。</p>
+<p>npm は node.js の公式のパッケージマネージャで、node.js とセットでインストールされます。（Windows の場合）</p>
+<p><a href="https://nodejs.org/ja/">Node.js</a></p>
+<p>node.js をインストールして、実際に試してみましょう。</p>
+<p>プロジェクトのソースフォルダを見立てた、空のフォルダを用意してください。コンソールでここを開いてください。</p>
+<p>npm では、ルートに package.json という設定のためのファイルが必要です。ここには、プロジェクトの名前やバージョン、ライセンス情報、使用するライブラリなどの情報を記載します。</p>
+<p>これは、npm init のコマンドで作成することができます。コンソールで実行しましょう。</p>
+<p>いくつか質問されますが、とりあえず全て Enter キーを押していきましょう。</p>
+<p>package.json ファイルができたと思います。これを開くと、先程質問された内容を JSON で書かれています。</p>
+<p>続けて React をインストールしてみます。コンソールで、下記コマンドを実行します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>npm install react
+</code></pre></div>
+</td></tr></table>
+<p>package.json に、dependencies が追加され、そこに react とバージョンの表示があります。</p>
+<p>フォルダには、node_modules が作成され、その中に react と他のフォルダが見えます。</p>
+<p>先程のコマンドで、React とそれに関連するライブラリがダウンロードされ、node_modules に展開されました。</p>
+<p>では、node_modules をフォルダごと削除して、下記を実行してみてください。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>npm install
+</code></pre></div>
+</td></tr></table>
+<p>再び node_modules が作成され、そのなかに先程と同じ react と他のフォルダが見えます。</p>
+<p>node_modules にはこのように npm でインストールされたライブラリなどのパッケージが入ります。<code>npm install xxxx</code> で package.json にインストールしたパッケージが記載され、<code>npm install</code> で、package.json の中を参照しここにあるパッケージをダウンロードしてくれます。</p>
+<p>よって、Git には、このフォルダは対象外として入れないようにし、他の開発者は <code>npm install</code> するだけで、同じライブラリを用意することができます。</p>
+<p>他にも、パッケージをバージョンアップ・削除したり、依存関係を調べたり、脆弱性の報告されているバージョンのものを使用していないかチェックするなどのコマンドがあります。</p>
+<p>どのようなパッケージがあるかは、<code>npm search</code> コマンドでも良いですが、公式サイトで検索することをおすすめします。ここでは、Readme のドキュメント、更新頻度、利用者数などが確認でき、パッケージの採用の判断に必要な情報があります。</p>
+<p><a href="https://www.npmjs.com/">npm</a></p>
+<p>開発環境で使用する、ESLint や TypeScript などのツールも npm で入れます。その場合は、<code>npm install -D eslint</code> とします。実行してみましょう。</p>
+<p>package.json に devDependencies が追加され、そこに eslint が書かれています。これは、実行環境に必要なものではなく、開発環境のみで必要なもの、と区別するためのものです。</p>
+<h2 id="yarn">yarn</h2>
+<p>yarn は、非公式のパッケージマネージャで、npm が不便なところとより使いやすくする目的で作られたものです。npm と互換性があります。package.json もそのまま使えるので、単純にコマンドを置き換えることが可能です。(コマンド名は異なります)</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn add react
+yarn add -D eslint
+# すべてのパッケージをインストールする
+yarn (install) # install は不要
+</code></pre></div>
+</td></tr></table>
+<p>ただ、npm のバージョンアップに伴い、その弱点がなくなってきているので、yarn の利点は薄くなっていますが、多くのプロジェクトで使われており、OSSの公式のドキュメントでも yarn で説明しているところも多いです。</p>
+<p>個人的には、ほんの少しの利便性の差で yarn の方を好みます。ただ、npm で動いているプロジェクトを無理に yarn に変更するほどのものではないですね。</p>
+<h2 id="npm-yarn-next">npm / yarn next...</h2>
+<p>現在の npm の仕組みでは、パッケージのインストールに時間がかかったりや node_modules のサイズが肥大化するなどの課題があります。</p>
+<p>これらを解決するために、yarn の新しいメジャーバージョンでは PnP （プラグ・アンド・プレイ） という独自機能を導入します。これは、完全に yarn 独自の機能で、npm と互換性がありません。</p>
+<p>とても有用な仕組みなのですが、ライブラリやツールの多くがまだ対応しきれず、個人的には yarn 1 からの移行も難しいと感じました。</p>
+<p>npm も tink という同じ問題を解決する仕組みを計画しています。</p>
+<p>しかし、現状でもその問題が致命的になることもないので、今後 yarn pnp / tink が受け入れられ、多くのライブラリが対応するまで待ってもいいかな、と思っています。</p>
+<ul>
+<li><a href="https://yosuke-furukawa.hatenablog.com/entry/2019/06/10/113111">npm, yarn による zero install 戦略 - from scratch</a></li>
+<li><a href="https://github.com/npm/tink">npm/tink: a dependency unwinder for javascript</a></li>
+<li><a href="https://yarnpkg.com/features/pnp">Plug'n'Play | Yarn - Package Manager</a></li>
+</ul>
+<h2 id="_3">パッケージの利用</h2>
+<p>npm や yarn でインストールしたライブラリを使うにはどうしたら良いのか、ということですが、webアプリではパッケージマネージャを利用します。</p>
+<p>node.js では、そのまま試すことができるので、ここで実践してみましょう。</p>
+<p>日付を扱うライブラリである、dayjs をインストールします。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>npm install dayjs
+</code></pre></div>
+</td></tr></table>
+<p>インストールできたら、<code>index.js</code> を作成し、下記コードを書いてください。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kd">const</span> <span class="nx">dayjs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;dayjs&quot;</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">date</span> <span class="o">=</span> <span class="nx">dayjs</span><span class="p">().</span><span class="nx">startOf</span><span class="p">(</span><span class="s2">&quot;hour&quot;</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">date</span><span class="p">);</span>
+</code></pre></div>
+</td></tr></table>
+<p>実行してみましょう。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>node ./index.js
+</code></pre></div>
+</td></tr></table>
+<p>JSON のようなものが表示されましたが、date オブジェクトの内容になります。</p>
+<p>dayjs() は、現在の時刻の Dayjs オブジェクトを返します。</p>
+<p>startOf は、日や時間のはじめの値を取得するもので、この場合は、現在時刻の0時0分0秒 を返します。ちなみに、endOf もあります。</p>
+<p>別な記法として、import も使えます。node.js で実行する場合、package.json に <code>"type": "module"</code> を足します。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;practice01&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;main&quot;</span><span class="p">:</span> <span class="s2">&quot;index.js&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;license&quot;</span><span class="p">:</span> <span class="s2">&quot;MIT&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dependencies&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;dayjs&quot;</span><span class="p">:</span> <span class="s2">&quot;^1.10.6&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;module&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nx">dayjs</span> <span class="kr">from</span> <span class="s2">&quot;dayjs&quot;</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">date</span> <span class="o">=</span> <span class="nx">dayjs</span><span class="p">().</span><span class="nx">startOf</span><span class="p">(</span><span class="s2">&quot;hour&quot;</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">date</span><span class="p">);</span>
+</code></pre></div>
+</td></tr></table>
+<p>こちらのほうが、ECMAScript の定義されている使い方で、TypeScript でも この書き方をすることが多いですので、import 形式になれておくと良いでしょう。</p>
+<p>webブラウザでは、require も import もそのままでは対応していないので、webpack などのモジュールバンドラを使用します。</p>
+<p>webpack に関しては、別のセクションで説明します。</p>
+<h2 id="_4">ツール類のパッケージ</h2>
+<p>コマンドラインから実行できるパッケージもあります。</p>
+<p>例えば、webpack や Typescript などもコマンドラインから実行できるライブラリです。</p>
+<p>ここでは、sloc というソースコードの行数をカウントするライブラリを導入してみます。</p>
+<p>多くの場合このようなツールは、開発環境で使うものなので、<code>-D</code> をつけておきます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>npm install -D sloc
+</code></pre></div>
+</td></tr></table>
+<p>node_modules フォルダを見ると、<code>.bin</code> というフォルダがあります。ここに、sloc の実行ファイルがあります。</p>
+<p>これを実行するために、わざわざここに移動する必要はありません。npx というコマンドで実行できます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>npx sloc index.js
+</code></pre></div>
+</td></tr></table>
+<p>結果が表示されました。このように、コマンドラインのツールも入れてすぐに実行することが出来ます。</p>
+<p>yarn の場合は、yarn のあとにコマンド名を入れるだけで実行できます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>yarn sloc index.js
+</code></pre></div>
+</td></tr></table>
+<h2 id="npm_1">npm スクリプト</h2>
+<p>npm では簡易なタスクランナーの機能があります。ここに、独自のコマンド名とそのシェルコマンドを定義できます。</p>
+<p><code>npm init</code>したときに、scripts に test というのがありますが、これになります。</p>
+<p><code>npm test</code> を実行すると、ここに書かれたシェルコマンドが実行されます。</p>
+<p>TypeScript を コンパイルするときなど、対象フォルダを空にして、TypeScript のコマンドを実行するなど、一連のコマンドをいちいち打つのが面倒です。そのようなときに、それをここに定義して、簡単に間違いなく実行できるようにしておくと、効率が上がります。</p>
+<p>また、ある npm script の前に別の npm script を実行するなどの連携もできます。</p>
+<p><a href="https://ics.media/entry/12226/">Node.jsユーザーなら押さえておきたいnpm-scriptsのタスク実行方法まとめ - ICS MEDIA</a></p>
+<p><a href="https://www.twilio.com/blog/npm-scripts-jp">今まで知らずにいたnpmスクリプトでできる3つのこと</a></p>
+<p>yarn でも <code>yarn test</code> のように実行できます。</p>
+<p>npm もで、yarn でも、それぞれで用意されているコマンド（install, add など）と重複しないようにします。重複する場合は、<code>yarn run install</code> とすることで実行することはできますが、煩雑なだけなのでできるだけ避けましょう。</p>
+<h2 id="_5">まとめ</h2>
+<p>Webに限らず、システム/アプリケーション開発では、パッケージマネージャを利用するのが当たり前になっています。</p>
+<p>プラットフォームや言語によって使うツールは様々ですので、必要に応じてそれぞれの基本的な使い方を把握しておきましょう。</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../01.architecture/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Webアプリケーションのアーキテクチャ" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Webアプリケーションのアーキテクチャ
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../03.libraries/" class="md-footer__link md-footer__link--next" aria-label="Next: JavaScript でよく使用されるライブラリ" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              JavaScript でよく使用されるライブラリ
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.b1047164.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@8.0.0/dist/mermaid.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+      
+        <script src="../javascripts/config.js"></script>
+      
+    
+  </body>
+</html>
