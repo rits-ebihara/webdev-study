@@ -52,7 +52,7 @@ PCに下記がインストールされていることを確認して下さい。
 
 1. 今回のプロジェクトとして、スタートアップZIPを用意しています。これをフォルダに展開して下さい。
 
-    [async-sample-app-startup.zip](s01-webアプリ開発基本/docs/08.async-functions/async-sample-app-startup.zip)
+    [https://github.com/rits-ebihara/webdev-study/raw/master/s01-web%E3%82%A2%E3%83%97%E3%83%AA%E9%96%8B%E7%99%BA%E5%9F%BA%E6%9C%AC/docs/08.async-functions/async-sample-app-startup.zip](s01-webアプリ開発基本/docs/08.async-functions/async-sample-app-startup.zip)
 
     この中には、既に Webアプリとして動作するものが入っています。
 
