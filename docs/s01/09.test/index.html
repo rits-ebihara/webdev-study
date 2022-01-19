@@ -584,6 +584,41 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    バッファに値を追加する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    バッファから最新から指定した数を戻ったインデックスの値を取得する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    バファの型を指定できるようにする
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    バッファのサイズに制限を設ける
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buffer" class="md-nav__link">
+    buffer を非公開にする
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -739,6 +774,41 @@
           <li class="md-nav__item">
   <a href="#_12" class="md-nav__link">
     バッファから最新の値を取得する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    バッファに値を追加する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    バッファから最新から指定した数を戻ったインデックスの値を取得する
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    バファの型を指定できるようにする
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    バッファのサイズに制限を設ける
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buffer" class="md-nav__link">
+    buffer を非公開にする
   </a>
   
 </li>
@@ -1259,7 +1329,7 @@ touch src/__tests__/ringBuffer.test.ts
 </code></pre></div>
 </td></tr></table>
 <p>今度はテストが成功しました！赤色が緑色に変わるということで気分もスッキリです。しかしこれで終わりでないのは判っているでしょう。やっぱりひどい実装ですね。</p>
-<p>このあとは、コードの重複を削除する、という作業に取り掛かります。コードの重複とは、同じようなロジックが記述してあることもそうですが、データの重複もあります。</p>
+<p>でも、これは“仮実装”で、このあとはコードの重複を削除する、という作業に取り掛かり、本来の実装に近づけていきます。コードの重複とは、同じようなロジックが記述してあることもそうですが、データの重複もあります。</p>
 <p>ここでは、<code>10</code> という数字が実装の中とテストで出てきています。これを解消するには、実装の方から <code>10</code> という数値を取り除く必要があります。</p>
 <p><code>10</code> はテストで、コンストラクタ関数から渡された値を参照すればいいので、次のような実装にしてみます。</p>
 <table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/ringBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -1278,7 +1348,7 @@ touch src/__tests__/ringBuffer.test.ts
 <p>保存しても、テストは成功したままで、安心できます。</p>
 <p>ここで、ちょっと懸念があります。<code>buffer</code> の配列はの型は何でしょうか？このままでは、<code>any</code> の配列となり、配列に何でも入ってしまいます。配列の１番目に <code>string</code> 、２番めに <code>number</code> ということもできてしまいます。型安全のことを考えると、型が指定されていたほうが良いですがこれは、利用者側が指定できるようにしたほうが汎用性が高くなるでしょう。</p>
 <p>まだバッファのサイズは、マイナスや0はありえないですし、大きすぎるバッファも困りものです。これらの入力チェックも必要そうです。</p>
-<p>こららのことも TODO において、後で解決してみましょう。</p>
+<p>このことも TODO において、後で解決してみましょう。</p>
 <p>また、"大きさを指定してバッファを作成する" のタスクは完了したので、先頭を <code>✔</code> にしておきます。 </p>
 <table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/ringBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
@@ -1294,14 +1364,14 @@ touch src/__tests__/ringBuffer.test.ts
 <span class="cm">- バッファから最新から指定した数を戻ったインデックスの値を取得する</span>
 <span class="cm">- バッファに値を追加する</span>
 <span class="hll"><span class="cm">- buffer を非公開にする</span>
-</span><span class="hll"><span class="cm">- バッファの型を指定できるようにする</span>
+</span><span class="hll"><span class="cm">- バッファの型を指定できるようし、any を排除する</span>
 </span><span class="cm">- バッファの大きさの制限を設ける</span>
 <span class="cm">*/</span>
 </code></pre></div>
 </td></tr></table>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>このように、細かくステップを踏んで進めていくことが大事です。実際すべての実装でここまで細かくやるのかというと、'No' です。ですが、複雑な問題を考えるときに、このように細かくステップを分ける、ということが大事で、小さすぎるかな、というところまでできたところがちょうどよいサイズ、といえます。</p>
+<p>このように、“仮実装”とリファクタリングによる“本実装”細かくステップを踏んで進めていくことが大事です。実際すべての実装でここまで細かくやるのかというと、'No' です。ですが、複雑な問題を考えるときに、このように細かくステップを分ける、ということが大事で、小さすぎるかな、というところまでできたところがちょうどよいサイズ、といえます。</p>
 </div>
 <p>次は、どの TODO を処理しましょうか。バッファから最新の値を取得する、が考えやすそうなので、これにしましょう。</p>
 <h3 id="_12">バッファから最新の値を取得する</h3>
@@ -1358,17 +1428,17 @@ touch src/__tests__/ringBuffer.test.ts
       22 |
 </code></pre></div>
 </td></tr></table>
-<p>もちろんエラーです。何度も言いますが、これで良いんです。テストが成功する最低限の実装をしましょう。</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<p>もちろんエラーです。何度も言いますが、これで良いんです。テストが成功する最低限の実装をしましょう。"仮実装”です。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/ringBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">public</span> <span class="nx">getCurrent</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="s1">&#39;a2&#39;</span><span class="p">;</span>
   <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-<p>テストが成功します。もちろんこれではいけません。少しずつ本来の実装に近づけましょう。</p>
+<p>テストが成功します。もちろんこれではいけません。少しずつ本来の“本実装”に近づけましょう。</p>
 <p>この機能の要件は、バッファの最新のインデックスから値を返す、です。まず、単純にするため意図的に条件を無視すると、バッファの値を返す、です。インデックスのことは忘れて、この実装をしましょう。リファクタのはじめの一歩です。</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/ringBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">public</span> <span class="nx">getCurrent</span><span class="p">()</span> <span class="p">{</span>
@@ -1379,23 +1449,702 @@ touch src/__tests__/ringBuffer.test.ts
 </td></tr></table>
 <p>テストが成功しました。もう１歩進みます。<code>getCurrent</code> 関数の中で buffer に追加していますが、ここが適切でしょうか？ buffer に追加するのは、<code>push</code>メソッドの役割ですね。そこに移動しましょう。</p>
 <p>また、インデックスが '0' とハードコーディングされています。今の最新のインデックスは、クラスの内部で持っておけば良さそうです。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/ringBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">private</span> <span class="nx">currentIndex</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span>
+  <span class="k">public</span> <span class="nx">push</span><span class="p">(</span><span class="nx">value</span>: <span class="kt">any</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;a2&#39;</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">public</span> <span class="nx">getCurrent</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span><span class="p">];</span>
+  <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p><code>push</code> の内容は、"バッファに値を追加する"で実装するので、今はこのテストが通る最低限の実装にしておきます。TODOに登録しようと思いましたが、次にこのテストを書くこととします。</p>
+<p>テストは成功したままです。このTODOはこれで良さそうです。また、次は今のものと関連する、"バッファに値を追加する" を書いてみましょう。TODOリストを更新します。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/ringBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cm">/*</span>
+<span class="cm">✔ 大きさを指定してバッファを作成する</span>
+<span class="hll"><span class="cm">✔ バッファから最新の値を取得する</span>
+</span><span class="cm">- バッファから最新から指定した数を戻ったインデックスの値を取得する</span>
+<span class="hll"><span class="cm">➡ バッファに値を追加する</span>
+</span><span class="cm">- buffer を非公開にする</span>
+<span class="cm">- バッファの型を指定できるようし、any を排除する</span>
+<span class="cm">- バッファの大きさの制限を設ける</span>
+<span class="cm">*/</span>
+</code></pre></div>
+</td></tr></table>
+<h3 id="_13">バッファに値を追加する</h3>
+<p>バッファに追加するメソッドは、前回作っていますので、これを改善していくことになります。</p>
+<p>その前に、テストを書きましょう。ここでは、連続して読んだと気に、正しく buffer の配列に入るかを確認しましょう。</p>
+<p>ここで、<code>toBe</code> を使わずに、<code>toEqual</code> を使うことに注意して下さい。<code>toBe</code> は、<code>===</code> と同等の比較を行うため、オブジェクトの中身があっているかの比較に使えません。そのため、オブジェクトの内容の比較には、<code>toEqual</code> を利用します。配列もオブジェクトなので、これを使います。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/ringBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;バッファに値を追加する&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">5</span><span class="p">);</span>
+  <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;a1&#39;</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">buffer</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">([</span>
+    <span class="s1">&#39;a1&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;a2&#39;</span><span class="p">,</span>
+    <span class="kc">undefined</span><span class="p">,</span>
+    <span class="kc">undefined</span><span class="p">,</span>
+    <span class="kc">undefined</span><span class="p">,</span>
+  <span class="p">]);</span>
+<span class="p">});</span>
+</code></pre></div>
+</td></tr></table>
+<p>テストが失敗します。テストが通るようにします。</p>
+<p>また、呼び出すたびに pushするインデックスを1づつ足してしていく必要があります。これは <code>currentIndex</code> をインクリメントすれば良さそうです。</p>
+<p><code>buffer</code> のその <code>currentIndex</code> に引数の値を渡すのはわかるかと思います。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/ringBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">public</span> <span class="nx">push</span><span class="p">(</span><span class="nx">value</span>: <span class="kt">any</span><span class="p">)</span> <span class="p">{</span>
+<span class="hll">    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+</span><span class="hll">    <span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span><span class="o">++</span><span class="p">;</span>
+</span>  <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>どうでしょう。このテストは成功したようですが、前のテストでエラーになってしまいました！</p>
+<p>すぐに原因を調べましょう。</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
 <span class="normal">5</span>
 <span class="normal">6</span>
-<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">public</span> <span class="nx">push</span><span class="p">(</span><span class="nx">value</span>: <span class="kt">any</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;a2&#39;</span><span class="p">;</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    Expected: &quot;a2&quot;
+    Received: undefined
+
+      20 |   ringBuffer.push(&#39;a1&#39;);
+      21 |   ringBuffer.push(&#39;a2&#39;);
+    &gt; 22 |   expect(ringBuffer.getCurrent()).toBe(&#39;a2&#39;);
+         |                                   ^
+      23 | });
+</code></pre></div>
+</td></tr></table>
+<p><code>getCurrent</code> の現実値が <code>undefined</code> になっています。これは、 <code>push</code> した後に <code>currentIndex</code> をインクリメントしているため、セットされていないインデックスを指し示しているためです。</p>
+<p>では、順番を逆にしましょう。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/ringBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">public</span> <span class="nx">push</span><span class="p">(</span><span class="nx">value</span>: <span class="kt">any</span><span class="p">)</span> <span class="p">{</span>
+<span class="hll">    <span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span><span class="o">++</span><span class="p">;</span>
+</span>    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+  <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>今度は、"バッファに値を変更する" のテストで失敗しました。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    - Expected  - 1
+    + Received  + 1
+
+      Array [
+    +   undefined,
+        &quot;a1&quot;,
+        &quot;a2&quot;,
+    -   undefined,
+        undefined,
+        undefined,
+      ]
+
+      27 |   ringBuffer.push(&#39;a1&#39;);
+      28 |   ringBuffer.push(&#39;a2&#39;);
+    &gt; 29 |   expect(ringBuffer.buffer).toEqual([
+         |                             ^
+      30 |     &#39;a1&#39;,
+      31 |     &#39;a2&#39;,
+      32 |     undefined,
+
+      at Object.&lt;anonymous&gt; (src/__tests__/ringBuffer.test.ts:29:29)
+</code></pre></div>
+</td></tr></table>
+<p><code>currentIndex</code> の初期値が '0' なので、+1 されて インデックス <code>1</code> からバッファに挿入されてしまったためですね。<code>currentIndex</code> の初期値を <code>-1</code> にします。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/ringBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">export</span> <span class="kd">class</span> <span class="nx">RingBuffer</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="kr">constructor</span><span class="p">(</span><span class="nx">size</span>: <span class="kt">number</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">size</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">public</span> <span class="nx">buffer</span><span class="p">;</span>
+<span class="hll">  <span class="k">private</span> <span class="nx">currentIndex</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1</span><span class="p">;</span>
+</span>  <span class="k">public</span> <span class="nx">push</span><span class="p">(</span><span class="nx">value</span>: <span class="kt">any</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span><span class="o">++</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
   <span class="p">}</span>
   <span class="k">public</span> <span class="nx">getCurrent</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span><span class="p">];</span>
   <span class="p">}</span>
-  <span class="k">private</span> <span class="nx">currentIndex</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-<p><code>push</code> の内容は、"バッファに値を追加する"で実装するので、今はこのテストが通る最低限の実装にしておきます。</p>
-<p>テストは成功したままです。このTODOはこれで良さそうです。TODO リストを更新しておきます。</p>
+<p>テストに成功しました。</p>
+<p>このように、機能の追加や修正で、別の予測しない失敗を検出した場合、すぐに対応します。その場合でも、修正が明確であればそのようにすれば良いのですが、そうでない場合は、一旦“仮実装”を行い、ステップを小さくして解決して下さい。</p>
+<p>ここで懸念があります。インデックスの範囲を超えたら、つまりリングが一周したらインデックスが 0 に戻す必要があります。これが実装できていません。TODOに追加してもいいですが、このまま続けたほうが効率良さそうです。</p>
+<p>まず、どう実装するか・・ではなく、このテストも書きましょう。こうなるべき、を書くことは大切です。ここでは、新しいテストとして今のテストをコピーして書き換えます。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/ringBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;バッファに値を追加する バッファサイズを超える場合&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">5</span><span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span><span class="o">=</span><span class="mf">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mf">7</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="sb">`a</span><span class="si">${</span><span class="nx">i</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">buffer</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">([</span>
+    <span class="s1">&#39;a6&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;a2&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;a3&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;a4&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;a5&#39;</span><span class="p">,</span>
+  <span class="p">]);</span>
+<span class="p">});</span>
+</code></pre></div>
+</td></tr></table>
+<p>テストすると予想通りエラーになりました。この実装をします。インデックスがバッファのサイズを超えていたら、<code>currentIndex</code> を <code>0</code> にすればいいですね。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/ringBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">public</span> <span class="nx">push</span><span class="p">(</span><span class="nx">value</span>: <span class="kt">any</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span><span class="o">++</span><span class="p">;</span>
+<span class="hll">    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span> <span class="o">+</span> <span class="mf">1</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="hll">      <span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span>
+</span><span class="hll">    <span class="p">}</span>
+</span>    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+  <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>成功しました。ひとまず、このテストは完了です。</p>
+<p>次のテストは同じような "バッファから最新から指定した数を戻ったインデックスの値を取得する" にします。</p>
+<h3 id="_14">バッファから最新から指定した数を戻ったインデックスの値を取得する</h3>
+<p>まずはテストを書くところからですね。ここでは、get というメソッドで、引数に戻る数値を入れることにします。</p>
+<p>リングバッファが１週したときのことが気になりますが、まずは単純なケースを考えましょう。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/ringBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;バッファから最新から指定した数を戻ったインデックスの値を取得する&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">5</span><span class="p">);</span>
+  <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;a1&#39;</span><span class="p">);</span>
+  <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;a2&#39;</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mf">1</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;a1&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+</td></tr></table>
+<p>コンパイルを通すために、<code>get</code> を実装します。慣れてきて、実装が明確な場合は、実装までしてしまいましょう。しかし、テストを通すのが目的です。それ以外のコードは書かないようにします。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/ringBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">public</span> <span class="nx">get</span><span class="p">(</span><span class="nx">back</span>: <span class="kt">number</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">index</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span> <span class="o">-</span> <span class="nx">back</span><span class="p">;</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="nx">index</span><span class="p">];</span>
+  <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>テストが成功しました。ここで、リングバッファが１周したときのことを検討します。そのためのテストを書きます。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/ringBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;バッファから最新から指定した数を戻ったインデックスの値を取得する - リングをまたぐ場合&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">5</span><span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mf">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mf">7</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="sb">`a</span><span class="si">${</span><span class="nx">i</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mf">1</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;a5&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+</td></tr></table>
+<p>テストの失敗を確認して、実装します。<code>currentIndex</code> が <code>0</code> の場合、<code>index</code> が <code>-1</code> になることがわかるので、0 を下回ったら バッファの最大のインデックスにしましょう。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/ringBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">public</span> <span class="nx">get</span><span class="p">(</span><span class="nx">back</span>: <span class="kt">number</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">index</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span> <span class="o">-</span> <span class="nx">back</span><span class="p">;</span>
+<span class="hll">    <span class="k">if</span> <span class="p">(</span><span class="nx">index</span> <span class="o">&lt;</span> <span class="mf">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="hll">      <span class="nx">index</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mf">1</span><span class="p">;</span>
+</span><span class="hll">    <span class="p">}</span>
+</span>    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="nx">index</span><span class="p">];</span>
+  <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>テストが通りました。この処理は以上なので、タスクを完了にしておきます。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/ringBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cm">/*</span>
+<span class="cm">✔ 大きさを指定してバッファを作成する</span>
+<span class="cm">✔ バッファから最新の値を取得する</span>
+<span class="hll"><span class="cm">✔ バッファから最新から指定した数を戻ったインデックスの値を取得する</span>
+</span><span class="cm">✔ バッファに値を追加する</span>
+<span class="cm">- buffer を非公開にする</span>
+<span class="cm">- バッファの型を指定できるようし、any を排除する</span>
+<span class="cm">- バッファの大きさの制限を設ける</span>
+<span class="cm">*/</span>
+</code></pre></div>
+</td></tr></table>
+<h3 id="_15">バファの型を指定できるようにする</h3>
+<p>今までのバッファに格納できる値は、文字列に限定されています。これを利用者が型定義できるようにします。</p>
+<p>TypeScript のジェネリック型を利用すれば良さそうです。</p>
+<p>ジェネリック型とは、クラスや関数を利用する側が型を指定し、その型で内部の処理を行うことができるようにする仕組みです。</p>
+<p>TypeScript だけでなく、Java や C# など他の言語でもサポートされているので、今まで馴染みがなければ是非ここで学んでください。</p>
+<p>そのためのテストを書きましょう。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/ringBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cm">/*</span>
+<span class="cm">✔ 大きさを指定してバッファを作成する</span>
+<span class="cm">✔ バッファから最新の値を取得する</span>
+<span class="cm">✔ バッファから最新から指定した数を戻ったインデックスの値を取得する</span>
+<span class="cm">✔ バッファに値を追加する</span>
+<span class="cm">- buffer を非公開にする</span>
+<span class="hll"><span class="cm">➡ バッファの型を指定できるようし、any を排除する</span>
+</span><span class="cm">- バッファの大きさの制限を設ける</span>
+<span class="cm">*/</span>
+</code></pre></div>
+</td></tr></table>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;バッファの方を指定できるようにする&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="o">&lt;</span><span class="kt">number</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">5</span><span class="p">);</span>
+  <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">getCurrent</span><span class="p">()).</span><span class="nx">toBe</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+</td></tr></table>
+<p>クラスにジェネリック型の指定がないので、コンパイルエラーになります。まずはこれを解消しましょう。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/ringBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">export</span> <span class="kd">class</span> <span class="nx">RingBuffer</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="c1">//...</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>テストが成功しました。ジェネリック型を導入したことで、前に懸念していた 'any' が解消できます。</p>
+<p><code>put</code> メソッドの引数の型の <code>any</code> を ジェネリック型の <code>T</code> とします。こうすることで、利用する側が指定した型に限定されます。</p>
+<p>また、buffer も <code>any</code> の配列となっているので、型定義します。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/ringBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">public</span> <span class="kr">constructor</span><span class="p">(</span><span class="nx">size</span>: <span class="kt">number</span><span class="p">)</span> <span class="p">{</span>
+<span class="hll">    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span> <span class="o">=</span> <span class="nb">Array</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">size</span><span class="p">);</span>
+</span>  <span class="p">}</span>
+  <span class="c1">// ...略</span>
+<span class="hll">  <span class="k">public</span> <span class="nx">push</span><span class="p">(</span><span class="nx">value</span>: <span class="kt">T</span><span class="p">)</span> <span class="p">{</span>
+</span>    <span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span><span class="o">++</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span> <span class="o">+</span> <span class="mf">1</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+  <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>保存して、テストが成功のままであることを確認しましょう。</p>
+<h3 id="_16">バッファのサイズに制限を設ける</h3>
+<p>コンストラクタで、バッサのサイズを指定するときに、0以下や大きすぎる値は問題になります。</p>
+<p>許容する数字の範囲ですが、下限は 3、上限は 1000 としましょう。</p>
+<p>ここでは、<code>assert</code> を利用してコンストラクタ引数の値が範囲でないであることを確認するようにします。</p>
+<p>範囲外の値が入った場合は、アサーションの例外になるようにします。</p>
+<p>例外になることを確認するテストは、次のように書きます。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/ringBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;バッファの大きさの制限を設ける&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nx">expect</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">2</span><span class="p">)).</span><span class="nx">toThrowError</span><span class="p">(</span>
+<span class="hll">    <span class="s1">&#39;引数は 3 - 1000 の間がサポートされます。&#39;</span><span class="p">,</span>
+</span>  <span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+</td></tr></table>
+<p>テストがエラーになることを確認してから実装します。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/ringBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nx">assert</span> <span class="kr">from</span> <span class="s1">&#39;assert&#39;</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">RingBuffer</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="kr">constructor</span><span class="p">(</span><span class="nx">size</span>: <span class="kt">number</span><span class="p">)</span> <span class="p">{</span>
+<span class="hll">    <span class="nx">assert</span><span class="p">(</span><span class="nx">size</span> <span class="o">&gt;=</span> <span class="mf">3</span><span class="p">,</span> <span class="s1">&#39;引数は 3 - 1000 の間がサポートされます。&#39;</span><span class="p">);</span>
+</span>    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span> <span class="o">=</span> <span class="nb">Array</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">size</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="cm">/** 省略 */</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>上限値とそれぞれの境界値もチェックします。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/ringBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;バッファの大きさの制限を設ける&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nx">expect</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">2</span><span class="p">)).</span><span class="nx">toThrowError</span><span class="p">(</span>
+<span class="hll">    <span class="s1">&#39;引数は 3 - 1000 の間がサポートされます。&#39;</span><span class="p">,</span>
+</span>  <span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">3</span><span class="p">)).</span><span class="nx">not</span><span class="p">.</span><span class="nx">toThrow</span><span class="p">();</span>
+  <span class="nx">expect</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">1000</span><span class="p">)).</span><span class="nx">not</span><span class="p">.</span><span class="nx">toThrow</span><span class="p">();</span>
+  <span class="nx">expect</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">1001</span><span class="p">)).</span><span class="nx">toThrowError</span><span class="p">(</span>
+    <span class="s1">&#39;引数は 3 - 1000 の間がサポートされます。&#39;</span><span class="p">,</span>
+  <span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+</td></tr></table>
+<p>テスト通るよう修正します。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/ringBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nx">assert</span> <span class="kr">from</span> <span class="s1">&#39;assert&#39;</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">RingBuffer</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="kr">constructor</span><span class="p">(</span><span class="nx">size</span>: <span class="kt">number</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">assert</span><span class="p">(</span>
+<span class="hll">      <span class="nx">size</span> <span class="o">&gt;=</span> <span class="mf">3</span> <span class="o">&amp;&amp;</span> <span class="nx">size</span> <span class="o">&lt;=</span> <span class="mf">1000</span><span class="p">,</span>
+</span>      <span class="s1">&#39;引数は 3 - 1000 の間がサポートされます。&#39;</span><span class="p">,</span>
+    <span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span> <span class="o">=</span> <span class="nb">Array</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">size</span><span class="p">);</span>
+  <span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
+<p>テストが成功したら、タスクを完了しておきます。</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cm">/*</span>
+<span class="cm">✔ 大きさを指定してバッファを作成する</span>
+<span class="cm">✔ バッファから最新の値を取得する</span>
+<span class="cm">✔ バッファから最新から指定した数を戻ったインデックスの値を取得する</span>
+<span class="cm">✔ バッファに値を追加する</span>
+<span class="cm">- buffer を非公開にする</span>
+<span class="cm">✔ バッファの型を指定できるようにし、any を排除する</span>
+<span class="hll"><span class="cm">✔ バッファの大きさの制限を設ける</span>
+</span><span class="cm">*/</span>
+</code></pre></div>
+</td></tr></table>
+<h3 id="buffer">buffer を非公開にする</h3>
+<p>最後に buffer を非公開にします。これは、リファクタとして行うので、テストは有りません。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/ringBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>  <span class="k">private</span> <span class="nx">buffer</span><span class="p">;</span>
+</code></pre></div>
+</td></tr></table>
+<p>テストで、<code>buffer</code> を参照していたところがエラーになります。TypeScriptの場合、非公開のクラスでも <code>ringBuffer['buffer']</code>とすることで、アクセスできてしまいます。</p>
+<p>実装ではそのような書き方をしないように心がけるとして、テストではこれを利用しましょう。</p>
+<p>テストと実装の全体を掲載しておきます。</p>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/ringBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cm">/*</span>
+<span class="cm">✔ 大きさを指定してバッファを作成する</span>
+<span class="cm">✔ バッファから最新の値を取得する</span>
+<span class="cm">✔ バッファから最新から指定した数を戻ったインデックスの値を取得する</span>
+<span class="cm">✔ バッファに値を追加する</span>
+<span class="cm">✔ buffer を非公開にする</span>
+<span class="cm">✔ バッファの型を指定できるようにし、any を排除する</span>
+<span class="cm">✔ バッファの大きさの制限を設ける</span>
+<span class="cm">*/</span>
+
+<span class="k">import</span> <span class="p">{</span> <span class="nx">RingBuffer</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;../ringBuffer&#39;</span><span class="p">;</span>
+
+<span class="nx">test</span><span class="p">(</span><span class="s1">&#39;バッファの大きさを指定してバッファを作成する&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">10</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;buffer&#39;</span><span class="p">].</span><span class="nx">length</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="mf">10</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">test</span><span class="p">(</span><span class="s1">&#39;バッファから最新の値を取得する&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">5</span><span class="p">);</span>
+  <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;a1&#39;</span><span class="p">);</span>
+  <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;a2&#39;</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">getCurrent</span><span class="p">()).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;a2&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">test</span><span class="p">(</span><span class="s1">&#39;バッファに値を追加する&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">5</span><span class="p">);</span>
+  <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;a1&#39;</span><span class="p">);</span>
+  <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;a2&#39;</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;buffer&#39;</span><span class="p">]).</span><span class="nx">toEqual</span><span class="p">([</span>
+    <span class="s1">&#39;a1&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;a2&#39;</span><span class="p">,</span>
+    <span class="kc">undefined</span><span class="p">,</span>
+    <span class="kc">undefined</span><span class="p">,</span>
+    <span class="kc">undefined</span><span class="p">,</span>
+  <span class="p">]);</span>
+<span class="p">});</span>
+
+<span class="nx">test</span><span class="p">(</span><span class="s1">&#39;バッファに値を追加する バッファサイズを超える場合&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">5</span><span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mf">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mf">7</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="sb">`a</span><span class="si">${</span><span class="nx">i</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">[</span><span class="s1">&#39;buffer&#39;</span><span class="p">]).</span><span class="nx">toEqual</span><span class="p">([</span><span class="s1">&#39;a6&#39;</span><span class="p">,</span> <span class="s1">&#39;a2&#39;</span><span class="p">,</span> <span class="s1">&#39;a3&#39;</span><span class="p">,</span> <span class="s1">&#39;a4&#39;</span><span class="p">,</span> <span class="s1">&#39;a5&#39;</span><span class="p">]);</span>
+<span class="p">});</span>
+
+<span class="nx">test</span><span class="p">(</span><span class="s1">&#39;バッファから最新から指定した数を戻ったインデックスの値を取得する&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">5</span><span class="p">);</span>
+  <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;a1&#39;</span><span class="p">);</span>
+  <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;a2&#39;</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mf">1</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;a1&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">test</span><span class="p">(</span><span class="s1">&#39;バッファから最新から指定した数を戻ったインデックスの値を取得する - リングをまたぐ場合&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">5</span><span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mf">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mf">7</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="sb">`a</span><span class="si">${</span><span class="nx">i</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mf">1</span><span class="p">)).</span><span class="nx">toBe</span><span class="p">(</span><span class="s1">&#39;a5&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">test</span><span class="p">(</span><span class="s1">&#39;バッファの方を指定できるようにする&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="o">&lt;</span><span class="kt">number</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">5</span><span class="p">);</span>
+  <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">getCurrent</span><span class="p">()).</span><span class="nx">toBe</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">test</span><span class="p">(</span><span class="s1">&#39;バッファの大きさの制限を設ける&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nx">expect</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">2</span><span class="p">)).</span><span class="nx">toThrowError</span><span class="p">(</span>
+    <span class="s1">&#39;引数は 3 - 1000 の間がサポートされます。&#39;</span><span class="p">,</span>
+  <span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">3</span><span class="p">)).</span><span class="nx">not</span><span class="p">.</span><span class="nx">toThrow</span><span class="p">();</span>
+  <span class="nx">expect</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">1000</span><span class="p">)).</span><span class="nx">not</span><span class="p">.</span><span class="nx">toThrow</span><span class="p">();</span>
+  <span class="nx">expect</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">1001</span><span class="p">)).</span><span class="nx">toThrowError</span><span class="p">(</span>
+    <span class="s1">&#39;引数は 3 - 1000 の間がサポートされます。&#39;</span><span class="p">,</span>
+  <span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+</td></tr></table>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/ringBuffer.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">import</span> <span class="nx">assert</span> <span class="kr">from</span> <span class="s1">&#39;assert&#39;</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">RingBuffer</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="kr">constructor</span><span class="p">(</span><span class="nx">size</span>: <span class="kt">number</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">assert</span><span class="p">(</span>
+      <span class="nx">size</span> <span class="o">&gt;=</span> <span class="mf">3</span> <span class="o">&amp;&amp;</span> <span class="nx">size</span> <span class="o">&lt;=</span> <span class="mf">1000</span><span class="p">,</span>
+      <span class="s1">&#39;引数は 3 - 1000 の間がサポートされます。&#39;</span><span class="p">,</span>
+    <span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span> <span class="o">=</span> <span class="nb">Array</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">size</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">private</span> <span class="nx">buffer</span><span class="p">;</span>
+  <span class="k">private</span> <span class="nx">currentIndex</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1</span><span class="p">;</span>
+  <span class="k">public</span> <span class="nx">push</span><span class="p">(</span><span class="nx">value</span>: <span class="kt">T</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span><span class="o">++</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span> <span class="o">+</span> <span class="mf">1</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">public</span> <span class="nx">getCurrent</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span><span class="p">];</span>
+  <span class="p">}</span>
+  <span class="k">public</span> <span class="nx">get</span><span class="p">(</span><span class="nx">back</span>: <span class="kt">number</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">index</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">currentIndex</span> <span class="o">-</span> <span class="nx">back</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">index</span> <span class="o">&lt;</span> <span class="mf">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">index</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mf">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">buffer</span><span class="p">[</span><span class="nx">index</span><span class="p">];</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</td></tr></table>
                 
               
               

@@ -459,7 +459,7 @@ export class RingBuffer {
 
 今度はテストが成功しました！赤色が緑色に変わるということで気分もスッキリです。しかしこれで終わりでないのは判っているでしょう。やっぱりひどい実装ですね。
 
-このあとは、コードの重複を削除する、という作業に取り掛かります。コードの重複とは、同じようなロジックが記述してあることもそうですが、データの重複もあります。
+でも、これは“仮実装”で、このあとはコードの重複を削除する、という作業に取り掛かり、本来の実装に近づけていきます。コードの重複とは、同じようなロジックが記述してあることもそうですが、データの重複もあります。
 
 ここでは、`10` という数字が実装の中とテストで出てきています。これを解消するには、実装の方から `10` という数値を取り除く必要があります。
 
@@ -480,7 +480,7 @@ export class RingBuffer {
 
 まだバッファのサイズは、マイナスや0はありえないですし、大きすぎるバッファも困りものです。これらの入力チェックも必要そうです。
 
-こららのことも TODO において、後で解決してみましょう。
+このことも TODO において、後で解決してみましょう。
 
 また、"大きさを指定してバッファを作成する" のタスクは完了したので、先頭を `✔` にしておきます。 
 
@@ -491,13 +491,13 @@ export class RingBuffer {
 - バッファから最新から指定した数を戻ったインデックスの値を取得する
 - バッファに値を追加する
 - buffer を非公開にする
-- バッファの型を指定できるようにする
+- バッファの型を指定できるようし、any を排除する
 - バッファの大きさの制限を設ける
 */
 ```
 
 !!!note
-    このように、細かくステップを踏んで進めていくことが大事です。実際すべての実装でここまで細かくやるのかというと、'No' です。ですが、複雑な問題を考えるときに、このように細かくステップを分ける、ということが大事で、小さすぎるかな、というところまでできたところがちょうどよいサイズ、といえます。
+    このように、“仮実装”とリファクタリングによる“本実装”細かくステップを踏んで進めていくことが大事です。実際すべての実装でここまで細かくやるのかというと、'No' です。ですが、複雑な問題を考えるときに、このように細かくステップを分ける、ということが大事で、小さすぎるかな、というところまでできたところがちょうどよいサイズ、といえます。
 
 次は、どの TODO を処理しましょうか。バッファから最新の値を取得する、が考えやすそうなので、これにしましょう。
 
@@ -543,19 +543,19 @@ export class RingBuffer {
       22 |
 ```
 
-もちろんエラーです。何度も言いますが、これで良いんです。テストが成功する最低限の実装をしましょう。
+もちろんエラーです。何度も言いますが、これで良いんです。テストが成功する最低限の実装をしましょう。"仮実装”です。
 
-```ts
+```ts title="src/ringBuffer.ts"
   public getCurrent() {
     return 'a2';
   }
 ```
 
-テストが成功します。もちろんこれではいけません。少しずつ本来の実装に近づけましょう。
+テストが成功します。もちろんこれではいけません。少しずつ本来の“本実装”に近づけましょう。
 
 この機能の要件は、バッファの最新のインデックスから値を返す、です。まず、単純にするため意図的に条件を無視すると、バッファの値を返す、です。インデックスのことは忘れて、この実装をしましょう。リファクタのはじめの一歩です。
 
-```ts
+```ts title="src/ringBuffer.ts"
   public getCurrent() {
     this.buffer[0] = 'a2';
     return this.buffer[0];
@@ -566,17 +566,502 @@ export class RingBuffer {
 
 また、インデックスが '0' とハードコーディングされています。今の最新のインデックスは、クラスの内部で持っておけば良さそうです。
 
-```ts
+```ts title="src/ringBuffer.ts"
+  private currentIndex = 0;
   public push(value: any) {
     this.buffer[0] = 'a2';
   }
   public getCurrent() {
     return this.buffer[this.currentIndex];
   }
-  private currentIndex = 0;
 ```
 
-`push` の内容は、"バッファに値を追加する"で実装するので、今はこのテストが通る最低限の実装にしておきます。
+`push` の内容は、"バッファに値を追加する"で実装するので、今はこのテストが通る最低限の実装にしておきます。TODOに登録しようと思いましたが、次にこのテストを書くこととします。
 
-テストは成功したままです。このTODOはこれで良さそうです。TODO リストを更新しておきます。
+テストは成功したままです。このTODOはこれで良さそうです。また、次は今のものと関連する、"バッファに値を追加する" を書いてみましょう。TODOリストを更新します。
 
+```ts title="src/__tests__/ringBuffer.test.ts" hl_lines="3 5"
+/*
+✔ 大きさを指定してバッファを作成する
+✔ バッファから最新の値を取得する
+- バッファから最新から指定した数を戻ったインデックスの値を取得する
+➡ バッファに値を追加する
+- buffer を非公開にする
+- バッファの型を指定できるようし、any を排除する
+- バッファの大きさの制限を設ける
+*/
+```
+
+### バッファに値を追加する
+
+バッファに追加するメソッドは、前回作っていますので、これを改善していくことになります。
+
+その前に、テストを書きましょう。ここでは、連続して読んだと気に、正しく buffer の配列に入るかを確認しましょう。
+
+ここで、`toBe` を使わずに、`toEqual` を使うことに注意して下さい。`toBe` は、`===` と同等の比較を行うため、オブジェクトの中身があっているかの比較に使えません。そのため、オブジェクトの内容の比較には、`toEqual` を利用します。配列もオブジェクトなので、これを使います。
+
+```ts title="src/__tests__/ringBuffer.test.ts"
+test('バッファに値を追加する', () => {
+  const ringBuffer = new RingBuffer(5);
+  ringBuffer.push('a1');
+  expect(ringBuffer.buffer).toEqual([
+    'a1',
+    'a2',
+    undefined,
+    undefined,
+    undefined,
+  ]);
+});
+```
+
+テストが失敗します。テストが通るようにします。
+
+
+また、呼び出すたびに pushするインデックスを1づつ足してしていく必要があります。これは `currentIndex` をインクリメントすれば良さそうです。
+
+`buffer` のその `currentIndex` に引数の値を渡すのはわかるかと思います。
+
+```ts title="src/ringBuffer.ts" hl_lines="2 3"
+  public push(value: any) {
+    this.buffer[this.currentIndex] = value;
+    this.currentIndex++;
+  }
+```
+
+どうでしょう。このテストは成功したようですが、前のテストでエラーになってしまいました！
+
+すぐに原因を調べましょう。
+
+```
+    Expected: "a2"
+    Received: undefined
+
+      20 |   ringBuffer.push('a1');
+      21 |   ringBuffer.push('a2');
+    > 22 |   expect(ringBuffer.getCurrent()).toBe('a2');
+         |                                   ^
+      23 | });
+```
+
+`getCurrent` の現実値が `undefined` になっています。これは、 `push` した後に `currentIndex` をインクリメントしているため、セットされていないインデックスを指し示しているためです。
+
+では、順番を逆にしましょう。
+
+```ts title="src/ringBuffer.ts" hl_lines="2"
+  public push(value: any) {
+    this.currentIndex++;
+    this.buffer[this.currentIndex] = value;
+  }
+```
+
+今度は、"バッファに値を変更する" のテストで失敗しました。
+
+```
+    - Expected  - 1
+    + Received  + 1
+
+      Array [
+    +   undefined,
+        "a1",
+        "a2",
+    -   undefined,
+        undefined,
+        undefined,
+      ]
+
+      27 |   ringBuffer.push('a1');
+      28 |   ringBuffer.push('a2');
+    > 29 |   expect(ringBuffer.buffer).toEqual([
+         |                             ^
+      30 |     'a1',
+      31 |     'a2',
+      32 |     undefined,
+
+      at Object.<anonymous> (src/__tests__/ringBuffer.test.ts:29:29)
+```
+
+`currentIndex` の初期値が '0' なので、+1 されて インデックス `1` からバッファに挿入されてしまったためですね。`currentIndex` の初期値を `-1` にします。
+
+```ts title="src/ringBuffer.ts" hl_lines="6"
+export class RingBuffer {
+  public constructor(size: number) {
+    this.buffer = Array(size);
+  }
+  public buffer;
+  private currentIndex = -1;
+  public push(value: any) {
+    this.currentIndex++;
+    this.buffer[this.currentIndex] = value;
+  }
+  public getCurrent() {
+    return this.buffer[this.currentIndex];
+  }
+}
+```
+
+テストに成功しました。
+
+このように、機能の追加や修正で、別の予測しない失敗を検出した場合、すぐに対応します。その場合でも、修正が明確であればそのようにすれば良いのですが、そうでない場合は、一旦“仮実装”を行い、ステップを小さくして解決して下さい。
+
+ここで懸念があります。インデックスの範囲を超えたら、つまりリングが一周したらインデックスが 0 に戻す必要があります。これが実装できていません。TODOに追加してもいいですが、このまま続けたほうが効率良さそうです。
+
+まず、どう実装するか・・ではなく、このテストも書きましょう。こうなるべき、を書くことは大切です。ここでは、新しいテストとして今のテストをコピーして書き換えます。
+
+```ts title="src/__tests__/ringBuffer.test.ts"
+test('バッファに値を追加する バッファサイズを超える場合', () => {
+  const ringBuffer = new RingBuffer(5);
+  for (let i=1; i < 7; i++) {
+    ringBuffer.push(`a${i}`);
+  }
+  expect(ringBuffer.buffer).toEqual([
+    'a6',
+    'a2',
+    'a3',
+    'a4',
+    'a5',
+  ]);
+});
+```
+
+テストすると予想通りエラーになりました。この実装をします。インデックスがバッファのサイズを超えていたら、`currentIndex` を `0` にすればいいですね。
+
+```ts title="src/ringBuffer.ts" hl_lines="3 4 5"
+  public push(value: any) {
+    this.currentIndex++;
+    if (this.buffer.length < this.currentIndex + 1) {
+      this.currentIndex = 0;
+    }
+    this.buffer[this.currentIndex] = value;
+  }
+```
+
+成功しました。ひとまず、このテストは完了です。
+
+次のテストは同じような "バッファから最新から指定した数を戻ったインデックスの値を取得する" にします。
+
+### バッファから最新から指定した数を戻ったインデックスの値を取得する
+
+まずはテストを書くところからですね。ここでは、get というメソッドで、引数に戻る数値を入れることにします。
+
+リングバッファが１週したときのことが気になりますが、まずは単純なケースを考えましょう。
+
+```ts title="src/__tests__/ringBuffer.test.ts"
+test('バッファから最新から指定した数を戻ったインデックスの値を取得する', () => {
+  const ringBuffer = new RingBuffer(5);
+  ringBuffer.push('a1');
+  ringBuffer.push('a2');
+  expect(ringBuffer.get(1)).toBe('a1');
+});
+```
+
+コンパイルを通すために、`get` を実装します。慣れてきて、実装が明確な場合は、実装までしてしまいましょう。しかし、テストを通すのが目的です。それ以外のコードは書かないようにします。
+
+```ts title="src/ringBuffer.ts"
+  public get(back: number) {
+    const index = this.currentIndex - back;
+    return this.buffer[index];
+  }
+```
+
+テストが成功しました。ここで、リングバッファが１周したときのことを検討します。そのためのテストを書きます。
+
+```ts title="src/__tests__/ringBuffer.test.ts"
+test('バッファから最新から指定した数を戻ったインデックスの値を取得する - リングをまたぐ場合', () => {
+  const ringBuffer = new RingBuffer(5);
+  for (let i = 1; i < 7; i++) {
+    ringBuffer.push(`a${i}`);
+  }
+  expect(ringBuffer.get(1)).toBe('a5');
+});
+```
+
+テストの失敗を確認して、実装します。`currentIndex` が `0` の場合、`index` が `-1` になることがわかるので、0 を下回ったら バッファの最大のインデックスにしましょう。
+
+```ts title="src/ringBuffer.ts" hl_lines="3 4 5"
+  public get(back: number) {
+    let index = this.currentIndex - back;
+    if (index < 0) {
+      index = this.buffer.length - 1;
+    }
+    return this.buffer[index];
+  }
+```
+
+テストが通りました。この処理は以上なので、タスクを完了にしておきます。
+
+```ts title="src/__tests__/ringBuffer.test.ts" hl_lines="4"
+/*
+✔ 大きさを指定してバッファを作成する
+✔ バッファから最新の値を取得する
+✔ バッファから最新から指定した数を戻ったインデックスの値を取得する
+✔ バッファに値を追加する
+- buffer を非公開にする
+- バッファの型を指定できるようし、any を排除する
+- バッファの大きさの制限を設ける
+*/
+```
+
+### バファの型を指定できるようにする
+
+今までのバッファに格納できる値は、文字列に限定されています。これを利用者が型定義できるようにします。
+
+TypeScript のジェネリック型を利用すれば良さそうです。
+
+ジェネリック型とは、クラスや関数を利用する側が型を指定し、その型で内部の処理を行うことができるようにする仕組みです。
+
+TypeScript だけでなく、Java や C# など他の言語でもサポートされているので、今まで馴染みがなければ是非ここで学んでください。
+
+そのためのテストを書きましょう。
+
+```ts title="src/__tests__/ringBuffer.test.ts" hl_lines="7"
+/*
+✔ 大きさを指定してバッファを作成する
+✔ バッファから最新の値を取得する
+✔ バッファから最新から指定した数を戻ったインデックスの値を取得する
+✔ バッファに値を追加する
+- buffer を非公開にする
+➡ バッファの型を指定できるようし、any を排除する
+- バッファの大きさの制限を設ける
+*/
+```
+
+```ts
+test('バッファの方を指定できるようにする', () => {
+  const ringBuffer = new RingBuffer<number>(5);
+  ringBuffer.push(0);
+  expect(ringBuffer.getCurrent()).toBe(0);
+});
+```
+
+クラスにジェネリック型の指定がないので、コンパイルエラーになります。まずはこれを解消しましょう。
+
+```ts title="src/ringBuffer.ts"
+export class RingBuffer<T> {
+  //...
+}
+```
+
+テストが成功しました。ジェネリック型を導入したことで、前に懸念していた 'any' が解消できます。
+
+`put` メソッドの引数の型の `any` を ジェネリック型の `T` とします。こうすることで、利用する側が指定した型に限定されます。
+
+また、buffer も `any` の配列となっているので、型定義します。
+
+```ts title="src/ringBuffer.ts" hl_lines="2 5"
+  public constructor(size: number) {
+    this.buffer = Array<T>(size);
+  }
+  // ...略
+  public push(value: T) {
+    this.currentIndex++;
+    if (this.buffer.length < this.currentIndex + 1) {
+      this.currentIndex = 0;
+    }
+    this.buffer[this.currentIndex] = value;
+  }
+```
+
+保存して、テストが成功のままであることを確認しましょう。
+
+### バッファのサイズに制限を設ける
+
+コンストラクタで、バッサのサイズを指定するときに、0以下や大きすぎる値は問題になります。
+
+許容する数字の範囲ですが、下限は 3、上限は 1000 としましょう。
+
+ここでは、`assert` を利用してコンストラクタ引数の値が範囲でないであることを確認するようにします。
+
+範囲外の値が入った場合は、アサーションの例外になるようにします。
+
+例外になることを確認するテストは、次のように書きます。
+
+```ts title="src/__tests__/ringBuffer.test.ts" hl_lines="3"
+test('バッファの大きさの制限を設ける', () => {
+  expect(() => new RingBuffer(2)).toThrowError(
+    '引数は 3 - 1000 の間がサポートされます。',
+  );
+});
+```
+
+テストがエラーになることを確認してから実装します。
+
+```ts title="src/ringBuffer.ts" hl_lines="5"
+import assert from 'assert';
+
+export class RingBuffer<T> {
+  public constructor(size: number) {
+    assert(size >= 3, '引数は 3 - 1000 の間がサポートされます。');
+    this.buffer = Array<T>(size);
+  }
+  /** 省略 */
+}
+```
+
+上限値とそれぞれの境界値もチェックします。
+
+```ts title="src/__tests__/ringBuffer.test.ts" hl_lines="3"
+test('バッファの大きさの制限を設ける', () => {
+  expect(() => new RingBuffer(2)).toThrowError(
+    '引数は 3 - 1000 の間がサポートされます。',
+  );
+  expect(() => new RingBuffer(3)).not.toThrow();
+  expect(() => new RingBuffer(1000)).not.toThrow();
+  expect(() => new RingBuffer(1001)).toThrowError(
+    '引数は 3 - 1000 の間がサポートされます。',
+  );
+});
+```
+
+テスト通るよう修正します。
+
+```ts title="src/ringBuffer.ts" hl_lines="5"
+import assert from 'assert';
+export class RingBuffer<T> {
+  public constructor(size: number) {
+    assert(
+      size >= 3 && size <= 1000,
+      '引数は 3 - 1000 の間がサポートされます。',
+    );
+    this.buffer = Array<T>(size);
+  }
+```
+
+テストが成功したら、タスクを完了しておきます。
+
+```ts hl_lines="8"
+/*
+✔ 大きさを指定してバッファを作成する
+✔ バッファから最新の値を取得する
+✔ バッファから最新から指定した数を戻ったインデックスの値を取得する
+✔ バッファに値を追加する
+- buffer を非公開にする
+✔ バッファの型を指定できるようにし、any を排除する
+✔ バッファの大きさの制限を設ける
+*/
+```
+
+### buffer を非公開にする
+
+最後に buffer を非公開にします。これは、リファクタとして行うので、テストは有りません。
+
+```ts title="src/ringBuffer.ts"
+  private buffer;
+```
+
+テストで、`buffer` を参照していたところがエラーになります。TypeScriptの場合、非公開のクラスでも `ringBuffer['buffer']`とすることで、アクセスできてしまいます。
+
+実装ではそのような書き方をしないように心がけるとして、テストではこれを利用しましょう。
+
+テストと実装の全体を掲載しておきます。
+
+```ts title="src/__tests__/ringBuffer.test.ts"
+/*
+✔ 大きさを指定してバッファを作成する
+✔ バッファから最新の値を取得する
+✔ バッファから最新から指定した数を戻ったインデックスの値を取得する
+✔ バッファに値を追加する
+✔ buffer を非公開にする
+✔ バッファの型を指定できるようにし、any を排除する
+✔ バッファの大きさの制限を設ける
+*/
+
+import { RingBuffer } from '../ringBuffer';
+
+test('バッファの大きさを指定してバッファを作成する', () => {
+  const ringBuffer = new RingBuffer(10);
+  expect(ringBuffer['buffer'].length).toBe(10);
+});
+
+test('バッファから最新の値を取得する', () => {
+  const ringBuffer = new RingBuffer(5);
+  ringBuffer.push('a1');
+  ringBuffer.push('a2');
+  expect(ringBuffer.getCurrent()).toBe('a2');
+});
+
+test('バッファに値を追加する', () => {
+  const ringBuffer = new RingBuffer(5);
+  ringBuffer.push('a1');
+  ringBuffer.push('a2');
+  expect(ringBuffer['buffer']).toEqual([
+    'a1',
+    'a2',
+    undefined,
+    undefined,
+    undefined,
+  ]);
+});
+
+test('バッファに値を追加する バッファサイズを超える場合', () => {
+  const ringBuffer = new RingBuffer(5);
+  for (let i = 1; i < 7; i++) {
+    ringBuffer.push(`a${i}`);
+  }
+  expect(ringBuffer['buffer']).toEqual(['a6', 'a2', 'a3', 'a4', 'a5']);
+});
+
+test('バッファから最新から指定した数を戻ったインデックスの値を取得する', () => {
+  const ringBuffer = new RingBuffer(5);
+  ringBuffer.push('a1');
+  ringBuffer.push('a2');
+  expect(ringBuffer.get(1)).toBe('a1');
+});
+
+test('バッファから最新から指定した数を戻ったインデックスの値を取得する - リングをまたぐ場合', () => {
+  const ringBuffer = new RingBuffer(5);
+  for (let i = 1; i < 7; i++) {
+    ringBuffer.push(`a${i}`);
+  }
+  expect(ringBuffer.get(1)).toBe('a5');
+});
+
+test('バッファの方を指定できるようにする', () => {
+  const ringBuffer = new RingBuffer<number>(5);
+  ringBuffer.push(0);
+  expect(ringBuffer.getCurrent()).toBe(0);
+});
+
+test('バッファの大きさの制限を設ける', () => {
+  expect(() => new RingBuffer(2)).toThrowError(
+    '引数は 3 - 1000 の間がサポートされます。',
+  );
+  expect(() => new RingBuffer(3)).not.toThrow();
+  expect(() => new RingBuffer(1000)).not.toThrow();
+  expect(() => new RingBuffer(1001)).toThrowError(
+    '引数は 3 - 1000 の間がサポートされます。',
+  );
+});
+```
+
+```ts title="src/ringBuffer.ts"
+import assert from 'assert';
+export class RingBuffer<T> {
+  public constructor(size: number) {
+    assert(
+      size >= 3 && size <= 1000,
+      '引数は 3 - 1000 の間がサポートされます。',
+    );
+    this.buffer = Array<T>(size);
+  }
+  private buffer;
+  private currentIndex = -1;
+  public push(value: T) {
+    this.currentIndex++;
+    if (this.buffer.length < this.currentIndex + 1) {
+      this.currentIndex = 0;
+    }
+    this.buffer[this.currentIndex] = value;
+  }
+  public getCurrent() {
+    return this.buffer[this.currentIndex];
+  }
+  public get(back: number) {
+    let index = this.currentIndex - back;
+    if (index < 0) {
+      index = this.buffer.length - 1;
+    }
+    return this.buffer[index];
+  }
+}
+
+```
