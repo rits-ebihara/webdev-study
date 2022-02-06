@@ -49,7 +49,6 @@ nav:
   - 09.test/index.md
 
 site_author: "EBIHARA Kenji (kenji.ebihara@jrits.ricoh.co.jp)"
-
 plugins:
   - search:
       lang: "jp"

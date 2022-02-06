@@ -1371,7 +1371,7 @@ touch src/__tests__/ringBuffer.test.ts
 </td></tr></table>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>このように、“仮実装”とリファクタリングによる“本実装”細かくステップを踏んで進めていくことが大事です。実際すべての実装でここまで細かくやるのかというと、'No' です。ですが、複雑な問題を考えるときに、このように細かくステップを分ける、ということが大事で、小さすぎるかな、というところまでできたところがちょうどよいサイズ、といえます。</p>
+<p>このように、“仮実装”とリファクタリングによる“本実装”というように細かくステップを踏んで進めていくことが大事です。実際すべての実装でここまで細かくやるのかというと、'No' です。ですが、複雑な問題を考えるときに、このように細かくステップを分ける、ということが大事で、小さすぎるかな、というところまでできたところがちょうどよいサイズ、といえます。</p>
 </div>
 <p>次は、どの TODO を処理しましょうか。バッファから最新の値を取得する、が考えやすそうなので、これにしましょう。</p>
 <h3 id="_12">バッファから最新の値を取得する</h3>
@@ -1464,8 +1464,7 @@ touch src/__tests__/ringBuffer.test.ts
   <span class="p">}</span>
 </code></pre></div>
 </td></tr></table>
-<p><code>push</code> の内容は、"バッファに値を追加する"で実装するので、今はこのテストが通る最低限の実装にしておきます。TODOに登録しようと思いましたが、次にこのテストを書くこととします。</p>
-<p>テストは成功したままです。このTODOはこれで良さそうです。また、次は今のものと関連する、"バッファに値を追加する" を書いてみましょう。TODOリストを更新します。</p>
+<p><code>push</code> の内容は、"バッファに値を追加する"で実装するので、今はこのテストが通る最低限の実装にしておきます。</p>
 <table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">src/__tests__/ringBuffer.test.ts</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
@@ -1499,9 +1498,11 @@ touch src/__tests__/ringBuffer.test.ts
 <span class="normal"> 8</span>
 <span class="normal"> 9</span>
 <span class="normal">10</span>
-<span class="normal">11</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;バッファに値を追加する&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;バッファに値を追加する&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">ringBuffer</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">RingBuffer</span><span class="p">(</span><span class="mf">5</span><span class="p">);</span>
   <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;a1&#39;</span><span class="p">);</span>
+  <span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;a2&#39;</span><span class="p">);</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">ringBuffer</span><span class="p">.</span><span class="nx">buffer</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">([</span>
     <span class="s1">&#39;a1&#39;</span><span class="p">,</span>
     <span class="s1">&#39;a2&#39;</span><span class="p">,</span>
